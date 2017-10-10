@@ -873,9 +873,6 @@ fhq.ui.registry = function() {
 	$('#registration_error').html('');
 	var data = {};
 	data.email = $('#registration_email').val();
-	data.country = $('#registration_country').val();
-	data.region = $('#registration_region').val();
-	data.city = $('#registration_city').val();
 	data.university = $('#registration_university').val();
 	fhq.ui.showLoading();
 	fhq.ws.registration(data).done(function(r){
@@ -913,30 +910,6 @@ fhq.ui.loadRegistrationPage = function() {
 		+ ' 	<div class="col-sm-4">'
 		+ '			<label for="registration_email" class="col-form-label">E-mail (required):</label>'
 		+ '			<input type="email" placeholder="your@email.com" class="form-control" value="" id="registration_email"/>'
-		+ '		</div>'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ '	</div>'
-		+ '	<div class="form-group row">'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ ' 	<div class="col-sm-4">'
-		+ '			<label for="registration_country" class="col-form-label">Country:</label>'
-		+ '			<input type="text" placeholder="country" class="form-control" value="" id="registration_country"/>'
-		+ '		</div>'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ '	</div>'
-		+ '	<div class="form-group row">'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ ' 	<div class="col-sm-4">'
-		+ '			<label for="registration_region" class="col-form-label">Region:</label>'
-		+ '			<input type="text" placeholder="region" class="form-control" value="" id="registration_region"/>'
-		+ '		</div>'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ '	</div>'
-		+ '	<div class="form-group row">'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ ' 	<div class="col-sm-4">'
-		+ '			<label for="registration_city" class="col-form-label">City:</label>'
-		+ '			<input type="text" placeholder="city" class="form-control" value="" id="registration_city"/>'
 		+ '		</div>'
 		+ ' 	<div class="col-sm-4"></div>'
 		+ '	</div>'
@@ -1722,7 +1695,7 @@ fhq.ui.loadUserProfile = function(userid) {
 			+ '<div class="card">'
 			+ '	<div class="card-header">' + fhq.t('Skills') + '</div>'
 			+ '	<div class="card-body">'
-			+ '		<p id="user_skills">Loading...</p>'
+			+ '		<div id="user_skills">Loading...</div>'
 			+ '	</div>'
 			+ '</div><br>'
 		);

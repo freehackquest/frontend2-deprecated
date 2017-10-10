@@ -1468,15 +1468,78 @@ fhq.ui.loadPageNews = function(){
 		page = parseInt(fhq.pageParams['page'], 10);
 	}
 	
+	var el = $("#content_page");
+	el.html('Loading...')
+	
 	window.fhq.changeLocationState({'news': '', 'onpage': onpage, 'page': page});
-	$("#content_page").html('<div class="fhq0057"></div>');
-	$('.fhq0057').append('<h1>' + fhq.t('News') + '</h1>');
-	$('.fhq0057').append('<div class="fhq0063"></div>');
+	
 
 	fhq.ws.publiceventslist({'onpage': onpage, 'page': page}).done(function(r){
-		$('.fhq0063').append(fhq.ui.paginator(0, r.count, r.onpage, r.page));
+		el.html('');
+		el.append('<h1>' + fhq.t('News') + '</h1>');
+		
+		el.append(fhq.ui.paginator(0, r.count, r.onpage, r.page));
+		
+		
+		fhq.ui.templates.newsRow = function(ev){
+			var imgpath = '';
+			if (ev.type == 'users')
+				imgpath = 'images/menu/user.png';
+			else if (ev.type == 'quests')
+				imgpath = 'images/menu/quests_150x150.png';
+			else if (ev.type == 'warning')
+				imgpath = 'images/menu/warning.png';
+			else if (ev.type == 'info')
+				imgpath = 'images/menu/news.png';
+			else if (ev.type == 'games')
+				imgpath = 'images/menu/games_150x150.png';
+			else
+				imgpath = 'images/menu/default.png'; // default
+
+			var r = [{
+				'c': 'fhq0017',
+				'r': [{
+					c: 'fhq0018',
+					r: [{
+						c: 'fhq0019',
+						s: 'background-image: url(' + imgpath + ')',
+					},{
+						c: 'fhq0020',
+						r: [ ev.message,{
+								c: 'fhq0065',
+								r: '[' + ev.type + ', ' + ev.dt + ']'
+						}, {
+							c: 'fhq0068',
+							a: fhq.isAdmin(),
+							r: [{
+								c: 'fhqbtn',
+								click: 'fhq.ui.editNews(' + ev.id + ')',
+								r: fhq.t('Edit')
+							},{
+								c: 'fhqbtn',
+								click: 'fhq.ui.deleteNewsConfirm(' + ev.id + ')',
+								r: fhq.t('Delete')
+							}]
+						}]
+					}]
+				}]
+			}];
+			return fhq.ui.render(r);
+		}
+
+		
+		
 		for(var i in r.data){
 			var ev = r.data[i];
+			el.append(''
+				+ '<div class="card">'
+				+ '	<div class="card-body events-left-img events-' + ev.type + '">'
+				+ '     <p>[' + ev.dt + ']</p>'
+				+ ev.message
+				+ '	</div>'
+				+ '</div><br>'
+			);
+		
 			$('.fhq0057').append(fhq.ui.templates.newsRow(ev));
 		}
 		fhq.ui.hideLoading();
@@ -3118,52 +3181,6 @@ window.fhq.ui.loadClassbook = function(){
 }
 
 window.fhq.ui.templates = window.fhq.ui.templates || {};
-
-fhq.ui.templates.newsRow = function(ev){
-	var imgpath = '';
-	if (ev.type == 'users')
-		imgpath = 'images/menu/user.png';
-	else if (ev.type == 'quests')
-		imgpath = 'images/menu/quests_150x150.png';
-	else if (ev.type == 'warning')
-		imgpath = 'images/menu/warning.png';
-	else if (ev.type == 'info')
-		imgpath = 'images/menu/news.png';
-	else if (ev.type == 'games')
-		imgpath = 'images/menu/games_150x150.png';
-	else
-		imgpath = 'images/menu/default.png'; // default
-
-	var r = [{
-		'c': 'fhq0017',
-		'r': [{
-			c: 'fhq0018',
-			r: [{
-				c: 'fhq0019',
-				s: 'background-image: url(' + imgpath + ')',
-			},{
-				c: 'fhq0020',
-				r: [ ev.message,{
-						c: 'fhq0065',
-						r: '[' + ev.type + ', ' + ev.dt + ']'
-				}, {
-					c: 'fhq0068',
-					a: fhq.isAdmin(),
-					r: [{
-						c: 'fhqbtn',
-						click: 'fhq.ui.editNews(' + ev.id + ')',
-						r: fhq.t('Edit')
-					},{
-						c: 'fhqbtn',
-						click: 'fhq.ui.deleteNewsConfirm(' + ev.id + ')',
-						r: fhq.t('Delete')
-					}]
-				}]
-			}]
-		}]
-	}];
-	return fhq.ui.render(r);
-}
 
 fhq.ui.templates.singin = function(){
 	var content = ''

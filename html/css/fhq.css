@@ -28,7 +28,7 @@
 }
 
 .card-left-img.admin{
-	background-image: url(images/quests/admin_150x150.png);
+	background-image: url(../images/quests/admin_150x150.png);
 }
 
 #map {
@@ -38,6 +38,39 @@
 .btn{
 	cursor: pointer;
 }
+
+.events-left-img{
+	background-repeat: no-repeat;
+    background-size: 110px 110px;
+    background-position: 10 10;
+    padding-left: 130px;
+    min-height: 130px;
+}
+
+.events-left-img.events-users{
+	background-image: url(../images/menu/user.png);
+}
+
+.events-left-img.events-users{
+	background-image: url(../images/menu/quests_150x150.png);
+}
+
+.events-left-img.events-quests{
+	background-image: url(../images/menu/quests_150x150.png);
+}
+
+.events-left-img.events-warning{
+	background-image: url(../images/menu/warning.png);
+}
+
+.events-left-img.events-info{
+	background-image: url(../images/menu/news.png);
+}
+
+.events-left-img.events-games{
+	background-image: url(../images/menu/games_150x150.png);
+}
+
 
 /* old styles */
 

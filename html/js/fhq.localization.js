@@ -669,5 +669,9 @@ window.fhq.localization = {
 	'University':{
 		'en': 'University',
 		'ru': 'Университет',
+	},
+	'No detected':{
+		'en': 'No detected',
+		'ru': 'Не обнаружено',
 	}
 };

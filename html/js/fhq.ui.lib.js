@@ -1668,6 +1668,17 @@ fhq.ui.loadUserProfile = function(userid) {
 		
 		var converter = new showdown.Converter();
 		el.html('');
+
+		var placement = ''
+			+ (user.data.country ? '<p>' + fhq.t('Country') + ': ' + user.data.country + '</p>' : '')
+			+ (user.data.region ? '<p>' + fhq.t('Region') + ': ' + user.data.region + '</p>' : '')
+			+ (user.data.city ? '<p>' + fhq.t('City') + ': ' + user.data.city + '</p>' : '')
+			+ (user.data.university ? '<p>' + fhq.t('University') + ': ' + user.data.university + '</p>' : '');
+		
+		if(placement == ""){
+			placement = fhq.t('No detected');
+		}
+
 		el.append(''
 			+ '<div class="card">'
 			+ '  <div class="card-body card-left-img " style="background-image: url(' + user.data.logo + ')">'
@@ -1680,10 +1691,7 @@ fhq.ui.loadUserProfile = function(userid) {
 			+ '<div class="card">'
 			+ '	<div class="card-header">' + fhq.t('Location') + '</div>'
 			+ '	<div class="card-body">'
-			+ '		<p>' + fhq.t('Country') + ': ' + user.data.country + '</p>'
-			+ '		<p>' + fhq.t('Region') + ': ' + user.data.region + '</p>'
-			+ '		<p>' + fhq.t('City') + ': ' + user.data.city + '</p>'
-			+ '		<p>' + fhq.t('University') + ': ' + user.data.university + '</p>'
+			+ placement
 			+ '	</div>'
 			+ '</div><br>'
 			+ '<div class="card">'
@@ -1743,9 +1751,6 @@ fhq.ui.loadUserProfile = function(userid) {
 				});
 			});
 		}
-
-			
-		
 
 
 		if(fhq.isAdmin()){

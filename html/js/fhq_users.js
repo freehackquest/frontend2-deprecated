@@ -180,67 +180,6 @@ function deleteUser(userid) {
 	);
 }
 
-function showUserInfo(userid) {
-	showModalDialog('<div id="user_info"><center>Please wait...</div>');
-
-	// user info
-	fhq.ws.user({userid: userid}).done(function (obj) {
-			var ui = document.getElementById('user_info');
-			
-			
-			var pt = new FHQParamTable();
-			pt.row('Logo:', '<img id="user_current_logo" src="'+ obj.data.logo + '"/>');
-			pt.row('ID:',  obj.data.userid);
-			if (obj.access.edit == true) {
-				pt.row('E-mail:', '<div id="user_current_email">' + obj.data.email + '</div>');
-				pt.row('Role:', '<div id="user_current_role">' + obj.data.role + '</div>');
-			}
-			pt.row('Nick:', '<div id="user_current_nick">' + obj.data.nick + '</div>');
-			if (obj.access.edit == true){
-				pt.row('Status:', '<div id="user_current_status">' + obj.data.status + '</div>');
-			}
-
-			if (obj.access.edit) {
-				if (!obj.currentUser) {
-					pt.skip();
-
-					pt.row('Change Logo:', '<input id="user_new_logo" type="text" value="' + obj.data.logo + '" > '
-						+ fhqgui.btn('Save', 'changeUserLogo(' + obj.data.userid + ');'));
-
-					pt.row('Change Nick:', '<input id="user_new_nick" type="text" value="' + obj.data.nick + '" > '
-						+ fhqgui.btn('Save', 'changeUserNick(' + obj.data.userid + ');'));
-
-					pt.row('Change Password:', '<input id="user_new_password" type="password" value="" > '
-						+ fhqgui.btn('Save', 'changeUserPassword(' + obj.data.userid + ');'));
-
-					pt.row('Change Status:', fhqgui.combobox('user_new_status', obj.data.status, fhq.getUserStatuses()) + ' '
-						+ fhqgui.btn('Save', 'changeUserStatus(' + obj.data.userid + ');'));
-					pt.row('Change Role:', fhqgui.combobox('user_new_role', obj.data.role, fhq.getUserRoles()) + ' '
-						+ fhqgui.btn('Save', 'changeUserRole(' + obj.data.userid + ');'));
-					pt.row('Remove User:', fhqgui.btn('Remove', 'deleteUser(' + obj.data.userid + ');'));
-				}
-
-				pt.skip();
-				for (var k in obj.profile) {
-					pt.row('Profile "' + k + '":', obj.profile[k]);
-				}
-			}
-			pt.skip();
-			for (var k in obj.games) {
-				pt.row('Game "' + obj.games[k].title + '" (' + obj.games[k].type_game + '):', obj.games[k].score);
-			}
-			pt.skip();
-			pt.row('', fhqgui.btn('Open in New Tab', 'fhqgui.openUserInNewTab(' + userid + ');'));
-			pt.skip();
-			ui.innerHTML = pt.render();
-			// ui.innerHTML += JSON.stringify(obj);
-
-		}
-	).fail(function(r){
-		document.getElementById('user_info').innerHTML = obj.error.message;
-	});
-}
-
 function updateUsers() {
 	var lu = document.getElementById("listUsers");
 	lu.innerHTML = "Please wait...";

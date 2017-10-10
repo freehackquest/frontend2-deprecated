@@ -371,11 +371,6 @@ function FHQGuiLib(api) {
 		win.focus();
 	}
 
-	this.openUserInNewTab = function(userid) {
-		var win = window.open('?user=' + userid, '_blank');
-		win.focus();
-	}
-
 	this.loadRules = function(gameid) {
 		var el = document.getElementById("content_page");
 		el.innerHTML = 'Loading...';
@@ -622,8 +617,42 @@ function FHQTable() {
 	};
 }
 
+fhq.ui.showUserInfo = function(userid) {
+	$('#modalInfoTitle').html('User #' + userid);
+	$('#modalInfo').modal('show');
+	$('#modalInfoBody').html('');
+	$('#modalInfoBody').append('Loading...');
+	$('#modalInfoButtons').html('<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>');
+
+	// user info
+	fhq.ws.user({userid: userid}).done(function (obj) {
+			$('#modalInfoBody').html('');
+			$('#modalInfoBody').append('<h3>' + obj.data.nick + '</h3>');
+			if(obj.data.university && obj.data.university != ""){
+				$('#modalInfoBody').append('<p>University: ' + obj.data.university + '</p>');
+			}
+			$('#modalInfoBody').append('<p>' + fhq.t('Rating') + ': ' + obj.data.rating + '</p>');
+
+			if(obj.data.about != ""){
+				$('#modalInfoBody').append('<p>' + obj.data.about + '</p>');
+			}
+			
+			$('#modalInfoButtons').append(
+				'<button type="button" class="btn btn-secondary" userid="userid" id="open_in_new_tab">Open user page</button>'
+			);
+			
+			$('#open_in_new_tab').unbind().bind('click', function(){
+				var win = window.open('?user=' + userid, '_blank');
+				win.focus();
+			})
+		}
+	).fail(function(r){
+		$('#modalInfoBody').html("[Error] " + obj.error.message);
+	});
+}
+
 fhq.ui.makeUserIcon = function(userid, logo, nick, university) {
-	return '<div class="fhqbtn" onclick="showUserInfo(' + userid + ')"> <img class="fhqmiddelinner" width=25px src="' + logo + '"/> ' + (university && university != "" ? '[' + university + '] ' : '') + nick + '</div>'
+	return '<div class="btn btn-default" onclick="fhq.ui.showUserInfo(' + userid + ')"> <img class="fhqmiddelinner" width=25px src="' + logo + '"/> ' + (university && university != "" ? '[' + university + '] ' : '') + nick + '</div>'
 }
 
 fhq.ui.chatSoundOn = true;

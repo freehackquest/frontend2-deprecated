@@ -683,6 +683,11 @@ fhq.ui.processParams = function() {
 	fhq.ws.user().done(renderPage).fail(renderPage);
 }
 
+window.onpopstate = function(){
+	window.fhq.pageParams = fhq.parsePageParams();
+	fhq.ui.processParams();
+}
+
 fhq.ui.createGame = function()  {
 	fhq.ui.showLoading();
 
@@ -1479,56 +1484,7 @@ fhq.ui.loadPageNews = function(){
 		el.append('<h1>' + fhq.t('News') + '</h1>');
 		
 		el.append(fhq.ui.paginator(0, r.count, r.onpage, r.page));
-		
-		
-		fhq.ui.templates.newsRow = function(ev){
-			var imgpath = '';
-			if (ev.type == 'users')
-				imgpath = 'images/menu/user.png';
-			else if (ev.type == 'quests')
-				imgpath = 'images/menu/quests_150x150.png';
-			else if (ev.type == 'warning')
-				imgpath = 'images/menu/warning.png';
-			else if (ev.type == 'info')
-				imgpath = 'images/menu/news.png';
-			else if (ev.type == 'games')
-				imgpath = 'images/menu/games_150x150.png';
-			else
-				imgpath = 'images/menu/default.png'; // default
 
-			var r = [{
-				'c': 'fhq0017',
-				'r': [{
-					c: 'fhq0018',
-					r: [{
-						c: 'fhq0019',
-						s: 'background-image: url(' + imgpath + ')',
-					},{
-						c: 'fhq0020',
-						r: [ ev.message,{
-								c: 'fhq0065',
-								r: '[' + ev.type + ', ' + ev.dt + ']'
-						}, {
-							c: 'fhq0068',
-							a: fhq.isAdmin(),
-							r: [{
-								c: 'fhqbtn',
-								click: 'fhq.ui.editNews(' + ev.id + ')',
-								r: fhq.t('Edit')
-							},{
-								c: 'fhqbtn',
-								click: 'fhq.ui.deleteNewsConfirm(' + ev.id + ')',
-								r: fhq.t('Delete')
-							}]
-						}]
-					}]
-				}]
-			}];
-			return fhq.ui.render(r);
-		}
-
-		
-		
 		for(var i in r.data){
 			var ev = r.data[i];
 			el.append(''
@@ -1539,8 +1495,6 @@ fhq.ui.loadPageNews = function(){
 				+ '	</div>'
 				+ '</div><br>'
 			);
-		
-			$('.fhq0057').append(fhq.ui.templates.newsRow(ev));
 		}
 		fhq.ui.hideLoading();
 	}).fail(function(r){

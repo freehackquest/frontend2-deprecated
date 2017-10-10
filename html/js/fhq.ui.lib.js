@@ -318,10 +318,6 @@ function FHQGuiLib(api) {
 		window.history.pushState(newPageParams, document.title, window.location.pathname + '?' + params.join("&"));
 		this.pageParams = this.parsePageParams();
 	}
-	
-	this.userIcon = function(userid, logo, nick) {
-		return '<div class="fhqbtn" onclick="showUserInfo(' + userid + ')"> <img class="fhqmiddelinner" width=25px src="' + logo + '"/> ' + nick + '</div>'
-	}
 
 	this.getUrlParameterByName = function(name) {
 		name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
@@ -624,6 +620,10 @@ function FHQTable() {
 		result += '</div>\n <!-- fhqtable -->';
 		return result;
 	};
+}
+
+fhq.ui.makeUserIcon = function(userid, logo, nick, university) {
+	return '<div class="fhqbtn" onclick="showUserInfo(' + userid + ')"> <img class="fhqmiddelinner" width=25px src="' + logo + '"/> ' + (university && university != "" ? '[' + university + '] ' : '') + nick + '</div>'
 }
 
 fhq.ui.chatSoundOn = true;
@@ -1259,7 +1259,7 @@ fhq.ui.loadAnswerList = function(){
 					{ 'c': 'fhq0061', 'r': uqa.quest.subject + ' / Quest ' + uqa.quest.id + '<br>' + uqa.quest.name + ' (+' + uqa.quest.score + ')' },
 					{ 'c': 'fhq0061', 'r': 'User: ' + uqa.user_answer + '<br> Quest: ' + uqa.quest_answer + '<br> Levenshtein: ' + uqa.levenshtein },
 					{ 'c': 'fhq0061', 'r': uqa.passed },
-					{ 'c': 'fhq0061', 'r': fhqgui.userIcon(uqa.user.id, uqa.user.logo, uqa.user.nick)},
+					{ 'c': 'fhq0061', 'r': fhq.ui.makeUserIcon(uqa.user.id, uqa.user.logo, uqa.user.nick)},
 				]
 			}]));
 			
@@ -1544,32 +1544,32 @@ fhq.ui.loadScoreboard = function(){
 
 	fhq.ws.scoreboard(params).done(function(r){
 		el.html('<h1>' + fhq.t('Scoreboard') + '</h1>');
-		el.append('<div class="fhq0087"></div>');
-		
+		console.log(r);
 		for (var k in r.data) {
+			
 			var arr = [];
 			var row = r.data[k];
 			var first_user_logo = ''
 			for (var k2 in row.users) {
 				var u = row.users[k2];
 				first_user_logo = u.logo;
-				arr.push(fhqgui.userIcon(u.userid, u.logo, u.nick));
+				arr.push(fhq.ui.makeUserIcon(u.userid, u.logo, u.nick, u.university));
 			}
 			
-			$('.fhq0087').append(''
-				+ '<div class="fhq0088">'
-				+ '  <div class="fhq0090" id="place' + k + '"></div>'
-				+ '  <div class="fhq0090"><h1>' + row.place + '</h2> [' + row.rating + ' P]</div>'
-				+ '  <div class="fhq0091">' + arr.join(' ') + '</div>'
-				
-				+ '</div>');
+			el.append(''
+				+ '<div class="card">'
+				+ '	<div class="card-body rating-left-img" id="place' + k + '">'
+				+ '		<h1>' + row.place + ' [' + row.rating + ' Points]</h1> '
+				+ '		' + arr.join(' ')
+				+ '	</div><br>'
+				+ '</div><br>'
+			);
 			
 			if(row.users.length == 1)	{
 				$('#place' + k).css({'background-image': 'url(' + u.logo + ')'});
 			}else{
 				$('#place' + k).css({'background-image': 'url(files/users/0.png)'});
 			}
-			$('.fhq0087').append('<div class="fhq0092"></div>');
 		}
 		fhq.ui.hideLoading();
 	});
@@ -2964,7 +2964,7 @@ window.fhq.ui.updateQuestStatistics = function(questid){
 		// quest_stat_users
 		var usrs = [];
 		for (var u in q.users) {
-			usrs.push(fhqgui.userIcon(q.users[u].userid, q.users[u].logo, q.users[u].nick));
+			usrs.push(fhq.ui.makeUserIcon(q.users[u].userid, q.users[u].logo, q.users[u].nick));
 		}
 		$('#quest_stat_users').html('Users who solved this quest:<br>' + usrs.join(" "));
 		fhq.ui.hideLoading();		

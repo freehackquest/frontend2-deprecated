@@ -40,7 +40,7 @@
 	cursor: pointer;
 }
 
-.events-left-img{
+.events-left-img, .rating-left-img {
 	background-repeat: no-repeat;
     background-size: 110px 110px;
     background-position: 10 10;

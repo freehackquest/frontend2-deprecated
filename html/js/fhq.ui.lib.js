@@ -2260,6 +2260,7 @@ fhq.ui.createQuest = function() {
 	params["score"] = parseInt($("#newquest_score").val(),10);
 	params["subject"] = $("#newquest_subject").val();
 	params["copyright"] = $("#newquest_copyright").val();
+	params["author"] = $("#newquest_author").val();
 	params["answer"] = $("#newquest_answer").val();
 	params["answer_format"] = $("#newquest_answerformat").val();
 	params["state"] = $("#newquest_state").val();

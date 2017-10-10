@@ -39,7 +39,6 @@ window.fhq.getTokenFromCookie = function() {
 	return matches ? decodeURIComponent(matches[1]) : '';
 }
 
-window.fhq.baseUrl = "http://freehackquest.com/";
 window.fhq.client = "fhq.js";
 fhq.token = fhq.getTokenFromCookie();
 

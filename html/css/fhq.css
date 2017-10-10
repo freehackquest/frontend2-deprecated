@@ -73,6 +73,30 @@
 }
 
 
+.fhq-page-loader{
+	display: block;
+	position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+}
+
+.fhq0105{
+	display: table;
+	width: 100%;
+    height: 100%;
+}
+
+.fhq0106{
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+
+
 /* old styles */
 
 
@@ -1438,28 +1462,6 @@ font.fhq_task {
 	text-align: left;
 }
 
-.fhq0104{
-	display: block;
-	position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 100%;
-    height: 100%;
-}
-
-.fhq0105{
-	display: table;
-	width: 100%;
-    height: 100%;
-}
-
-.fhq0106{
-	display: table-cell;
-	vertical-align: middle;
-	text-align: center;
-}
 
 .fhq0107 {
 	position: relative;

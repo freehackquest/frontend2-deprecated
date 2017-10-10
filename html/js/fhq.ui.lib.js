@@ -28,12 +28,12 @@ fhq.ui.showError = function(msg){
 }
 
 fhq.ui.showLoading = function(){
-	$('.fhq0104').show();
+	$('.fhq-page-loader').show();
 }
 
 fhq.ui.hideLoading = function(){
 	setTimeout(function(){
-		$('.fhq0104').hide();
+		$('.fhq-page-loader').hide();
 	},1000);
 }
 

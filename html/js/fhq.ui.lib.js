@@ -1682,7 +1682,7 @@ fhq.ui.loadUserProfile = function(userid) {
 		el.append(''
 			+ '<div class="card">'
 			+ '  <div class="card-body card-left-img " style="background-image: url(' + user.data.logo + ')">'
-			+ '    <h4 class="card-title">' + user.data.nick + ' (Rating: ' + user.data.rating + ')</h4>'
+			+ '    <h4 class="card-title"><div style="display: inline-block;" id="user_nick2">' + user.data.nick + '</div> (Rating: ' + user.data.rating + ')</h4>'
 			+ '    <h6 class="card-subtitle mb-2 text-muted">User ' + user.data.status + '. User has ' + user.data.role + ' privileges.</h6>'
 			+ '    <p class="card-text"> '
 			+ '		</p>'
@@ -1708,8 +1708,6 @@ fhq.ui.loadUserProfile = function(userid) {
 			+ '</div><br>'
 		);
 		if(user.access){
-			
-			
 			el.append(''
 				+ '<div class="card">'
 				+ '	<div class="card-header">' + fhq.t('Change user info') + '</div>'
@@ -1753,14 +1751,16 @@ fhq.ui.loadUserProfile = function(userid) {
 				data.nick = $('#edit_nick').val();
 				data.university = $('#edit_university').val();
 				data.about = $('#edit_about').val();
+				data.userid = userid;
 				fhq.ws.user_update(data).done(function(r){
 					$('#edit_nick').val(r.data.nick);
 					$('#edit_university').val(r.data.university);
 					$('#edit_about').val(r.data.about);
+					fhq.userinfo.nick = r.data.nick;
+					$('#user_nick2').html(r.data.nick);
 					$('#change_user_info_status').html('Changed');
+					fhq.ui.updateMenu();
 				}).fail(function(err){
-					$('#old_password').val('');
-					$('#new_password').val('');
 					$('#change_user_info_status').html(err.error);
 				});
 			});

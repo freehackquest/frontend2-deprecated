@@ -673,5 +673,21 @@ window.fhq.localization = {
 	'No detected':{
 		'en': 'No detected',
 		'ru': 'Не обнаружено',
+	},
+	'Change user info':{
+		'en': 'Change user info',
+		'ru': 'Изменить информацию о пользователе',
+	},
+	'Nick':{
+		'en': 'Nick',
+		'ru': 'Никнейм',
+	},
+	'Old password':{
+		'en': 'Old password',
+		'ru': 'Старый пароль',
+	},
+	'New password':{
+		'en': 'New password',
+		'ru': 'Новый пароль',
 	}
 };

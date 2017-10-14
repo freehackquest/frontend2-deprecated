@@ -1708,18 +1708,75 @@ fhq.ui.loadUserProfile = function(userid) {
 			+ '</div><br>'
 		);
 		if(user.access){
+			
+			
+			el.append(''
+				+ '<div class="card">'
+				+ '	<div class="card-header">' + fhq.t('Change user info') + '</div>'
+				+ '	<div class="card-body">'
+				+ '		<div class="form-group row">'
+				+ '			<label for="edit_nick" class="col-sm-2 col-form-label">' + fhq.t('Nick') + '</label>'
+				+ ' 		<div class="col-sm-10">'
+				+ '				<input type="text" class="form-control" value="" id="edit_nick">'
+				+ '			</div>'
+				+ '		</div>'
+				+ '		<div class="form-group row">'
+				+ '			<label for="edit_university" class="col-sm-2 col-form-label">' + fhq.t('University') + '</label>'
+				+ ' 		<div class="col-sm-10">'
+				+ '				<input type="text" class="form-control" value="" id="edit_university">'
+				+ '			</div>'
+				+ '		</div>'
+				+ '		<div class="form-group row">'
+				+ '			<label for="edit_about" class="col-sm-2 col-form-label">' + fhq.t('About user') + '</label>'
+				+ ' 		<div class="col-sm-10">'
+				+ '				<textarea type="text" class="form-control" value="" id="edit_about"></textarea>'
+				+ '			</div>'
+				+ '		</div>'
+				+ '		<div class="form-group row">'
+				+ '			<label class="col-sm-2 col-form-label"></label>'
+				+ ' 		<div class="col-sm-10">'
+				+ '				<div class="btn btn-danger" id="change_user_info">' + fhq.t('Change user info') + '</div>'
+				+ '				<p id="change_user_info_status"></p>'
+				+ '			</div>'
+				+ '		</div>'
+				+ '	</div>'
+				+ '</div><br>'
+			);
+			
+			$('#edit_nick').val(user.data.nick);
+			$('#edit_university').val(user.data.university);
+			$('#edit_about').val(user.data.about);
+			
+			$('#change_user_info').unbind().bind('click', function(){
+				$('#change_user_info_status').html('Send request...');
+				var data = {};
+				data.nick = $('#edit_nick').val();
+				data.university = $('#edit_university').val();
+				data.about = $('#edit_about').val();
+				fhq.ws.user_update(data).done(function(r){
+					$('#edit_nick').val(r.data.nick);
+					$('#edit_university').val(r.data.university);
+					$('#edit_about').val(r.data.about);
+					$('#change_user_info_status').html('Changed');
+				}).fail(function(err){
+					$('#old_password').val('');
+					$('#new_password').val('');
+					$('#change_user_info_status').html(err.error);
+				});
+			});
+			
 			el.append(''
 				+ '<div class="card">'
 				+ '	<div class="card-header">' + fhq.t('Change password') + '</div>'
 				+ '	<div class="card-body">'
 				+ '		<div class="form-group row">'
-				+ '			<label for="old_password" class="col-sm-2 col-form-label">Old password</label>'
+				+ '			<label for="old_password" class="col-sm-2 col-form-label">' + fhq.t('Old password') + '</label>'
 				+ ' 		<div class="col-sm-10">'
 				+ '				<input type="password" class="form-control" value="" id="old_password">'
 				+ '			</div>'
 				+ '		</div>'
 				+ '		<div class="form-group row">'
-				+ '			<label for="new_password" class="col-sm-2 col-form-label">New password</label>'
+				+ '			<label for="new_password" class="col-sm-2 col-form-label">' + fhq.t('New password') + '</label>'
 				+ ' 		<div class="col-sm-10">'
 				+ '				<input type="password" class="form-control" value="" id="new_password">'
 				+ '			</div>'
@@ -1727,7 +1784,7 @@ fhq.ui.loadUserProfile = function(userid) {
 				+ '		<div class="form-group row">'
 				+ '			<label class="col-sm-2 col-form-label"></label>'
 				+ ' 		<div class="col-sm-10">'
-				+ '				<div class="btn btn-danger" id="change_password">Change password</div>'
+				+ '				<div class="btn btn-danger" id="change_password">' + fhq.t('Change password') + '</div>'
 				+ '				<p id="change_password_info"></p>'
 				+ '			</div>'
 				+ '		</div>'

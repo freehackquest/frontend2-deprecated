@@ -1756,10 +1756,13 @@ fhq.ui.loadUserProfile = function(userid) {
 					$('#edit_nick').val(r.data.nick);
 					$('#edit_university').val(r.data.university);
 					$('#edit_about').val(r.data.about);
-					fhq.userinfo.nick = r.data.nick;
+					if(fhq.userinfo && r.data.id == fhq.userinfo.id){
+						fhq.userinfo.nick = r.data.nick;	
+						fhq.ui.updateMenu();
+					}
+
 					$('#user_nick2').html(r.data.nick);
 					$('#change_user_info_status').html('Changed');
-					fhq.ui.updateMenu();
 				}).fail(function(err){
 					$('#change_user_info_status').html(err.error);
 				});

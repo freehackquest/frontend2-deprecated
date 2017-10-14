@@ -3421,18 +3421,21 @@ fhq.ui.paginator = function(min,max,onpage,page) {
 		}
 	}
 
-	var pagesHtml = [];
-	pagesHtml.push('<div class="fhq0066">' + fhq.t('Found') + ': ' + (max-min) + '</div>');
+	var content = '';
+	content += '<nav><ul class="pagination">';
+	content += '<li class="page-item disabled"> <div class="page-link" tabindex="-1">' + fhq.t('Found') + ': ' + (max-min) + '</div></li>'
 	for (var i = 0; i < pagesInt.length; i++) {
 		if (pagesInt[i] == -1) {
-			pagesHtml.push("...");
+			content += " ... ";
 		} else if (pagesInt[i] == page) {
-			pagesHtml.push('<div class="fhq0064 fhq0065">' + (pagesInt[i]+1) + '</div>');
+			content += '<li class="page-item active"><div class="page-link">' + (pagesInt[i]+1) + '</div></li>';
 		} else {
-			pagesHtml.push('<div class="fhq0064" onclick="fhq.ui.paginatorClick(' + onpage + ',' + pagesInt[i] + ');">' + (pagesInt[i]+1) + '</div>');
+			content += '<li class="page-item ' + (pagesInt[i] == page ? 'active' : '') + '"><div class="page-link" onclick="fhq.ui.paginatorClick(' + onpage + ',' + pagesInt[i] + ');">' + (pagesInt[i]+1) + '</div></li>';
 		}
 	}
-	return pagesHtml.join(' ');
+	content += "</ul></nav>";
+	
+	return content;
 }
 
 $(document).ready(function() {

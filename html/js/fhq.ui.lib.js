@@ -2898,14 +2898,15 @@ window.fhq.ui.loadQuest = function(id){
 		)
 
 		var converter = new showdown.Converter();
-		
 
-		el.append(
-			'<div class="fhq0101">'
-			+ '<div class="newquestinfo_description_title">' + fhq.t('Description') + '</div>'
+		el.append(''
+			+ '<br><div class="card">'
+			+ '		<div class="card-header">' + fhq.t('Description') + '</div>'
+			+ '		<div class="card-body">'
 			+ converter.makeHtml(q.text)
-			+ '</div>'
-		)
+			+ '		</div>'
+			+ '</div><br>'
+		);
 
 		if(fi.length > 0){
 			var files1 = '';						
@@ -3010,9 +3011,10 @@ window.fhq.ui.loadQuest = function(id){
 				fhq.ui.loadWriteUps(questid);
 			}
 		});
+	
 		
-		el.append(
-			'<div class="fhq0051">'
+		el.append(''
+			+ '<div class="fhq0051">'
 			+ '<div class="fhq0053 hide" id="quest_show_statistics">' + fhq.t('Statistics') + '</div>'
 			+ '	<div id="statistics_content" style="display: none;">'
 			+ ' <table><tr><td valign=top><canvas id="quest_chart" width="300" height="300"></canvas></td>'

@@ -3031,7 +3031,7 @@ window.fhq.ui.loadQuest = function(id){
 					$('#statistics_content').show();
 					$('#quest_show_statistics').removeClass('hide');
 					$('#quest_show_statistics').addClass('show');
-					fhq.ui.updateQuestStatistics(q.questid);
+					fhq.ui.updateQuestStatistics(q.id);
 				}
 			});
 		}
@@ -3095,7 +3095,10 @@ window.fhq.ui.loadMyAnswers = function(questid){
 
 window.fhq.ui.updateQuestStatistics = function(questid){
 	fhq.ui.showLoading();
-	fhq.api.quests.statistics(questid).done(function(response){
+	fhq.ws.quest_statistics({questid: questid}).fail(function(err){
+		console.error(err);
+		fhq.ui.hideLoading();
+	}).done(function(response){
 		var q = response.data;
 		// quest_chart
 		var options = {

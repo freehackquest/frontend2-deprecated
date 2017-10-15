@@ -404,3 +404,9 @@ fhq.ws.quest_pass = function(data){
 	data.cmd = 'quest_pass';
 	return fhq.ws.send(data);
 }
+
+fhq.ws.quest_statistics = function(data){
+	data = data || {};
+	data.cmd = 'quest_statistics';
+	return fhq.ws.send(data);
+}

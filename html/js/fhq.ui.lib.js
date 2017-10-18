@@ -1952,25 +1952,23 @@ fhq.ui.loadGames = function() {
 				var buttons = '';
 				var perms = game.permissions;
 	
-				if (fhq.isAdmin())
+				if (fhq.isAdmin()){
 					buttons += '<div class="btn btn-danger" onclick="formDeleteGame(' + game.id + ');">' + fhq.t('Delete') + '</div>';
-
-				if (fhq.isAdmin())
 					buttons += ' <div class="btn btn-danger" onclick="formEditGame(' + game.id + ');">' + fhq.t('Edit') + '</div>';
-					
-				if (fhq.isAdmin())
 					buttons += ' <div class="btn btn-danger" onclick="fhqgui.exportGame(' + game.id + ');">' + fhq.t('Export') + '</div>';
+					buttons += ' <div class="btn btn-danger" onclick="fhq.ui.gameUpdateLogoForm(' + game.id + ');">' + fhq.t('Update Logo') + '</div>';
+				}
 				
 				el.append(''
 					+ '<div class="card">'
 					+ '		<div class="card-body card-left-img admin" style="background-image: url(' + game.logo + ')">'
-					+ '			<h4 class="card-title">' + game.title +' (' + fhq.t('Maximal score') + ': ' + game.maxscore + ')</h4>'
+					+ '			<h4 class="card-title">' + game.title +' (' + fhq.t('Maximum score') + ': ' + game.maxscore + ')</h4>'
 					+ '			<h6 class="card-subtitle mb-2 text-muted">' + game.type_game + ', ' + game.date_start + ' - ' + game.date_stop + '</h6>'
 					+ '			<h6 class="card-subtitle mb-2 text-muted">' + fhq.t('Organizators') + ': ' + game.organizators + '</h6>'
 					+ '			<p class="card-text">' + game.description + '</p>'
 					+ '			<p class="card-text">' + buttons + '</p>'
 					+ '		</div>'
-					+ '</div>'
+					+ '</div><br>'
 				);
 				
 				  // <div class="card-body card-left-img admin" style="background-image: url(images/quests/admin_150x150.png)">    
@@ -1986,6 +1984,91 @@ fhq.ui.loadGames = function() {
 		$('#content_page').html('fail');
 		fhq.ui.hideLoading();
 	});
+}
+
+fhq.ui.gameUpdateLogo = function(gameid){
+		
+	var data = {};
+	data.image_png_base64 = $('#game_update_logo_img').attr('src');
+	// remove prefix
+	data.image_png_base64 = data.image_png_base64.replace("data:image/png;base64,", "");
+	data.gameid = gameid;
+	fhq.ws.game_update_logo(data).done(function(){
+		$('#modalInfo').modal('hide');
+		fhq.ui.loadGames();
+	}).fail(function(err){
+		$('#game_update_logo_error').show();
+		$('#game_update_logo_error').html(err.error);
+	});
+	
+}
+
+fhq.ui.gameUpdateLogoForm = function(gameid){
+	$('#modalInfoTitle').html('Game #' + gameid + ' Update Logo');
+	$('#modalInfo').modal('show');
+	$('#modalInfoBody').html('');
+	$('#modalInfoBody').append('<br><center>'
+		+ '<input id="game_update_logo_file" type="file"><br>'
+		+ '<div class=" alert alert-danger" style="display: none" id="game_update_logo_error"></div>'
+		+ '<br>'
+		+ '<img id="game_update_logo_img" src="" width=170px height=170px/><br><br>'
+		+ '</center>');
+	$('#modalInfoButtons').html(
+		'<button type="button" class="btn btn-secondary" style="display: none" id="game_update_logo_btn" onclick="fhq.ui.gameUpdateLogo(' + gameid + ');">Update</button> '
+		+ '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>'
+	);
+	
+	$('#game_update_logo_file').change(function(){
+		$('#game_update_logo_error').hide();
+		var file = document.getElementById('game_update_logo_file').files[0];
+		var reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload = function () {
+			var res = reader.result;
+			if(res.indexOf("data:image/png;base64,") != 0){
+				$('#game_update_logo_btn').hide();
+				$('#game_update_logo_error').show();
+				$('#game_update_logo_error').html("Only png expected");
+			}else{
+				$('#game_update_logo_img').attr({
+					src: reader.result
+				})
+				$('#game_update_logo_img').unbind().bind('error', function(){
+					$('#game_update_logo_btn').hide();
+					$('#game_update_logo_error').show();
+					$('#game_update_logo_error').html("Only png expected");
+				}).bind('load', function(){
+					$('#game_update_logo_btn').show();
+				});
+			}
+		};
+	})
+
+	// user info
+	/*fhq.ws.user({userid: userid}).done(function (obj) {
+			$('#modalInfoBody').html('');
+			$('#modalInfoBody').append('<h3>' + obj.data.nick + '</h3>');
+			if(obj.data.university && obj.data.university != ""){
+				$('#modalInfoBody').append('<p>University: ' + obj.data.university + '</p>');
+			}
+			$('#modalInfoBody').append('<p>' + fhq.t('Rating') + ': ' + obj.data.rating + '</p>');
+
+			if(obj.data.about != ""){
+				$('#modalInfoBody').append('<p>' + obj.data.about + '</p>');
+			}
+			
+			$('#modalInfoButtons').append(
+				'<button type="button" class="btn btn-secondary" userid="userid" id="open_in_new_tab">Open user page</button>'
+			);
+			
+			$('#open_in_new_tab').unbind().bind('click', function(){
+				var win = window.open('?user=' + userid, '_blank');
+				win.focus();
+			})
+		}
+	).fail(function(r){
+		$('#modalInfoBody').html("[Error] " + obj.error.message);
+	});*/
 }
 
 fhq.ui.gameView = function(game, currentGameId) {

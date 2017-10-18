@@ -614,6 +614,18 @@ window.fhq.localization = {
 		'en': 'Change nick',
 		'ru': 'Change nick'
 	},
+	'settings_group_server_folders':{
+		'en': 'Server folders',
+		'ru': 'Server folders'
+	},
+	'setting_name_server_folder_games':{
+		'en': 'Folder for Games Logo on server',
+		'ru': 'Folder for Games Logo on server'
+	},
+	'setting_name_server_folder_games_url':{
+		'en': 'Games Logo Files URL',
+		'ru': 'Games Logo Files URL'
+	},
 	'Open':{
 		'en': 'Open',
 		'ru': 'Открыть'
@@ -689,5 +701,14 @@ window.fhq.localization = {
 	'New password':{
 		'en': 'New password',
 		'ru': 'Новый пароль',
+	},
+	'Maximum score':{
+		'en': 'Maximum score',
+		'ru': 'Максимально очков'
+	},
+	'Update Logo':{
+		'en': 'Update Logo',
+		'ru': 'Обновить логотип',
 	}
+	
 };

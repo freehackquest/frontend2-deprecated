@@ -369,6 +369,42 @@ fhq.ws.game_create = function(data){
 	return fhq.ws.send(data);
 }
 
+fhq.ws.game_delete = function(data){
+	data = data || {};
+	data.cmd = 'game_delete';
+	return fhq.ws.send(data);
+}
+
+fhq.ws.game_export = function(data){
+	data = data || {};
+	data.cmd = 'game_export';
+	return fhq.ws.send(data);
+}
+
+fhq.ws.game_import = function(data){
+	data = data || {};
+	data.cmd = 'game_import';
+	return fhq.ws.send(data);
+}
+
+fhq.ws.game_info = function(data){
+	data = data || {};
+	data.cmd = 'game_info';
+	return fhq.ws.send(data);
+}
+
+fhq.ws.game_update = function(data){
+	data = data || {};
+	data.cmd = 'game_update';
+	return fhq.ws.send(data);
+}
+
+fhq.ws.game_update_logo = function(data){
+	data = data || {};
+	data.cmd = 'game_update_logo';
+	return fhq.ws.send(data);
+}
+
 fhq.ws.quests_subjects = function(data){
 	data = data || {};
 	data.cmd = 'quests_subjects';

@@ -1963,7 +1963,7 @@ fhq.ui.loadGames = function() {
 					+ '<div class="card">'
 					+ '		<div class="card-body card-left-img admin" style="background-image: url(' + game.logo + ')">'
 					+ '			<h4 class="card-title">' + game.title +' (' + fhq.t('Maximum score') + ': ' + game.maxscore + ')</h4>'
-					+ '			<h6 class="card-subtitle mb-2 text-muted">' + game.type_game + ', ' + new Date(Date.parse(game.date_start)) + ' - ' + new Date(Date.parse(game.date_stop)) + '</h6>'
+					+ '			<h6 class="card-subtitle mb-2 text-muted">' + game.type_game + ', ' + new Date(game.date_start + "Z") + ' - ' + new Date(game.date_stop + "Z") + '</h6>'
 					+ '			<h6 class="card-subtitle mb-2 text-muted">' + fhq.t('Organizators') + ': ' + game.organizators + '</h6>'
 					+ '			<p class="card-text">' + game.description + '</p>'
 					+ '			<p class="card-text">' + buttons + '</p>'

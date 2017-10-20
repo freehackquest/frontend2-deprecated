@@ -186,16 +186,6 @@ function FHQGuiLib(api) {
 	var self = this;
 	this.fhq = api;
 	this.api = api;
-	
-	// include dark style
-	if(fhq.containsPageParam("dark")){
-		var link  = document.createElement('link');
-		link.rel  = 'stylesheet';
-		link.type = 'text/css';
-		link.href = 'templates/dark/styles/colors.css';
-		link.media = 'all';
-		document.head.appendChild(link);
-	};
 
 	this.createComboBox = function(idelem, defaultvalue, arr) {
 		var result = '<select id="' + idelem + '">';
@@ -1951,14 +1941,14 @@ fhq.ui.loadGames = function() {
 				var game = r.data[k];
 				var buttons = '';
 				var perms = game.permissions;
-	
+
 				if (fhq.isAdmin()){
 					buttons += '<div class="btn btn-danger" onclick="formDeleteGame(' + game.id + ');">' + fhq.t('Delete') + '</div>';
 					buttons += ' <div class="btn btn-danger" onclick="formEditGame(' + game.id + ');">' + fhq.t('Edit') + '</div>';
 					buttons += ' <div class="btn btn-danger" onclick="fhqgui.exportGame(' + game.id + ');">' + fhq.t('Export') + '</div>';
 					buttons += ' <div class="btn btn-danger" onclick="fhq.ui.gameUpdateLogoForm(' + game.id + ');">' + fhq.t('Update Logo') + '</div>';
 				}
-				
+
 				el.append(''
 					+ '<div class="card">'
 					+ '		<div class="card-body card-left-img admin" style="background-image: url(' + game.logo + ')">'
@@ -1971,10 +1961,8 @@ fhq.ui.loadGames = function() {
 					+ '</div><br>'
 				);
 				
-				  // <div class="card-body card-left-img admin" style="background-image: url(images/quests/admin_150x150.png)">    
-					// <h4 class="card-title">Admin</h4>    <h6 class="card-subtitle mb-2 text-muted">(10 quests)</h6>    <p class="card-text">Администрирование</p>	   <button subject="admin" type="button" class="open-subject btn btn-default">Открыть</button>  </div></div>
-				
-				
+				// <div class="card-body card-left-img admin" style="background-image: url(images/quests/admin_150x150.png)">    
+				// <h4 class="card-title">Admin</h4>    <h6 class="card-subtitle mb-2 text-muted">(10 quests)</h6>    <p class="card-text">Администрирование</p>	   <button subject="admin" type="button" class="open-subject btn btn-default">Открыть</button>  </div></div>
 				// el.append(fhq.ui.gameView(r.data[k]));
 			}
 		}
@@ -3295,96 +3283,63 @@ fhq.ui.initChatForm = function(){
 
 
 /* classbook */
-window.fhq.ui.loadClassbookItem = function(link, cbid){
-	console.log("link:" + link);
-	$.ajax({
-		url: link + "?t=" + Date.now(),
-		type: 'GET'
-	}).done(function(response){
-		var a = link.split(".");
-		var type = a[a.length-1].toUpperCase();
-		var html = "";
-		if(type == "MD"){
-			var converter = new showdown.Converter(),
-			html = converter.makeHtml(response);
-		}else{
-			// html
-			html = response;
-		}
-		if(cbid != undefined){
-			fhq.changeLocationState({'classbook': '', 'cbid': cbid});
-		}
-		$('.fhqrightinfo').html(html);
-	}).fail(function(){
-		$('.fhqrightinfo').html("Not found");
-	})
-}
 
-window.fhq.ui.loadClassbookSubmenu = function(submenu){
-	fhq.ui.classbook_numbers.push(0);
-	var len = submenu.length;
-	for(var i = 0; i < len; i++){
-		var o = submenu[i];
-		var numbers_len = fhq.ui.classbook_numbers.length;
-		fhq.ui.classbook_numbers[numbers_len-1] = fhq.ui.classbook_numbers[numbers_len-1] + 1;
-		var num = fhq.ui.classbook_numbers.join('.');
-
-		if(o.id)
-			fhq.classbookCache[o.id] = o;
-
-		if(o.link && o.name){
-			$('.fhqleftlist .classbook .content').append('<div class="fhqleftitem" link="' + o.link + '" cbid="' + o.id + '" ><div class="name">' + num + ' ' + o.name + '</div></div>');	
-		}else if(o.name){
-			$('.fhqleftlist .classbook .content').append('<div class="fhqleftitem"><div class="name">' + num + ' ' + o.name + '</div></div>');	
-		}
-		
-		if(o.submenu != undefined){
-			fhq.ui.loadClassbookSubmenu(o.submenu);
-		}
+window.fhq.ui.loadClassbook = function(classbookid){
+	fhq.ui.showLoading();
+	var classbookid_ = 0;
+	if(fhq.containsPageParam("classbook")){
+		classbookid_ = parseInt(fhq.pageParams['classbook'],10);
+		classbookid_ = classbookid_ || 0;
 	}
-	fhq.ui.classbook_numbers.pop();
-}
-
-window.fhq.ui.classbookSearchLinkByID = function(cbid){
-	if(fhq.classbookCache[cbid]){
-		return fhq.classbookCache[cbid].link;
-	}
-}
-
-window.fhq.classbookCache = {};
-
-window.fhq.ui.loadClassbook = function(){
-	fhq.changeLocationState({'classbook':''});
-	fhq.ui.hideLoading();
-	$('#content_page').html(''
-		+ '<div class="fhqleftlist">'
-		+ '		<div class="classbook">'
-		+ ' 		<div class="icon">' + fhq.t('Classbook') + '</div>'
-		+ ' 		<div>'
-		+ '				<div id="addclassbookitem" class="fhqbtn">Add</div>'
-		+ '			</div>'
-		+ '			<div class="content"></div>'
+	classbookid = classbookid || classbookid_;
+	
+	fhq.changeLocationState({'classbook':classbookid});
+	
+	var el = $('#content_page');
+	el.html('');
+	
+	el.html('<h1>' + fhq.t('Classbook') + '</h1>'
+		+ '<div class="row">'
+		+ '		<div class="col-3">'
+		+ '			<ul class="list-group" id="classbook_items">'
+		+ '			</ul>'
+		+ '		</div>'
+		+ '		<div class="col-9" id="classbook_content">'
+		+ '			Loading...'
 		+ '		</div>'
 		+ '</div>'
-		+ '<div class="fhqrightinfo">text</div>'
 	);
 	
-	// fhq.lang();
+	var data = {};
+	data.parentid = classbookid;
+	data.search = '';
+	$('#classbook_items').html('');
+	fhq.ws.classbook_get_list(data).done(function(r){
+		fhq.ui.hideLoading();
+		for(var i in r.data){
+			var item = r.data[i];
+			$('#classbook_items').append('<li class="list-group-item classbook-item" onclick="fhq.ui.loadClassbook(' + item.classbookid + ')">' + item.name + '</li>');
+		}
+		
+	}).fail(function(err){
+		fhq.ui.hideLoading();
+		console.error(err);
+		$('#classbook_items').html(err.error);
+	})
 	
-	fhq.ws.classbook().done(function(r){
-		fhq.ui.classbook_numbers = [];
-		fhq.classbookCache = {}
-		fhq.ui.loadClassbookSubmenu(r.items);
-
-		$('.fhqleftitem').unbind('click').bind('click', function(){
-			var link = $(this).attr('link');
-			var cbid = $(this).attr('cbid');
-			fhq.ui.loadClassbookItem(link, cbid);
-		});
-	});
-
-	// fhq.changeLocationState({updatedatabase: ''});	
-	// $('.classbook .content').html('')
+	var data2 = {};
+	data2.classbookid = classbookid;
+	
+	fhq.ws.classbook_get_item(data2).done(function(r){
+		fhq.ui.hideLoading();
+		$('#classbook_content').html('');
+		$('#classbook_content').append('<h1>' + r.data.name + '</h1>');
+		$('#classbook_content').append(r.data.content);
+	}).fail(function(err){
+		fhq.ui.hideLoading();
+		console.error(err);
+		$('#classbook_content').html(err.error);
+	})
 }
 
 window.fhq.ui.templates = window.fhq.ui.templates || {};

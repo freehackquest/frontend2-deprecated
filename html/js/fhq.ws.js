@@ -231,9 +231,45 @@ fhq.ws.classbook_get_list = function(params){
 	return fhq.ws.send(params);
 }
 
-fhq.ws.classbook_get_item = function(params){
+fhq.ws.classbook_get_info = function(params){
 	params = params || {};
-	params.cmd = 'classbook_get_item';
+	params.cmd = 'classbook_get_info';
+	return fhq.ws.send(params);
+}
+
+fhq.ws.classbook_add_record = function(params){
+	params = params || {};
+	params.cmd = 'classbook_add_record';
+	return fhq.ws.send(params);
+}
+
+fhq.ws.classbook_delete_record = function(params){
+	params = params || {};
+	params.cmd = 'classbook_delete_record';
+	return fhq.ws.send(params);
+}
+
+fhq.ws.classbook_update_record = function(params){
+	params = params || {};
+	params.cmd = 'classbook_update_record';
+	return fhq.ws.send(params);
+}
+
+fhq.ws.classbook_localization_add_record = function(params){
+	params = params || {};
+	params.cmd = 'classbook_localization_add_record';
+	return fhq.ws.send(params);
+}
+
+fhq.ws.classbook_localization_delete_record = function(params){
+	params = params || {};
+	params.cmd = 'classbook_localization_delete_record';
+	return fhq.ws.send(params);
+}
+
+fhq.ws.classbook_localization_update_record = function(params){
+	params = params || {};
+	params.cmd = 'classbook_localization_update_record';
 	return fhq.ws.send(params);
 }
 

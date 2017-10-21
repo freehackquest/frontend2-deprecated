@@ -653,6 +653,10 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["quests"] = fhq.ui.loadStatSubjectsQuests;
 	fhq.ui.pageHandlers["user"] = fhq.ui.loadUserProfile;
 	fhq.ui.pageHandlers["classbook"] = fhq.ui.loadClassbook;
+	fhq.ui.pageHandlers["classbook_add_record"] = fhq.ui.loadClassbookAddRecord;
+	fhq.ui.pageHandlers["classbook_update_record"] = fhq.ui.loadClassbookUpdateRecord;
+	fhq.ui.pageHandlers["classbook_localization_add_record"] = fhq.ui.loadClassbookLocalizationAddRecord;
+	fhq.ui.pageHandlers["classbook_localization_update_record"] = fhq.ui.loadClassbookLocalizationAddRecord;
 	fhq.ui.pageHandlers["about"] = fhq.ui.loadPageAbout;
 	fhq.ui.pageHandlers["registration"] = fhq.ui.loadRegistrationPage;
 	fhq.ui.pageHandlers["games"] = fhq.ui.loadGames;
@@ -3284,21 +3288,173 @@ fhq.ui.initChatForm = function(){
 
 /* classbook */
 
-window.fhq.ui.loadClassbook = function(classbookid){
+fhq.ui.loadClassbookAddRecord = function(parentid){
+	fhq.ui.hideLoading();
+	var el = $('#content_page');
+	el.html('');
+	parentid = parseInt(parentid, 10);
+	fhq.changeLocationState({'classbook_add_record':parentid});
+	
+	el.html('<h1>' + fhq.t('Classbook Add Record') + '</h1><br>'
+		+ '		<div class="form-group row">'
+		+ '			<label for="cb_add_parentid" class="col-sm-2 col-form-label">' + fhq.t('Parent ID') + '</label>'
+		+ '			<div class="col-sm-10">'
+		+ '				<input type="text" readonly class="form-control" value="' + parentid + '" id="cb_add_parentid">'
+		+ '			</div>'
+		+ '		</div>'
+		+ '		<div class="form-group row">'
+		+ '			<label for="cb_add_name" class="col-sm-2 col-form-label">' + fhq.t('Name') + '</label>'
+		+ '			<div class="col-sm-10">'
+		+ '				<input type="text" class="form-control" value="" placeholder="Name" id="cb_add_name">'
+		+ '			</div>'
+		+ '		</div>'
+		+ '		<div class="form-group row">'
+		+ '			<label for="cb_add_content" class="col-sm-2 col-form-label">' + fhq.t('Content') + '</label>'
+		+ '			<div class="col-sm-10">'
+		+ '				<textarea type="text" class="form-control" id="cb_add_content" style="height: 300px"></textarea>'
+		+ '			</div>'
+		+ '		</div>'
+		+ '		<div class="row">'
+		+ '			<div class="col-2"></div>'
+		+ '			<div class="col-10">'
+		+ '				<button class="btn btn-danger" id="add_record">' + fhq.t('Add') + '</button>'
+		+ '				<button class="btn btn-danger" id="cancel_record">' + fhq.t('Cancel') + '</button><br><br>'
+		+ '				<div class="alert alert-danger" id="cb_add_error" style="display: none"></div>'
+		+ '			</div>'
+		+ '		</div>'
+		+ '</div>'
+	);
+	
+	$('#cancel_record').unbind().bind('click', function(){
+		fhq.ui.loadClassbook(parentid);
+	})
+	
+	$('#add_record').unbind().bind('click', function(){
+		var data = {};
+		data.parentid = parentid;
+		data.name = $('#cb_add_name').val();
+		data.content = $('#cb_add_content').val();
+		$('#cb_add_error').hide();
+		fhq.ui.showLoading();
+		fhq.ws.classbook_add_record(data).done(function(r){
+			fhq.ui.hideLoading();
+			fhq.ui.loadClassbook(r.data.classbookid);
+		}).fail(function(err){
+			fhq.ui.hideLoading();
+			console.error(err);
+			$('#cb_add_error').show();
+			$('#cb_add_error').html(err.error);
+		});
+	});
+}
+
+fhq.ui.loadClassbookUpdateRecord = function(classbookid){
+	fhq.ui.showLoading();
+	var el = $('#content_page');
+	el.html('');
+	classbookid = parseInt(classbookid, 10);
+	fhq.changeLocationState({'classbook_update_record':classbookid});
+	
+	el.html('<h1>' + fhq.t('Classbook Update Record') + '</h1><br>'
+		+ '		<div class="form-group row">'
+		+ '			<label for="cb_edit_name" class="col-sm-2 col-form-label">' + fhq.t('Name') + '</label>'
+		+ '			<div class="col-sm-10">'
+		+ '				<input type="text" class="form-control" value="" placeholder="Name" id="cb_edit_name">'
+		+ '			</div>'
+		+ '		</div>'
+		+ '		<div class="form-group row">'
+		+ '			<label for="cb_edit_content" class="col-sm-2 col-form-label">' + fhq.t('Content') + '</label>'
+		+ '			<div class="col-sm-10">'
+		+ '				<textarea type="text" class="form-control" id="cb_edit_content" style="height: 300px"></textarea>'
+		+ '			</div>'
+		+ '		</div>'
+		+ '		<div class="row">'
+		+ '			<div class="col-2"></div>'
+		+ '			<div class="col-10">'
+		+ '				<button class="btn btn-danger" id="update_record">' + fhq.t('Save') + '</button>'
+		+ '				<button class="btn btn-danger" id="cancel_record">' + fhq.t('Cancel') + '</button><br><br>'
+		+ '				<div class="alert alert-danger" id="cb_edit_error" style="display: none"></div>'
+		+ '			</div>'
+		+ '		</div>'
+		+ '</div>'
+	);
+
+	fhq.ws.classbook_get_info({classbookid: classbookid}).done(function(r){
+		fhq.ui.hideLoading();
+		$('#cb_edit_name').val(r.data.name);
+		$('#cb_edit_content').val(r.data.content);
+	}).fail(function(err){
+		fhq.ui.hideLoading();
+		console.error(err);
+		$('#cb_edit_error').show();
+		$('#cb_edit_error').html(err.error);
+	})
+	
+	$('#cancel_record').unbind().bind('click', function(){
+		fhq.ui.loadClassbook(classbookid);
+	})
+	
+	$('#update_record').unbind().bind('click', function(){
+		var data = {};
+		data.classbookid = classbookid;
+		data.name = $('#cb_edit_name').val();
+		data.content = $('#cb_edit_content').val();
+		$('#cb_edit_error').hide();
+		fhq.ui.showLoading();
+		fhq.ws.classbook_update_record(data).done(function(r){
+			fhq.ui.hideLoading();
+			fhq.ui.loadClassbook(classbookid);
+		}).fail(function(err){
+			fhq.ui.hideLoading();
+			console.error(err);
+			$('#cb_edit_error').show();
+			$('#cb_edit_error').html(err.error);
+		})
+	});
+}
+
+
+fhq.ui.deleteClassbookRecord = function(classbookid){
+	$('#modalInfoTitle').html('Delete Classbook item #' + classbookid);
+	$('#modalInfo').modal('show');
+	$('#modalInfoBody').html('Are you sure that want delete?');
+	$('#modalInfoButtons').html(''
+		+ '<button type="button" class="btn btn-danger" id="yes_delete_record">Yes, delete!</button>'
+		+ '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>'
+	);
+
+	$('#yes_delete_record').unbind().bind('click', function(){
+		fhq.ws.classbook_delete_record({classbookid: classbookid}).done(function (r) {
+			$('#modalInfo').modal('hide');
+			fhq.ui.loadClassbook(classbookid);
+
+		}).fail(function(err){
+			$('#modalInfoBody').html("[Error] " + err.error);
+		});
+	});
+}
+
+fhq.ui.loadClassbook = function(classbookid){
 	fhq.ui.showLoading();
 	var classbookid_ = 0;
-	if(fhq.containsPageParam("classbook")){
+	if(classbookid){
+		classbookid = classbookid || classbookid_;	
+	} else if(fhq.containsPageParam("classbook")){
 		classbookid_ = parseInt(fhq.pageParams['classbook'],10);
 		classbookid_ = classbookid_ || 0;
 	}
-	classbookid = classbookid || classbookid_;
+	classbookid = parseInt(classbookid, 10);
 	
 	fhq.changeLocationState({'classbook':classbookid});
 	
 	var el = $('#content_page');
 	el.html('');
-	
 	el.html('<h1>' + fhq.t('Classbook') + '</h1>'
+		+ '<div class="row">'
+		+ '		<div class="col-12" id="classbook_path">'
+		+ '			<div class="btn btn-default" onclick="fhq.ui.loadClassbook(0)">Root</div>'
+		+ '		</div>'
+		+ '</div><br>'
 		+ '<div class="row">'
 		+ '		<div class="col-3">'
 		+ '			<ul class="list-group" id="classbook_items">'
@@ -3309,7 +3465,7 @@ window.fhq.ui.loadClassbook = function(classbookid){
 		+ '		</div>'
 		+ '</div>'
 	);
-	
+
 	var data = {};
 	data.parentid = classbookid;
 	data.search = '';
@@ -3319,6 +3475,9 @@ window.fhq.ui.loadClassbook = function(classbookid){
 		for(var i in r.data){
 			var item = r.data[i];
 			$('#classbook_items').append('<li class="list-group-item classbook-item" onclick="fhq.ui.loadClassbook(' + item.classbookid + ')">' + item.name + '</li>');
+		}
+		if(fhq.isAdmin()){
+			$('#classbook_items').append('<button class="btn btn-danger" onclick="fhq.ui.loadClassbookAddRecord(' + classbookid + ')"> + Add record</button>');
 		}
 		
 	}).fail(function(err){
@@ -3330,16 +3489,41 @@ window.fhq.ui.loadClassbook = function(classbookid){
 	var data2 = {};
 	data2.classbookid = classbookid;
 	
-	fhq.ws.classbook_get_item(data2).done(function(r){
-		fhq.ui.hideLoading();
-		$('#classbook_content').html('');
-		$('#classbook_content').append('<h1>' + r.data.name + '</h1>');
-		$('#classbook_content').append(r.data.content);
-	}).fail(function(err){
-		fhq.ui.hideLoading();
-		console.error(err);
-		$('#classbook_content').html(err.error);
-	})
+	if(classbookid != 0){
+		fhq.ws.classbook_get_info(data2).done(function(r){
+			fhq.ui.hideLoading();
+
+			$('#classbook_path').html('');
+			$('#classbook_path').append('<div class="btn btn-default" onclick="fhq.ui.loadClassbook(0)">Root</div>');
+			$('#classbook_path').append(' / <div class="btn btn-default" onclick="fhq.ui.loadClassbook(' + r.data.classbookid + ')">' + r.data.name + '</div>');
+			
+			
+			$('#classbook_content').html('');
+			$('#classbook_content').append('<h1>' + r.data.name + '</h1>');
+			$('#classbook_content').append(r.data.content);
+
+			if(fhq.isAdmin()){
+				$('#classbook_content').append(''
+					+ '<div class="card" id="feedback-form">'
+					+ '		<div class="card-header">' + fhq.t("Admin area") + '</div>'
+					+ '		<div class="card-body">'
+					+ '			<div class="btn btn-danger" onclick="fhq.ui.loadClassbookUpdateRecord(' + r.data.classbookid + ')">' + fhq.t('Edit') + '</div>'
+					+ '			<div class="btn btn-danger" onclick="fhq.ui.deleteClassbookRecord(' + r.data.classbookid + ')">' + fhq.t('Delete') + '</div>'
+					+ '		</div>'
+					+ '</div>'
+				);
+			}
+			
+			
+		}).fail(function(err){
+			fhq.ui.hideLoading();
+			console.error(err);
+			$('#classbook_content').html(err.error);
+		})
+	}else{
+		$('#classbook_content').html('Welcome');
+		$('#classbook_path').html('');
+	}
 }
 
 window.fhq.ui.templates = window.fhq.ui.templates || {};

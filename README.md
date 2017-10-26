@@ -41,11 +41,11 @@ As a result, I began to think about the idea of creating a platform for games bu
 
 I also discussed this idea with the team. After a while, after studying decided to continue to engage in ctf but already in the organization and preparation of the team for the games.
 
-In 2012 he wrote the first version of FreeHackQuest (the name was coined with Alexei Gulyaev) that would hold a game at the university.
+In 2012, I wrote the first version of FreeHackQuest (the name was coined us me and Alexey Gulyaev) and we did a game at the university.
 
-With the support of Alexei Gulyaev (Second) and Vitali Shishkin as well as Konstantin Kryuchkov, Nikita Chizhov and other members of the team, we hung up ads and recruited newcomers.
+With the support of Alexei Gulyaev and Vitali Shishkin as well as Konstantin Kryuchkov, Nikita Chizhov and other members of the team, we hung up ads and recruited newcomers.
 
-Next year (2013) the platform was completely rewritten and held by FHQ 2013 again for recruiting, but this time it was played not only from our university but also from other cities.
+Next year (2013) the platform was completely rewritten and held by FHQ 2013 again for recruiting, but this time players was not only from our university but also from other cities.
 
 After that we left to hang the platform in the online modes http://fhq.keva.su (the idea was Alexey Gulyaev), which allowed paying attention to keva.
 

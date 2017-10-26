@@ -393,6 +393,12 @@ fhq.ws.registration = function(params){
 	return fhq.ws.send(params);
 }
 
+fhq.ws.user_reset_password = function(params){
+	params = params || {};
+	params.cmd = 'user_reset_password';
+	return fhq.ws.send(params);
+}
+
 fhq.ws.user_answers = function(params){
 	params = params || {};
 	params.cmd = 'user_answers';

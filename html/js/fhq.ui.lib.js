@@ -152,7 +152,7 @@ fhq.ui.updateMenu = function(){
 	$('#btnmenu_signin').html(fhq.t('Sign-in'));
 	$('#btnmenu_signin_with_google').html(fhq.t('Sign-in with Google'));
 	$('#btnmenu_signup').html(fhq.t('Sign-up'));
-	$('#btnmenu_restore_password').html(fhq.t('Forgot password?'));
+	$('#btnmenu_reset_password').html(fhq.t('Forgot password?'));
 	
 	
 	$('#btnmenu_user_profile').html(fhq.t('Your Profile'));
@@ -242,58 +242,6 @@ function FHQGuiLib(api) {
 		document.onkeydown = null;
 		document.getElementById('modal_dialog_content').innerHTML = "";
 	}
-	
-	/* Reset Password */
-
-	this.showResetPasswordForm = function() {
-		fhq.ui.showModalDialog(fhq.ui.templates.reset_password());
-		this.refreshResetPasswordCaptcha();
-	};
-
-	this.refreshResetPasswordCaptcha = function() {
-		fhq.api.users.captcha().done(function(r){
-			$('#reset-password-captcha-image').attr({
-				'src': 'data:image/png;base64, ' + r.data.captcha,
-				'uuid': r.data.uuid
-			});
-		}).fail(function(r){
-			console.error(r)
-		})
-	}
-
-	this.cleanupResetPasswordMessages = function() {
-		$('#reset-password-info-message').html('');
-		$('#reset-password-error-message').html('');
-	}
-
-	this.resetPassword = function() {
-		var self = this;
-		$('#reset-password-error-message').html('');
-		$('#reset-password-info-message').html('Please wait...');
-		var params = {};
-		params.email = $('#reset-password-email').val();
-		params.captcha = $('#reset-password-captcha').val();
-		params.captcha_uuid = $('#reset-password-captcha-image').attr('uuid');
-
-		fhq.api.users.reset_password(params).done(function(r){
-			$('#reset-password-email').val('');
-			$('#reset-password-captcha').val('');
-			$('#reset-password-info-message').html('');
-			$('#reset-password-error-message').html('');
-			
-			fhq.ui.updateModalDialog({
-				'header' : 'Reset Password',
-				'content': r.data.message,
-				'buttons': ''
-			});
-		}).fail(function(r){
-			console.error(r);
-			$('#reset-password-error-message').html(r.responseJSON.error.message);
-			$('#reset-password-info-message').html('');
-			$('#reset-password-captcha').val('');
-			self.refreshResetPasswordCaptcha();
-		})
-	};
 
 	this.changeLocationState = function(newPageParams){
 		var url = '';
@@ -556,57 +504,6 @@ function FHQContentPage() {
 	};
 }
 
-// work with content page
-function FHQDynamicContent(idelem) {
-	this.cp = document.getElementById(idelem);
-	if (this.cp)
-		this.cp.innerHTML = 'Loading...';
-	else
-		throw 'Not found ' + idelem;
-
-	this.append = function(str) {
-		this.cp.innerHTML += str;
-	};
-	this.set = function(str) {
-		this.cp.innerHTML = str;
-	};
-	this.clear = function() {
-		this.cp.innerHTML = '';
-	};
-}
-
-function FHQTable() {
-	this.table = [];
-
-	this.openrow = function(stl) {
-		if (stl == null)
-			stl = '';
-		this.table.push(
-			'<div class="fhqrow ' + stl + '">'
-		);
-	};
-	
-	this.closerow = function() {
-		this.table.push(
-			'</div>'
-		);
-	};
-	
-	this.cell = function(text) {
-		this.table.push(
-			'<div class="fhqcell">' + text + '</div>'
-		);
-	};
-
-	this.render = function() {
-		var result = '\n';
-		result += '<div class="fhqtable">\n';
-		result += this.table.join('\n');
-		result += '</div>\n <!-- fhqtable -->';
-		return result;
-	};
-}
-
 fhq.ui.showUserInfo = function(userid) {
 	$('#modalInfoTitle').html('User #' + userid);
 	$('#modalInfo').modal('show');
@@ -659,6 +556,7 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["classbook_localization_update_record"] = fhq.ui.loadClassbookLocalizationAddRecord;
 	fhq.ui.pageHandlers["about"] = fhq.ui.loadPageAbout;
 	fhq.ui.pageHandlers["registration"] = fhq.ui.loadRegistrationPage;
+	fhq.ui.pageHandlers["user_reset_password"] = fhq.ui.loadResetPasswordPage;
 	fhq.ui.pageHandlers["games"] = fhq.ui.loadGames;
 	fhq.ui.pageHandlers["game_create"] = fhq.ui.loadFormCreateGame;
 	fhq.ui.pageHandlers["scoreboard"] = fhq.ui.loadScoreboard;
@@ -931,6 +829,59 @@ fhq.ui.loadRegistrationPage = function() {
 	);
 }
 
+fhq.ui.user_reset_password = function() {
+	$('#user_reset_password_error').html('');
+	var data = {};
+	data.email = $('#user_reset_password_email').val();
+	fhq.ui.showLoading();
+	fhq.ws.user_reset_password(data).done(function(r){
+		fhq.ui.hideLoading();
+		$('#content_page').html('Please check your mailbox (also look in spam)');
+	}).fail(function(r){
+		console.error(r);
+		$('#user_reset_password_error').html(fhq.t(r.error));
+		fhq.ui.hideLoading();
+	})
+		
+}
+
+fhq.ui.loadResetPasswordPage = function() {
+	fhq.ui.hideLoading();
+	fhq.changeLocationState({'user_reset_password':''});
+	$('#content_page').html('');
+	
+	$('#content_page').append(''
+		+ '	<div class="form-group row">'
+		+ ' 	<div class="col-sm-4"></div>'
+		+ ' 	<div class="col-sm-4">'
+		+ '			<h1 class="text-center">' + fhq.t('Reset password') + '</h1>'
+		+ '		</div>'
+		+ ' 	<div class="col-sm-4"></div>'
+		+ '	</div>'
+		+ '	<div class="form-group row">'
+		+ ' 	<div class="col-sm-4"></div>'
+		+ ' 	<div class="col-sm-4">'
+		+ '			<label for="user_reset_password_email" class="col-form-label">E-mail (required):</label>'
+		+ '			<input type="email" placeholder="your@email.com" class="form-control" value="" id="user_reset_password_email"/>'
+		+ '		</div>'
+		+ ' 	<div class="col-sm-4"></div>'
+		+ '	</div>'
+		+ '	<div class="form-group row">'
+		+ ' 	<div class="col-sm-4"></div>'
+		+ ' 	<div class="col-sm-4 text-center">'
+		+ '			<div class="btn btn-success" onclick="fhq.ui.user_reset_password();">' + fhq.t('Reset') + '</div>'
+		+ '		</div>'
+		+ ' 	<div class="col-sm-4"></div>'
+		+ '	</div>'
+		+ '	<div class="form-group row">'
+		+ ' 	<div class="col-sm-4"></div>'
+		+ ' 	<div class="col-sm-4 text-center" id="user_reset_password_error">'
+		+ '		</div>'
+		+ ' 	<div class="col-sm-4"></div>'
+		+ '	</div>'
+	);
+}
+
 
 fhq.ui.onwsclose = function(){
 	$('.message_chat').remove();
@@ -1096,31 +1047,6 @@ fhq.ui.loadServerSettings = function(idelem) {
 		fhq.ui.hideLoading();
 		console.error(err);
 	})
-	
-	
-	// 
-	/*
-	var scp = new FHQDynamicContent(idelem);
-	send_request_post(
-		'api/admin/settings.php',
-		'',
-		function (obj) {
-			if (obj.result == "fail") {
-				scp.set(obj.error.message);
-				return;
-			}
-			var pt = new FHQParamTable();
-			for (var k in obj.data) {
-				for (var k1 in obj.data[k]) {
-					pt.row(k+'.'+k1, obj.data[k][k1]);
-				}
-				pt.skip();
-			}
-			pt.skip();
-			scp.clear();
-			scp.append(pt.render());
-		}
-	);*/
 }
 
 
@@ -3543,27 +3469,6 @@ fhq.ui.templates.singin = function(){
 		'header' : fhq.t('Sign-in'),
 		'content': content,
 		'buttons': '<div class="fhqbtn" onclick="fhq.ui.signin();">' + fhq.t('Sign-in') + '</div>'
-	};
-}
-
-fhq.ui.templates.reset_password = function(){
-	var content = ''
-		+ '<div id="reset-password-form">'
-		+ '		<input placeholder="your@email.com" id="reset-password-email" value="" type="text" onkeydown="if (event.keyCode == 13) fhqgui.resetPassword(); else fhqgui.cleanupResetPasswordMessages();">'
-		+ '		<br><br>'
-		+ '		<img src="" id="reset-password-captcha-image"/>'
-		+ '		<div class="fhqbtn" onclick="fhqgui.refreshResetPasswordCaptcha();"><img src="images/refresh.svg"/></div>'
-		+ '		<br><br>'
-		+ '		<input placeholder="captcha" id="reset-password-captcha" value="" type="text" onkeydown="if (event.keyCode == 13) fhqgui.resetPassword(); else fhqgui.cleanupResetPasswordMessages();">'
-		+ '		<br><br>'
-		+ '		<font id="reset-password-info-message"></font>'
-		+ '		<font id="reset-password-error-message" color="#ff0000"></font>'
-		+ '</div>';
-
-	return {
-		'header' : fhq.t('Reset password'),
-		'content': content,
-		'buttons': '<div class="fhqbtn" onclick="fhqgui.resetPassword();">' + fhq.t('Reset') + '</div>'
 	};
 }
 

@@ -16,13 +16,6 @@ window.fhq.createUrlFromObj = function(obj) {
 	return str;
 };
 
-window.fhq.getCurrentApiPath = function() {
-	var path = location.pathname.split("/");
-	path.splice(path.indexOf('index.php'), 1);	
-	var newURL = location.protocol + '//' + location.host + path.join("/") + "/";
-	return newURL;
-};
-
 window.fhq.setTokenToCookie = function(token) {
 	var date = new Date( new Date().getTime() + (7 * 24 * 60 * 60 * 1000) ); // cookie on week
 	document.cookie = "fhqtoken=" + encodeURIComponent(token) + "; path=/; expires="+date.toUTCString();

@@ -8,7 +8,7 @@
 		<meta name="keywords" content="security, fhq, fhq 2012, fhq 2013, fhq 2014, free, hack, quest, competition, information security, ctf, joepardy" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="shortcut icon" href="favicon.ico">
+		<link rel="shortcut icon" href="favicon.ico?1">
 		<script src="js/libs/jquery-3.1.0.min.js"></script>
 		<script src="js/libs/popper.min.js"></script>
 		<script src="js/libs/bootstrap.min.js"></script>
@@ -42,8 +42,6 @@
 		<script type="text/javascript" src="js/fhq_users.js?ver=1"></script>
 		<script type="text/javascript" src="js/fhq_feedback.js?ver=1"></script>
 		<script type="text/javascript">
-			fhq.client = "web-fhq2015";
-			fhq.baseUrl = fhq.getCurrentApiPath(); // or another path
 			var fhqgui = new FHQGuiLib(fhq);
 
 			/*if (fhq.token && fhq.token != "")  // todo 
@@ -124,7 +122,7 @@
 							<!-- div class="dropdown-item" id="btnmenu_tools" onclick="fhq.ui.loadTools();">Tools</div -->
 							<div class="dropdown-item" id="btnmenu_classbook" onclick="fhq.ui.loadClassbook(0);">Classbook</div>
 							<div class="dropdown-item" id="btnmenu_apidocs" onclick="fhq.ui.loadApiPage();">FreeHackQuest API</div>
-							
+
 							<div class="dropdown-divider"></div>
 							<div class="dropdown-item" id="btnmenu_newfeedback" onclick="fhq.ui.loadFeedbackAdd()">New Feedback</div>
 							
@@ -151,6 +149,7 @@
 							<div class="dropdown-item unauth-menu" id="btnmenu_signin" onclick="fhq.ui.showSignInForm();">Sign-in</div>
 							<!-- div class="dropdown-item unauth-menu" id="btnmenu_signin_with_google" onclick="window.location='./google_auth.php'">Sign-in with Google</div -->
 							<div class="dropdown-item unauth-menu" id="btnmenu_signup" onclick="fhq.ui.loadRegistrationPage();">Sign-up</div>
+							<div class="dropdown-item unauth-menu" id="btnmenu_reset_password" onclick="fhq.ui.loadResetPasswordPage();">Forgot password?</div>
 							<!-- div class="dropdown-item unauth-menu" id="btnmenu_restore_password" onclick="fhqgui.showResetPasswordForm();">Forgot password?</div -->
 
 							<div class="dropdown-item auth-menu" style="display: none" id="btnmenu_user_profile" onclick="fhq.ui.loadUserProfile();">Your Profile</div>

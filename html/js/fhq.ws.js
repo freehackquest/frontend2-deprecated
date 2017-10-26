@@ -309,21 +309,21 @@ fhq.ws.scoreboard = function(params){
 	return fhq.ws.send(params);
 }
 
-fhq.ws.serverinfo = function(params){
+fhq.ws.server_info = function(params){
 	params = params || {};
-	params.cmd = 'serverinfo';
+	params.cmd = 'server_info';
 	return fhq.ws.send(params);
 }
 
-fhq.ws.serversettings = function(params){
+fhq.ws.server_settings = function(params){
 	params = params || {};
-	params.cmd = 'serversettings';
+	params.cmd = 'server_settings';
 	return fhq.ws.send(params);
 }
 
-fhq.ws.update_server_settings = function(params){
+fhq.ws.server_settings_update = function(params){
 	params = params || {};
-	params.cmd = 'update_server_settings';
+	params.cmd = 'server_settings_update';
 	return fhq.ws.send(params);
 }
 

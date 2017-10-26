@@ -554,7 +554,7 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["classbook_update_record"] = fhq.ui.loadClassbookUpdateRecord;
 	fhq.ui.pageHandlers["classbook_localization_add_record"] = fhq.ui.loadClassbookLocalizationAddRecord;
 	fhq.ui.pageHandlers["classbook_localization_update_record"] = fhq.ui.loadClassbookLocalizationAddRecord;
-	fhq.ui.pageHandlers["about"] = fhq.ui.loadPageAbout;
+	fhq.ui.pageHandlers["about"] = fhq.ui.loadAboutPage;
 	fhq.ui.pageHandlers["registration"] = fhq.ui.loadRegistrationPage;
 	fhq.ui.pageHandlers["user_reset_password"] = fhq.ui.loadResetPasswordPage;
 	fhq.ui.pageHandlers["games"] = fhq.ui.loadGames;
@@ -568,13 +568,13 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["create_news"] = fhq.ui.loadCreateNews;
 	fhq.ui.pageHandlers["tools"] = fhq.ui.loadTools;
 	fhq.ui.pageHandlers["tool"] = fhq.ui.loadTool;
-	fhq.ui.pageHandlers["serverinfo"] = fhq.ui.loadServerInfo;
+	fhq.ui.pageHandlers["server_info"] = fhq.ui.loadServerInfo;
+	fhq.ui.pageHandlers["server_settings"] = fhq.ui.loadServerSettings;
 	fhq.ui.pageHandlers["answerlist"] = fhq.ui.loadAnswerList;
 	fhq.ui.pageHandlers["feedback"] = fhq.ui.loadFeedback;
 	fhq.ui.pageHandlers["api"] = fhq.ui.loadApiPage;
 	fhq.ui.pageHandlers["new_quest"] = fhq.ui.loadCreateQuestForm;
 	fhq.ui.pageHandlers["edit_quest"] = fhq.ui.loadEditQuestForm;
-	fhq.ui.pageHandlers["server_settings"] = fhq.ui.loadServerSettings;
 	fhq.ui.pageHandlers["chat"] = fhq.ui.loadChatPage;
 
 	function renderPage(){
@@ -894,7 +894,7 @@ fhq.ui.loadServerSettings = function(idelem) {
 	var el = $('#content_page');
 	el.html('');
 	
-	fhq.ws.serversettings().done(function(r){
+	fhq.ws.server_settings().done(function(r){
 		fhq.ui.hideLoading();
 		console.log(r);
 		for(var name in r.data){
@@ -1026,7 +1026,7 @@ fhq.ui.loadServerSettings = function(idelem) {
 				data.name = settname;
 				data.value = $('#modalSettings_newval').val();
 
-				fhq.ws.update_server_settings(data).done(function(r){
+				fhq.ws.server_settings_update(data).done(function(r){
 					if(setttype != 'password'){
 						$('#' + settid).val(data.value);
 					}
@@ -1127,10 +1127,10 @@ fhq.ui.insertNews = function(){
 };
 
 fhq.ui.loadServerInfo = function(){
-	fhq.changeLocationState({'serverinfo':''});
+	fhq.changeLocationState({'server_info':''});
 	fhq.ui.hideLoading();
 	$("#content_page").html('<div class="fhq0054"></div>');
-	fhq.ws.serverinfo().done(function(r){
+	fhq.ws.server_info().done(function(r){
 		$('.fhq0054').append('<div class="fhq0055"><h1>Request Statistics</h1></div>');
 		for(var i in r.data){
 			$('.fhq0055').append('<div class="fhq0056">' + i + ' => ' + r.data[i] + '</div>')
@@ -1195,7 +1195,7 @@ fhq.ui.loadAnswerList = function(){
 	})
 }
 
-fhq.ui.loadPageAbout = function() {
+fhq.ui.loadAboutPage = function() {
 	window.fhq.changeLocationState({'about':''});
 	fhq.ui.hideLoading();
 	var el = $('#content_page');

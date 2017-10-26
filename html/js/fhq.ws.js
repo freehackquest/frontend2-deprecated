@@ -117,16 +117,16 @@ window.fhq.ws.send = function(obj, def){
 	return d;
 }
 
-window.fhq.ws.getPublicInfo = function(){
-	return fhq.ws.send({
-		'cmd': 'getpublicinfo'
-	});
+window.fhq.ws.public_info = function(data){
+	data = data || {};
+	data.cmd = 'public_info';
+	return fhq.ws.send(data);
 }
 
-window.fhq.ws.getmap = function(params){
-	params = params || {};
-	params.cmd = 'getmap';
-	return fhq.ws.send(params);
+window.fhq.ws.getmap = function(data){
+	data = data || {};
+	data.cmd = 'getmap';
+	return fhq.ws.send(data);
 }
 
 window.fhq.ws.sendChatMessage = function(params){

@@ -1197,7 +1197,6 @@ fhq.ui.loadAnswerList = function(){
 
 fhq.ui.loadAboutPage = function() {
 	window.fhq.changeLocationState({'about':''});
-	fhq.ui.hideLoading();
 	var el = $('#content_page');
 	el.html('');
 	
@@ -1211,24 +1210,16 @@ fhq.ui.loadAboutPage = function() {
 		+ '<div class="card">'
 		+ '	<div class="card-header">' + fhq.t('Statistics') + '</div>'
 		+ '	<div class="card-body">'
-		+ '<div class="fhq0073">'
-		+ '		<div class="fhq0074">' + fhq.t('Quests') + '</div>'
-		+ '		<div class="fhq0074">' + fhq.t('All attempts') + '</div>'
-		+ '		<div class="fhq0074">' + fhq.t('Already solved') + '</div>'
-		+ '		<div class="fhq0074">' + fhq.t('Users online') + '</div>'
-		+ '</div>'
-		+ '<div class="fhq0073">'
-		+ '		<div class="fhq0074" id="statistics-count-quests">...</div>'
-		+ '		<div class="fhq0074" id="statistics-all-attempts">...</div>'
-		+ '		<div class="fhq0074" id="statistics-already-solved">...</div>'
-		+ '		<div class="fhq0074" id="statistics-users-online">...</div>'
-		+ '</div>'
+		+ '		<p>' + fhq.t('Quests') + ': <label id="statistics_count_quests">...</label></p>'
+		+ '		<p>' + fhq.t('All attempts') + ': <label id="statistics_all_attempts">...</label></p>'
+		+ '		<p>' + fhq.t('Already solved') + ': <label id="statistics_already_solved">...</label></p>'
+		+ '		<p>' + fhq.t('Users online') + ': <label id="statistics_users_online">...</label></p>'
 		+ '	</div>'
 		+ '</div><br>'
 		+ '<div class="card">'
 		+ '	<div class="card-header">' + fhq.t('Playing with us') + '</div>'
-		+ '	<div class="card-body">'
-		+ '		<div id="statistics-playing-with-us">...</div>'
+		+ '	<div class="card-body" id="statistics_playing_with_us">'
+		+ '		...'
 		+ '	</div>'
 		+ '</div><br>'
 		+ '<div class="card">'
@@ -1240,25 +1231,25 @@ fhq.ui.loadAboutPage = function() {
 		+ '<div class="card">'
 		+ '	<div class="card-header">' + fhq.t('Contacts') + '</div>'
 		+ '	<div class="card-body">'
-		+ '<br><br>'
-		+ '<a href="//plus.google.com/u/0/108776719447039644581?prsrc=3" rel="publisher" target="_top" style="text-decoration:none;">'
-		+ '<img src="//ssl.gstatic.com/images/icons/gplus-32.png" alt="Google+" style="border:0;width:32px;height:32px;"/>'
-		+ '</a>'
-		+ '<br><br>'
-		+ '<a href="https://twitter.com/freehackquest" class="twitter-follow-button" data-show-count="false">Follow @freehackquest</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?\'http\':\'https\';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+\'://platform.twitter.com/widgets.js\';fjs.parentNode.insertBefore(js,fjs);}}(document, \'script\', \'twitter-wjs\');</script>'
-		+ '<br><br>'
-		+ '<a href="https://telegram.me/freehackquest" target="_blank"><img height=30px src="https://telegram.org/img/tgme/Logo_1x.png"/></a>'
-		+ '<br><br>'
-		+ 'Email: freehackquest@gmail.com'
-		+ '<br><br>'
-		+ '<a href="https://ctftime.org/team/16804" target="_blank"><img height=30px src="https://ctftime.org/static/images/CTFTIME-flat-logo-true.png"/></a>'
-		+ '</div>'
+		+ '			<p>Google+ Community: <a href="https://plus.google.com/communities/107112500285357136727">'
+		+ '					https://plus.google.com/communities/107112500285357136727'
+		+ '				</a></p>'
+		+ '			<p>Google+ Official Account: <a href="https://plus.google.com/+freehackquestkevactf" rel="publisher" target="_top" style="text-decoration:none;">'
+		+ '					https://plus.google.com/+freehackquestkevactf'
+		+ '				</a></p>'
+		+ '			<p>Twitter: '
+		+ '				<a href="https://twitter.com/freehackquest" class="twitter-follow-button" data-show-count="false">Follow @freehackquest</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?\'http\':\'https\';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+\'://platform.twitter.com/widgets.js\';fjs.parentNode.insertBefore(js,fjs);}}(document, \'script\', \'twitter-wjs\');</script>'
+		+ '			</p>'
+		+ '			<p>Telegram chat: '
+		+ '				<a href="https://telegram.me/freehackquest" target="_blank">https://telegram.me/freehackquest</a>'
+		+ '			</p>'
+		+ '			<p>Email: <a href="mailto:freehackquest@gmail.com">freehackquest@gmail.com</a></p>'
+		+ '		</div>'
 		+ '	</div>'
 		+ '</div><br>'
 		+ '<div class="card">'
-		+ '	<div class="card-header">' + fhq.t('Distribution') + '</div>'
+		+ '	<div class="card-header">' + fhq.t('License') + '</div>'
 		+ '	<div class="card-body">'
-		+ '<h3>' + fhq.t('License') + '</h3>'
 		+ 'The MIT License (MIT)<br>'
 		+ '<br>'
 		+ 'Copyright (c) 2012-2017 sea-kg<br>'
@@ -1279,19 +1270,23 @@ fhq.ui.loadAboutPage = function() {
 		+ 'COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER<br>'
 		+ 'IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN<br>'
 		+ 'CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.<br>'
+		+ '	</div>'
+		+ '	</div>'
+		+ '</div><br>'
 		
+		+ '<div class="card">'
+		+ '	<div class="card-header">' + fhq.t('Distribution') + '</div>'
+		+ '	<div class="card-body">'
 		+ '<h3>' + fhq.t('Virtual Machine') + '</h3>'
 		+ 'You can download <a href=\"http://dist.freehackquest.com/" target="_blank">virtual machine (ova)</a> and up in local network.<br>'
 		+ '<i>' + fhq.t('If you found old version please contact me by mrseakg@gmail.com for get newest version') + '</i><br>'
+		+ '<hr>'
 		+ '<h3>' + fhq.t('Deb package') + '</h3>'
 		+ 'Please select your architecture <a href="http://dist.freehackquest.com/backend/" target="_blank">Backend</a>'
+		+ '<hr>'
 		+ '<h3>' + fhq.t('Source code') + '</h3>'
-		+ '<a href="http://github.com/freehackquest/frontend" target="_blank">http://github.com/freehackquest/frontend</a><br>'
-		+ '<i>Only FrontEnd required configure backend</i>'
-		+ '<br><br>'
-		+ '<a href="http://github.com/freehackquest/backend/" target="_blank">http://github.com/freehackquest/backend</a><br>'
-		+ '<i>Backend</i>'
-		+ '<br><br>'
+		+ '<p>FrontEnd (Required backend): <a href="http://github.com/freehackquest/frontend" target="_blank">http://github.com/freehackquest/frontend</a></p>'
+		+ '<p>Backend: <a href="http://github.com/freehackquest/backend/" target="_blank">http://github.com/freehackquest/backend</a></p>'
 		+ '</div>'
 		+ '	</div>'
 		+ '</div><br>'
@@ -1329,8 +1324,8 @@ fhq.ui.loadAboutPage = function() {
 		+ '	</div>'
 		+ '</div><br>'
 	);
-
-	fhq.ui.loadCities();
+	fhq.ui.hideLoading();
+	fhq.ui.loadPublicInfo();
 	
 	$.get('donate.html', function(result){
 		$('#donate-form').html(result);
@@ -1338,49 +1333,37 @@ fhq.ui.loadAboutPage = function() {
 }
 
 
-fhq.ui.loadCities = function() {
-		fhq.ws.getPublicInfo().done(function(response){
-			$('#statistics-users-online').text(response.connectedusers);
-		});
-		// TODO redesign to ws
-		fhq.publicInfo(function(response){
-			if (response.result == "fail") {
-				$('#cities').html('Fail');
-			} else {
-				$('#statistics-count-quests').text(response.data.quests.count);
-				$('#statistics-all-attempts').text(response.data.quests.attempts);
-				$('#statistics-already-solved').text(response.data.quests.solved);
+fhq.ui.loadPublicInfo = function() {
+	fhq.ui.showLoading();
+	fhq.ws.public_info().done(function(r){
+		fhq.ui.hideLoading();
+		console.log(r);
+		$('#statistics_users_online').text(r.connectedusers);
+		$('#statistics_count_quests').text(r.quests.count);
+		$('#statistics_all_attempts').text(r.quests.attempts);
+		$('#statistics_already_solved').text(r.quests.solved);
 
-				var cities = [];
-				for (var k in response.data.cities){
-					cities.push(response.data.cities[k].city + ' (' + response.data.cities[k].cnt + ')');
-				}
+		$('#winners').html('');
+		for (var k in r.winners) {
+			var winner = r.winners[k];
+			$('#winners').append('<p><strong>' + winner.place + '</strong>'
+				+ ' [' + winner.rating + ' Points]'
+				+ '  - <strong>' + (winner.university != '' ? '[' + winner.university + '] ' : '') + winner.nick + '</strong>'
+				+ '</p>');
+		}
 
-				$('#statistics-playing-with-us').removeClass('preloading');
-				$('#statistics-playing-with-us').text(cities.join(", "));
-				// TODO integrate frame in page
-				$('#statistics-playing-with-us').append('<br><br><a href="map.php" target="_blank">On Map</a>');
+		var cities = [];
+		for (var k in r.cities){
+			cities.push(r.cities[k].city + ' (' + r.cities[k].cnt + ')');
+		}
 
-				var content = '<div class="fhq0072">'
-				+ '<div class="fhq0073">'
-				+ '	<div class="fhq0074">Place</div> '
-				+ '	<div class="fhq0074">Rating</div> '
-				+ '	<div class="fhq0074">User</div>'
-				+ '</div>';
-				for (var k in response.data.winners) {
-					var winner = response.data.winners[k];
-					content += ''
-					+ '<div class="fhq0073">'
-					+ '	<div class="fhq0074">' + winner.place + '</div> '
-					+ '	<div class="fhq0074">(+' + winner.rating + '):</div> '
-					+ '	<div class="fhq0074">' + winner.user + '</div>'
-					+ '</div>';
-				}
-				content += '</div>';
-				$('#winners').html(content);
-			}
-		});
-	};
+		$('#statistics_playing_with_us').text(cities.join(", "));
+		$('#statistics_playing_with_us').append('<br><br><button class="btn btn-info" onclick="fhq.ui.loadMapPage();">' + fhq.t('On Map') + '</button>');
+	}).fail(function(err){
+		console.error(err);
+		fhq.ui.hideLoading();
+	});
+};
 	
 
 fhq.ui.loadPageNews = function(){
@@ -1399,7 +1382,6 @@ fhq.ui.loadPageNews = function(){
 	el.html('Loading...')
 	
 	window.fhq.changeLocationState({'news': '', 'onpage': onpage, 'page': page});
-	
 
 	fhq.ws.publiceventslist({'onpage': onpage, 'page': page}).done(function(r){
 		el.html('');
@@ -3517,7 +3499,7 @@ window.fhq.ui.createCopyright = function() {
 		+ '<div id="copyright">'
 		+ '	<center>'
 		+ '		<font face="Arial" size=2>Copyright © 2011-2017 sea-kg. | '
-		+ '		<a href="http://freehackquest.com/">About</a> | '
+		+ '		<a href="https://freehackquest.com/?about">About</a> | '
 		+ '		WS State: <font id="websocket_state">?</font>'
 		+ '	</center>'
 		+ '</div>'

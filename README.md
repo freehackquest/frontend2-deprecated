@@ -31,29 +31,34 @@ Copy folder `html` to your web-server
 
 Brief history and biography platform.
 
-Будучи студентом в 2010-2011 году я был в составе команды keva.
+As a student in 2010-2011, I was part of the keva team.
 
-После нескольких игр я имел представление о том что такое игры ctf.
+After a few games, I had an idea of what a ctf game is.
 
-Начинал с ресурса http://hax.tor.hu/ ресурс мне понравился.
+Started with the resource http://hax.tor.hu/. I liked the resource.
 
-В итоге я начал думать над идеей создать платформу для игр но такую что бы можно было
-ее использовать как архив заданий для тренировки новичков да и так что бы можно было выбирать задания по силам.
+As a result, I began to think about the idea of creating a platform for games but such that it could be used as an archive of tasks for training beginners and so that it would be possible to select tasks by force.
 
-Также я обсуждал это идею с командой. Прошло время, после учебы решил продолжать заниматься ctf но уже в организации и подготовки команды к играм.
+I also discussed this idea with the team. After a while, after studying decided to continue to engage in ctf but already in the organization and preparation of the team for the games.
 
-И все таки вернулся к своей идеи (FreeHackQuest) и написал первую версию (2012), что бы провести в университете игру.
+In 2012 he wrote the first version of FreeHackQuest (the name was coined with Alexei Gulyaev) that would hold a game at the university.
 
-При поддержке Алексея Гуляева (Второго) и Витали Шишкина а также Константина Крючкова, Никиты Чижова и других членов команды мы развесили объявления и набрали новичков.
+With the support of Alexei Gulyaev (Second) and Vitali Shishkin as well as Konstantin Kryuchkov, Nikita Chizhov and other members of the team, we hung up ads and recruited newcomers.
 
-В следующем году (2013) платформа была полностью переписана и проведен FHQ 2013 опять же для рекрутинга, но в этот раз играли не только с нашего университета но и с других городов.
+Next year (2013) the platform was completely rewritten and held by FHQ 2013 again for recruiting, but this time it was played not only from our university but also from other cities.
 
-После этого мы оставли висеть платформу в режими онлайн http://fhq.keva.su (идея была Алексея Гуляева), что позволило обратить внимание на keva.
+After that we left to hang the platform in the online modes http://fhq.keva.su (the idea was Alexey Gulyaev), which allowed paying attention to keva.
 
-Эта же платформа (с рядом доработок) была использована при проведении SibirCTF 2014. Там были написаны модули для проведения attack-defence игр, но в последней версии были удалены из за сложности конфигруирования и начличия дополнительного демона.
+The same platform (with a number of improvements) was used in the conduct of SibirCTF 2014. There were written modules for attack-defense games, but in the latest version were removed due to the complexity of the configuration and the start of the additional daemon.
 
-В 2014 год дизайн был полностью сменен в очередной раз, доработки и прочее. Проведен в последний раз FHQ 2014.
+In 2014 the design was completely changed once again, finalization and so on. The last time was FHQ 2014.
 
-В 2015 решил закончить и заморозить разработку как платформы архива игр и проведения локальных небольших ctf в виде jeopady.
+In 2015 I decided to finish and freeze the development as a platform for archive games and to run local small ctfs in the form of jeopady.
 
-В конце 2016 начал переписывать серверную часть на Qt (WebSockets)
+At the end of 2016, I began to rewrite the server part on Qt (WebSockets)
+
+In October 2017, FHQ 2017 was played on the split backend / frontend platform. Where the backend worked completely on Qt.
+
+Development continues...
+
+

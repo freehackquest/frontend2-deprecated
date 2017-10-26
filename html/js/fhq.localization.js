@@ -709,6 +709,10 @@ window.fhq.localization = {
 	'Update Logo':{
 		'en': 'Update Logo',
 		'ru': 'Обновить логотип',
+	},
+	'On Map':{
+		'en': 'On Map',
+		'ru': 'На карте',
 	}
 	
 };

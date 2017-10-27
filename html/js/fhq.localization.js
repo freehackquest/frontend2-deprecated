@@ -713,6 +713,45 @@ window.fhq.localization = {
 	'On Map':{
 		'en': 'On Map',
 		'ru': 'На карте',
+	},
+	'Content':{
+		'en': 'Content',
+		'ru': 'Содержание',
+	},
+	'Save':{
+		'en': 'Save',
+		'ru': 'Сохранить',
+	},
+	'Admin area':{
+		'en': 'Admin area',
+		'ru': 'Область администратора'
+	},
+	'Add record':{
+		'en': 'Add record',
+		'ru': 'Добавить запись',
+	},
+	'Classbook Add Record': {
+		'en': 'Add record',
+		'ru': 'Добавить запись',
+	},
+	'Classbook Localization Add Record': {
+		'en': 'Classbook Localization Add Record',
+		'ru': 'Добавить перевод статьи',
+	},
+	'Language': {
+		'en': 'Language',
+		'ru': 'Язык',
+	},
+	'Add localization':{
+		'en': 'Add localization',
+		'ru': 'Добавить перевод'
+	},
+	'Delete localization':{
+		'en': 'Delete localization',
+		'ru': 'Удалить перевод'
+	},
+	'Edit localization':{
+		'en': 'Edit localization',
+		'ru': 'Изменить перевод'
 	}
-	
 };

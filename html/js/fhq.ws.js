@@ -255,6 +255,12 @@ fhq.ws.classbook_update_record = function(params){
 	return fhq.ws.send(params);
 }
 
+fhq.ws.classbook_localization_info = function(data){
+	data = data || {};
+	data.cmd = 'classbook_localization_info';
+	return fhq.ws.send(data);
+}
+
 fhq.ws.classbook_localization_add_record = function(params){
 	params = params || {};
 	params.cmd = 'classbook_localization_add_record';

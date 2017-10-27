@@ -553,7 +553,7 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["classbook_add_record"] = fhq.ui.loadClassbookAddRecord;
 	fhq.ui.pageHandlers["classbook_update_record"] = fhq.ui.loadClassbookUpdateRecord;
 	fhq.ui.pageHandlers["classbook_localization_add_record"] = fhq.ui.loadClassbookLocalizationAddRecord;
-	fhq.ui.pageHandlers["classbook_localization_update_record"] = fhq.ui.loadClassbookLocalizationAddRecord;
+	fhq.ui.pageHandlers["classbook_localization_update_record"] = fhq.ui.loadClassbookLocalizationUpdateRecord;
 	fhq.ui.pageHandlers["about"] = fhq.ui.loadAboutPage;
 	fhq.ui.pageHandlers["registration"] = fhq.ui.loadRegistrationPage;
 	fhq.ui.pageHandlers["user_reset_password"] = fhq.ui.loadResetPasswordPage;
@@ -3321,7 +3321,6 @@ fhq.ui.loadClassbookUpdateRecord = function(classbookid){
 	});
 }
 
-
 fhq.ui.deleteClassbookRecord = function(classbookid){
 	$('#modalInfoTitle').html('Delete Classbook item #' + classbookid);
 	$('#modalInfo').modal('show');
@@ -3353,7 +3352,15 @@ fhq.ui.loadClassbook = function(classbookid){
 	}
 	classbookid = parseInt(classbookid, 10);
 	
-	fhq.changeLocationState({'classbook':classbookid});
+	var lang = fhq.lang();
+	if(fhq.containsPageParam("lang")){
+		var lang_ = fhq.pageParams['lang'];
+		if(fhq.mainLangs[lang_]){
+			lang = lang_;
+		}
+	}
+	
+	fhq.changeLocationState({'classbook':classbookid, 'lang': lang});
 	
 	var el = $('#content_page');
 	el.html('');
@@ -3385,7 +3392,7 @@ fhq.ui.loadClassbook = function(classbookid){
 			$('#classbook_items').append('<li class="list-group-item classbook-item" onclick="fhq.ui.loadClassbook(' + item.classbookid + ')">' + item.name + '</li>');
 		}
 		if(fhq.isAdmin()){
-			$('#classbook_items').append('<button class="btn btn-danger" onclick="fhq.ui.loadClassbookAddRecord(' + classbookid + ')"> + Add record</button>');
+			$('#classbook_items').append('<button class="btn btn-danger" onclick="fhq.ui.loadClassbookAddRecord(' + classbookid + ')"> + ' + fhq.t('Add record') + '</button>');
 		}
 		
 	}).fail(function(err){
@@ -3396,7 +3403,8 @@ fhq.ui.loadClassbook = function(classbookid){
 	
 	var data2 = {};
 	data2.classbookid = classbookid;
-	
+	data2.lang = lang;
+
 	if(classbookid != 0){
 		fhq.ws.classbook_get_info(data2).done(function(r){
 			fhq.ui.hideLoading();
@@ -3404,24 +3412,54 @@ fhq.ui.loadClassbook = function(classbookid){
 			$('#classbook_path').html('');
 			$('#classbook_path').append('<div class="btn btn-default" onclick="fhq.ui.loadClassbook(0)">Root</div>');
 			$('#classbook_path').append(' / <div class="btn btn-default" onclick="fhq.ui.loadClassbook(' + r.data.classbookid + ')">' + r.data.name + '</div>');
-			
-			
+
 			$('#classbook_content').html('');
+			
+			var tab_langs = '<ul class="nav nav-tabs">';
+			for(var i in fhq.mainLangs){
+				if(i == lang){
+					tab_langs += ' <li class="nav-item"> <div class="nav-link active">' + fhq.mainLangs[i] + '</div></li>'
+				}else{
+					tab_langs += ' <li class="nav-item"> <a class="nav-link" href="?classbook=' + classbookid + '&lang=' + i + '">' + fhq.mainLangs[i] + '</a></li>'
+				}
+			}
+			tab_langs += '</ul><br>';
+			
+			$('#classbook_content').append(tab_langs);
+			
 			$('#classbook_content').append('<h1>' + r.data.name + '</h1>');
 			$('#classbook_content').append(r.data.content);
-
+			
 			if(fhq.isAdmin()){
+				var btns = '';
+				if(lang != 'en'){
+					if(r.data.langs){
+						if(r.data.langs[lang]){
+							var classbook_localizationid = r.data.langs[lang];
+							btns += ' <div class="btn btn-danger" onclick="fhq.ui.loadClassbookLocalizationUpdateRecord(' + classbook_localizationid + ')">' + fhq.t('Edit localization') + '</div>'
+							btns += ' <div class="btn btn-danger" onclick="fhq.ui.deleteClassbookLocalizationRecord(' + r.data.classbookid + ', ' + classbook_localizationid + ')">' + fhq.t('Delete localization') + '</div>'
+						}else{
+							btns = ' <div class="btn btn-danger" onclick="fhq.ui.loadClassbookLocalizationAddRecord(' + r.data.classbookid + ')">' + fhq.t('Add localization') + '</div>'
+						}
+					}else{
+						// TODO remove when will be langs in answer
+						console.error("Not found langs");
+						btns = ' <div class="btn btn-danger" onclick="fhq.ui.loadClassbookLocalizationAddRecord(' + r.data.classbookid + ')">' + fhq.t('Add localization') + '</div>'
+					}	
+				}else{
+					btns += ' <div class="btn btn-danger" onclick="fhq.ui.loadClassbookUpdateRecord(' + r.data.classbookid + ')">' + fhq.t('Edit') + '</div>';
+					btns += ' <div class="btn btn-danger" onclick="fhq.ui.deleteClassbookRecord(' + r.data.classbookid + ')">' + fhq.t('Delete') + '</div>'
+				}
+
 				$('#classbook_content').append(''
 					+ '<div class="card" id="feedback-form">'
 					+ '		<div class="card-header">' + fhq.t("Admin area") + '</div>'
 					+ '		<div class="card-body">'
-					+ '			<div class="btn btn-danger" onclick="fhq.ui.loadClassbookUpdateRecord(' + r.data.classbookid + ')">' + fhq.t('Edit') + '</div>'
-					+ '			<div class="btn btn-danger" onclick="fhq.ui.deleteClassbookRecord(' + r.data.classbookid + ')">' + fhq.t('Delete') + '</div>'
+					+ btns
 					+ '		</div>'
 					+ '</div>'
 				);
 			}
-			
 			
 		}).fail(function(err){
 			fhq.ui.hideLoading();
@@ -3433,6 +3471,176 @@ fhq.ui.loadClassbook = function(classbookid){
 		$('#classbook_path').html('');
 	}
 }
+
+fhq.ui.loadClassbookLocalizationAddRecord = function(classbookid){
+	fhq.ui.hideLoading();
+	var el = $('#content_page');
+	el.html('');
+	classbookid = parseInt(classbookid, 10);
+	
+	var lang = fhq.lang();
+	if(fhq.containsPageParam("lang")){
+		var lang_ = fhq.pageParams['lang'];
+		if(fhq.mainLangs[lang_]){
+			lang = lang_;
+		}
+	}
+
+	fhq.changeLocationState({'classbook_localization_add_record':classbookid, 'lang': lang});
+
+	el.html('<h1>' + fhq.t('Classbook Localization Add Record') + '</h1><br>'
+		+ '		<div class="form-group row">'
+		+ '			<label for="cbl_add_lang" class="col-sm-2 col-form-label">' + fhq.t('Language') + '</label>'
+		+ '			<div class="col-sm-10">'
+		+ '				<input type="text" readonly class="form-control" value="' + lang + '" id="cbl_add_lang">'
+		+ '			</div>'
+		+ '		</div>'
+		+ '		<div class="form-group row">'
+		+ '			<label for="cbl_add_classbookid" class="col-sm-2 col-form-label">' + fhq.t('Classbook ID') + '</label>'
+		+ '			<div class="col-sm-10">'
+		+ '				<input type="text" readonly class="form-control" value="' + classbookid + '" id="cbl_add_classbookid">'
+		+ '			</div>'
+		+ '		</div>'
+		+ '		<div class="form-group row">'
+		+ '			<label for="cbl_add_name" class="col-sm-2 col-form-label">' + fhq.t('Name') + '</label>'
+		+ '			<div class="col-sm-10">'
+		+ '				<input type="text" class="form-control" value="" placeholder="Name" id="cbl_add_name">'
+		+ '			</div>'
+		+ '		</div>'
+		+ '		<div class="form-group row">'
+		+ '			<label for="cbl_add_content" class="col-sm-2 col-form-label">' + fhq.t('Content') + '</label>'
+		+ '			<div class="col-sm-10">'
+		+ '				<textarea type="text" class="form-control" id="cbl_add_content" style="height: 300px"></textarea>'
+		+ '			</div>'
+		+ '		</div>'
+		+ '		<div class="row">'
+		+ '			<div class="col-2"></div>'
+		+ '			<div class="col-10">'
+		+ '				<button class="btn btn-danger" id="add_record">' + fhq.t('Add') + '</button>'
+		+ '				<button class="btn btn-danger" id="cancel_record">' + fhq.t('Cancel') + '</button><br><br>'
+		+ '				<div class="alert alert-danger" id="cbl_add_error" style="display: none"></div>'
+		+ '			</div>'
+		+ '		</div>'
+		+ '</div>'
+	);
+
+	$('#cancel_record').unbind().bind('click', function(){
+		fhq.ui.loadClassbook(classbookid);
+	})
+	
+	$('#add_record').unbind().bind('click', function(){
+		var data = {};
+		data.classbookid = classbookid;
+		data.lang = $('#cbl_add_lang').val();
+		data.name = $('#cbl_add_name').val();
+		data.content = $('#cbl_add_content').val();
+		$('#cbl_add_error').hide();
+		fhq.ui.showLoading();
+		fhq.ws.classbook_localization_add_record(data).done(function(r){
+			fhq.ui.hideLoading();
+			fhq.ui.loadClassbook(r.data.classbookid);
+		}).fail(function(err){
+			fhq.ui.hideLoading();
+			console.error(err);
+			$('#cbl_add_error').show();
+			$('#cbl_add_error').html(err.error);
+		});
+	});
+}
+
+fhq.ui.deleteClassbookLocalizationRecord = function(classbookid, classbook_localizationid){
+	$('#modalInfoTitle').html('Delete Classbook Localization item #' + classbook_localizationid);
+	$('#modalInfo').modal('show');
+	$('#modalInfoBody').html('Are you sure that want delete?');
+	$('#modalInfoButtons').html(''
+		+ '<button type="button" class="btn btn-danger" id="yes_delete_record">' + fhq.t('Yes, delete!') + '</button>'
+		+ '<button type="button" class="btn btn-secondary" data-dismiss="modal">' + fhq.t('Close') + '</button>'
+	);
+
+	$('#yes_delete_record').unbind().bind('click', function(){
+		fhq.ws.classbook_localization_delete_record({classbook_localizationid: classbook_localizationid}).done(function (r) {
+			$('#modalInfo').modal('hide');
+			fhq.ui.loadClassbook(classbookid);
+
+		}).fail(function(err){
+			$('#modalInfoBody').html("[Error] " + err.error);
+		});
+	});
+}
+
+fhq.ui.loadClassbookLocalizationUpdateRecord = function(classbook_localizationid){
+	fhq.ui.showLoading();
+	var el = $('#content_page');
+	el.html('');
+	classbook_localizationid = parseInt(classbook_localizationid, 10);
+	
+	var lang = fhq.lang();
+	if(fhq.containsPageParam("lang")){
+		var lang_ = fhq.pageParams['lang'];
+		if(fhq.mainLangs[lang_]){
+			lang = lang_;
+		}
+	}
+	
+	fhq.changeLocationState({'classbook_localization_update_record':classbook_localizationid, 'lang': lang});
+	el.html('<h1>' + fhq.t('Classbook Localization Update Record') + '</h1><br>'
+		+ '		<div class="form-group row">'
+		+ '			<label for="cbl_edit_name" class="col-sm-2 col-form-label">' + fhq.t('Name') + '</label>'
+		+ '			<div class="col-sm-10">'
+		+ '				<input type="text" class="form-control" value="" placeholder="Name" id="cbl_edit_name">'
+		+ '			</div>'
+		+ '		</div>'
+		+ '		<div class="form-group row">'
+		+ '			<label for="cbl_edit_content" class="col-sm-2 col-form-label">' + fhq.t('Content') + '</label>'
+		+ '			<div class="col-sm-10">'
+		+ '				<textarea type="text" class="form-control" id="cb_edit_content" style="height: 300px"></textarea>'
+		+ '			</div>'
+		+ '		</div>'
+		+ '		<div class="row">'
+		+ '			<div class="col-2"></div>'
+		+ '			<div class="col-10">'
+		+ '				<button class="btn btn-danger" id="update_record">' + fhq.t('Save') + '</button>'
+		+ '				<button class="btn btn-danger" id="cancel_record">' + fhq.t('Cancel') + '</button><br><br>'
+		+ '				<div class="alert alert-danger" id="cbl_edit_error" style="display: none"></div>'
+		+ '			</div>'
+		+ '		</div>'
+		+ '</div>'
+	);
+
+	fhq.ws.classbook_localization_info({classbook_localizationid: classbook_localizationid}).done(function(r){
+		fhq.ui.hideLoading();
+		$('#cbl_edit_name').val(r.data.name);
+		$('#cbl_edit_content').val(r.data.content);
+	}).fail(function(err){
+		fhq.ui.hideLoading();
+		console.error(err);
+		$('#cbl_edit_error').show();
+		$('#cbl_edit_error').html(err.error);
+	})
+	
+	$('#cancel_record').unbind().bind('click', function(){
+		fhq.ui.loadClassbook(classbookid);
+	})
+	
+	$('#update_record').unbind().bind('click', function(){
+		var data = {};
+		data.classbookid = classbookid;
+		data.name = $('#cb_edit_name').val();
+		data.content = $('#cb_edit_content').val();
+		$('#cb_edit_error').hide();
+		fhq.ui.showLoading();
+		fhq.ws.classbook_localization_update_record(data).done(function(r){
+			fhq.ui.hideLoading();
+			fhq.ui.loadClassbook(classbookid);
+		}).fail(function(err){
+			fhq.ui.hideLoading();
+			console.error(err);
+			$('#cbl_edit_error').show();
+			$('#cbl_edit_error').html(err.error);
+		})
+	});
+}
+
 
 window.fhq.ui.templates = window.fhq.ui.templates || {};
 

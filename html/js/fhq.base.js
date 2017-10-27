@@ -1,6 +1,6 @@
 if(!window.fhq) window.fhq = {};
 
-window.fhq.parsePageParams = function() {
+fhq.parsePageParams = function() {
 	var loc = location.search.slice(1);
 	var arr = loc.split("&");
 	var result = {};
@@ -19,18 +19,18 @@ window.fhq.parsePageParams = function() {
 	return result;
 }
 
-window.fhq.pageParams = fhq.parsePageParams();
+fhq.pageParams = fhq.parsePageParams();
 
 
-window.fhq.containsPageParam = function(name){
+fhq.containsPageParam = function(name){
 	return (typeof fhq.pageParams[name] !== "undefined");
 }
 
-window.fhq.lang = function(){
+fhq.lang = function(){
 	return window.fhq.sLang || window.fhq.locale();
 }
 
-window.fhq.locale = function(){
+fhq.locale = function(){
 	var langs = ['en', 'ru']
 	self.sLang = 'en';
 	if(fhq.containsPageParam('lang') && langs.indexOf(this.pageParams['lang']) >= -1){
@@ -48,10 +48,22 @@ window.fhq.locale = function(){
 	return self.sLang;
 }
 
-window.fhq.t = function(message){
+fhq.mainLangs = {
+	'en': 'English',
+	'ru': 'Русский',
+	'de': 'Deutche',
+}
+
+fhq.t = function(message){
 	if(fhq.localization){
-		if(fhq.localization[message]){
-			return fhq.localization[message][fhq.lang()];
+		var tr = fhq.localization[message];
+		if(tr){
+			if(tr[fhq.lang()]){
+				return fhq.localization[message][fhq.lang()];
+			}else{
+				console.warn("Not found localization for language " + fhq.lang() + " '" + message + "'");
+				return fhq.localization[message]['en'];
+			}
 		}else{
 			console.warn("Not found localization '" + message + "'");
 		}

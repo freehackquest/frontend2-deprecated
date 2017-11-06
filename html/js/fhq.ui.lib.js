@@ -243,20 +243,6 @@ function FHQGuiLib(api) {
 		document.getElementById('modal_dialog_content').innerHTML = "";
 	}
 
-	this.changeLocationState = function(newPageParams){
-		var url = '';
-		var params = [];
-		console.log("changeLocationState");
-		console.log("changeLocationState", newPageParams);
-		for(var p in newPageParams){
-			params.push(encodeURIComponent(p) + "=" + encodeURIComponent(newPageParams[p]));
-		}
-		console.log("changeLocationState", params);
-		console.log("changeLocationState", window.location.pathname + '?' + params.join("&"));
-		window.history.pushState(newPageParams, document.title, window.location.pathname + '?' + params.join("&"));
-		this.pageParams = this.parsePageParams();
-	}
-
 	this.getUrlParameterByName = function(name) {
 		name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -303,206 +289,7 @@ function FHQGuiLib(api) {
 			document.getElementById('income_msg_sound').play();
 		}
 	}
-
-	this.openQuestInNewTab = function(questid) {
-		var win = window.open('?questid=' + questid, '_blank');
-		win.focus();
-	}
-
-	this.loadRules = function(gameid) {
-		var el = document.getElementById("content_page");
-		el.innerHTML = 'Loading...';
-		var params = {};
-		params.gameid = gameid;
-		send_request_post(
-			'api/games/get.php',
-			createUrlFromObj(params),
-			function (obj) {
-				if (obj.result == "fail") {
-					el.innerHTML = obj.error.message;
-				} else {
-					el.innerHTML = '<h1>Rules</h1><h2>' + obj.data.title + '</h2>';
-					if (obj.access.edit == true) {
-						el.innerHTML += '<div class="fhqbtn" onclick="fhqgui.formEditRule(' + obj.data.id + ');">Edit</div>';
-					}
-					el.innerHTML += '<br><div id="game_rules" class="fhqrules"></div>';
-					var rules = document.getElementById("game_rules");
-					rules.innerHTML = obj.data.rules;
-				}
-			}
-		);
-	}
-	
-	this.formEditRule = function(gameid) {
-		var params = {};
-		params.gameid = gameid;
-		send_request_post(
-			'api/games/get.php',
-			createUrlFromObj(params),
-			function (obj) {
-				if (obj.result == "fail") {
-					el.innerHTML = obj.error.message;
-				} else {
-					var content = '<textarea id="edit_game_rules"></textarea><br>';
-					content += '<div class="fhqbtn" onclick="fhqgui.saveGameRule(' + gameid + ');">Save</div>';
-					
-					this.showModalDialog(content);
-					document.getElementById('edit_game_rules').innerHTML = obj.data.rules;
-				}
-			}
-		);
-	}
-	
-	this.saveGameRule = function(gameid) {
-		var params = {};
-		params.id = gameid;
-		params.rules = document.getElementById('edit_game_rules').value;
-		send_request_post(
-			'api/games/update_rules.php',
-			createUrlFromObj(params),
-			function (obj) {
-				if (obj.result == "fail") {
-					alert(obj.error.message);
-				} else {
-					fhqgui.closeModalDialog();
-					fhqgui.loadRules(gameid);
-				}
-			}
-		);
-	}
-	
-	this.exportGame = function(gameid) {
-		fhq.games.export(gameid);
-	}
-
-	this.formImportGame = function() {
-		var content = "todo import Game";
-		var pt = new FHQParamTable();
-		pt.row('', 'ZIP: <input id="importgame_zip" type="file" required/>');
-		pt.row('', '<div class="fhqbtn" onclick="fhqgui.importGame();">Import</div>');
-		pt.skip();
-		this.showModalDialog(pt.render());
-	}
-	
-	this.importGame = function() {
-		var files = document.getElementById('importgame_zip').files;
-		if (files.length == 0) {
-			alert("Please select file");
-			return;
-		}
-		/*for(i = 0; i < files.length; i++)
-			alert(files[i].name);*/
-		
-		send_request_post_files(
-			files,
-			'api/games/import.php',
-			createUrlFromObj({}),
-			function (obj) {
-				if (obj.result == "fail") {
-					alert(obj.error.message);
-					return;
-				}
-				// document.getElementById('editgame_logo').src = obj.data.logo + '?' + new Date().getTime();
-				fhqgui.closeModalDialog();
-				fhq.ui.loadGames();
-			}
-		);
-	}
-		
-	this.exportQuest = function(questid) {
-		fhq.quests.export(questid);
-	}
-	
-	this.handleFail = function(response){
-		if(response.result=='fail'){
-			if(response.error.code == 1224){
-				fhq.ui.showModalDialog({
-					'header' : '',
-					'content' : 'Please Sing In or Sing Up',
-					'buttons' : ''
-				});
-			}
-			return true;
-		}
-		return false;
-	}
-
-	this.resetEventsPage = function() {
-		this.filter.events.page = 0;
-	}
-
-	this.setEventsPage = function(val) {
-		this.filter.events.page = val;
-	}
-
 };
-
-function FHQParamTable() {
-	this.paramtable = [];
-	this.row = function(name,param) {
-		this.paramtable.push( '\n'
-			+ '\t<div class="fhqparamtbl_row">\n'
-			+ '\t\t<div class="fhqparamtbl_param">' + name + '</div>\n'
-			+ '\t\t<div class="fhqparamtbl_value">' + param + '</div>\n'
-			+ '\t</div>\n'
-		);
-	};
-	this.rowid = function(id,name,param) {
-		this.paramtable.push( '\n'
-			+ '\t<div id="' + id + '" class="fhqparamtbl_row">\n'
-			+ '\t\t<div class="fhqparamtbl_param">' + name + '</div>\n'
-			+ '\t\t<div class="fhqparamtbl_value">' + param + '</div>\n'
-			+ '\t</div>\n'
-		);
-	};
-	this.right = function(param) {
-		this.paramtable.push( '\n'
-			+ '\t<div class="fhqparamtbl_row">\n'
-			+ '\t\t<div class="fhqparamtbl_param"></div>\n'
-			+ '\t\t<div class="fhqparamtbl_value">' + param + '</div>\n'
-			+ '\t</div>\n'
-		);
-	};
-	this.left = function(name) {
-		this.paramtable.push( '\n'
-			+ '\t<div class="fhqparamtbl_row">\n'
-			+ '\t\t<div class="fhqparamtbl_param">' + name + '</div>\n'
-			+ '\t\t<div class="fhqparamtbl_value"></div>\n'
-			+ '\t</div>\n'
-		);
-	};
-
-	this.skip = function() {
-		this.paramtable.push(
-			'<div class="fhqparamtbl_rowskip"></div>'
-		);
-	};
-	this.render = function() {
-		var result = '\n';
-		result += '<div class="fhqinfo">\n';
-		result += '<div class="fhqparamtbl">\n';
-		result += this.paramtable.join('\n');
-		result += '</div>\n';
-		result += '</div>\n';
-		return result;
-	};
-}
-
-// work with content page
-function FHQContentPage() {
-	this.cp = document.getElementById('content_page');
-	if (this.cp)
-		this.cp.innerHTML = 'Loading...';
-	else
-		throw 'Not found content_page';
-
-	this.append = function(str) {
-		this.cp.innerHTML += str;
-	};
-	this.clear = function() {
-		this.cp.innerHTML = '';
-	};
-}
 
 fhq.ui.showUserInfo = function(userid) {
 	$('#modalInfoTitle').html('User #' + userid);
@@ -557,8 +344,9 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["about"] = fhq.ui.loadAboutPage;
 	fhq.ui.pageHandlers["registration"] = fhq.ui.loadRegistrationPage;
 	fhq.ui.pageHandlers["user_reset_password"] = fhq.ui.loadResetPasswordPage;
-	fhq.ui.pageHandlers["games"] = fhq.ui.loadGames;
+	fhq.ui.pageHandlers["games"] = fhq.ui.loadPageGames;
 	fhq.ui.pageHandlers["game_create"] = fhq.ui.loadFormCreateGame;
+	fhq.ui.pageHandlers["game_edit"] = fhq.ui.loadPageEditGame;
 	fhq.ui.pageHandlers["scoreboard"] = fhq.ui.loadScoreboard;
 	fhq.ui.pageHandlers["map"] = fhq.ui.loadMapPage;
 	fhq.ui.pageHandlers["news"] = fhq.ui.loadPageNews;
@@ -608,156 +396,6 @@ window.onpopstate = function(){
 	window.fhq.pageParams = fhq.parsePageParams();
 	fhq.ui.processParams();
 }
-
-fhq.ui.createGame = function()  {
-	fhq.ui.showLoading();
-
-	var data = {};
-	data["uuid"] = $("#newgame_uuid").val();
-	data["logo"] = $("#newgame_logo").val();
-	data["name"] = $("#newgame_name").val();
-	data["state"] = $("#newgame_state").val();
-	data["form"] = $("#newgame_form").val();
-	data["type"] = $("#newgame_type").val();
-	data["date_start"] = $("#newgame_date_start").val();
-	data["date_stop"] = $("#newgame_date_stop").val();
-	data["date_restart"] = $("#newgame_date_restart").val();
-	data["description"] = $("#newgame_description").val();
-	data["organizators"] = $("#newgame_organizators").val();
-
-	fhq.ws.game_create(data).done(function(r){
-		fhq.ui.hideLoading();
-		fhq.ui.loadGames();
-	}).fail(function(err){
-		fhq.ui.hideLoading();
-		console.error(err);
-	})
-		
-	/*send_request_post(
-		'api/games/insert.php',
-		createUrlFromObj(params),
-		function (obj) {
-			if (obj.result == "ok") {
-				closeModalDialog();
-				fhqgui.loadGames();
-			} else {
-				alert(obj.error.message);
-			}
-		}
-	);*/
-};
-
-fhq.ui.loadFormCreateGame = function() {
-	fhq.changeLocationState({'game_create':''});
-	var el = $('#content_page');
-	el.html('');
-	fhq.ui.hideLoading();
-	
-	el.html(''
-		+ '<div class="card">'
-		+ '		<div class="card-header">New Game</div>'
-		+ '		<div class="card-body">'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newgame_uuid" class="col-sm-2 col-form-label">UUID</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" value="' + guid() + '" id="newgame_uuid">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newgame_logo" class="col-sm-2 col-form-label">Logo</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" value="" id="newgame_logo">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newgame_name" class="col-sm-2 col-form-label">Name</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" value="" id="newgame_name">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newgame_state" class="col-sm-2 col-form-label">State</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<select class="form-control" value="" id="newgame_state">'
-		+ '						<option value="original">Original</option>'
-		+ '						<option value="copy">Copy</option>'
-		+ '						<option value="unlicensed-copy">Unlicensed Copy</option>'
-		+ '					</select>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newgame_form" class="col-sm-2 col-form-label">Form</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<select class="form-control" value="" id="newgame_form">'
-		+ '						<option value="online">Online</option>'
-		+ '						<option value="offline">Offline</option>'
-		+ '					</select>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newgame_type" class="col-sm-2 col-form-label">Type</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<select class="form-control" value="" id="newgame_type">'
-		+ '						<option value="jeopardy">Jeopardy</option>'
-		+ '					</select>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newgame_date_start" class="col-sm-2 col-form-label">Date Start</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" id="newgame_date_start" value="0000-00-00 00:00:00">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newgame_date_stop" class="col-sm-2 col-form-label">Date Stop</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" id="newgame_date_stop" value="0000-00-00 00:00:00">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newgame_date_restart" class="col-sm-2 col-form-label">Date Restart</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" id="newgame_date_restart" value="0000-00-00 00:00:00">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newgame_description" class="col-sm-2 col-form-label">Description</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<textarea type="text" class="form-control" style="height: 150px" value="" id="newgame_description"></textarea>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newgame_organizators" class="col-sm-2 col-form-label">Organizators</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" value="" id="newgame_organizators">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label class="col-sm-2 col-form-label"></label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<div class="btn btn-danger" onclick="fhq.ui.createGame();">Create</div>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '		</div>'
-		+ '</div>'
-	);
-	
-	$('#newgame_date_start').datetimepicker({
-		format:'Y-m-d H:i:s',
-		inline:false
-	});
-	
-	$('#newgame_date_stop').datetimepicker({
-		format:'Y-m-d H:i:s',
-		inline:false
-	});
-	
-	$('#newgame_date_restart').datetimepicker({
-		format:'Y-m-d H:i:s',
-		inline:false
-	});
-}
-
 
 /* Registration */
 
@@ -1840,7 +1478,20 @@ fhq.ui.confirmDialog = function(msg, onclick_yes){
 	});
 }
 
-fhq.ui.loadGames = function() {
+fhq.ui.gameDelete = function(el){
+	var gameuuid = $(el).attr('gameuuid');
+	var admin_password = $('#game_delete_admin_password').val();
+	fhq.ws.game_delete({uuid: gameuuid, admin_password: admin_password}).done(function(r){
+		fhq.ui.loadPageGames();
+		$('#modalInfo').modal('hide');
+	}).fail(function(err){
+		console.error(err);
+		$('#game_delete_error').show();
+		$('#game_delete_error').html(err.error);
+	});	
+}
+
+fhq.ui.loadPageGames = function() {
 	fhq.ui.showLoading();
 	window.fhq.changeLocationState({'games':''});
 	var el = $('#content_page');
@@ -1855,8 +1506,8 @@ fhq.ui.loadGames = function() {
 				var perms = game.permissions;
 
 				if (fhq.isAdmin()){
-					buttons += '<div class="btn btn-danger" onclick="formDeleteGame(' + game.id + ');">' + fhq.t('Delete') + '</div>';
-					buttons += ' <div class="btn btn-danger" onclick="formEditGame(' + game.id + ');">' + fhq.t('Edit') + '</div>';
+					buttons += '<div class="btn btn-danger delete-game" gameuuid="' + game.uuid + '">' + fhq.t('Delete') + '</div>';
+					buttons += ' <div class="btn btn-danger edit-game" gameuuid="' + game.uuid + '">' + fhq.t('Edit') + '</div>';
 					buttons += ' <div class="btn btn-danger" onclick="fhqgui.exportGame(' + game.id + ');">' + fhq.t('Export') + '</div>';
 					buttons += ' <div class="btn btn-danger" onclick="fhq.ui.gameUpdateLogoForm(' + game.id + ');">' + fhq.t('Update Logo') + '</div>';
 				}
@@ -1872,12 +1523,29 @@ fhq.ui.loadGames = function() {
 					+ '		</div>'
 					+ '</div><br>'
 				);
-				
-				// <div class="card-body card-left-img admin" style="background-image: url(images/quests/admin_150x150.png)">    
-				// <h4 class="card-title">Admin</h4>    <h6 class="card-subtitle mb-2 text-muted">(10 quests)</h6>    <p class="card-text">Администрирование</p>	   <button subject="admin" type="button" class="open-subject btn btn-default">Открыть</button>  </div></div>
-				// el.append(fhq.ui.gameView(r.data[k]));
 			}
 		}
+		$('.edit-game').unbind().bind('click', function(){
+			var gameuuid = $(this).attr('gameuuid');
+			fhq.ui.loadPageEditGame(gameuuid);
+		});
+		
+		$('.delete-game').unbind().bind('click', function(){
+			var gameuuid = $(this).attr('gameuuid');
+			
+			$('#modalInfoTitle').html('Game {' + gameuuid + '} confirm deletion');
+			$('#modalInfoBody').html('');
+			$('#modalInfoBody').append(''
+				+ 'Admin password:'
+				+ '<input class="form-control" id="game_delete_admin_password" type="password"><br>'
+				+ '<div class=" alert alert-danger" style="display: none" id="game_delete_error"></div>'
+			);
+			$('#modalInfoButtons').html(''
+				+ '<button type="button" class="btn btn-danger" id="game_delet_btn" gameuuid="' + gameuuid + '" onclick="fhq.ui.gameDelete(this);">Delete</button> '
+				+ '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>'
+			);
+			$('#modalInfo').modal('show');
+		});
 		fhq.ui.hideLoading();
 	}).fail(function(r){
 		console.error(r);
@@ -1887,7 +1555,6 @@ fhq.ui.loadGames = function() {
 }
 
 fhq.ui.gameUpdateLogo = function(gameid){
-		
 	var data = {};
 	data.image_png_base64 = $('#game_update_logo_img').attr('src');
 	// remove prefix
@@ -1895,7 +1562,7 @@ fhq.ui.gameUpdateLogo = function(gameid){
 	data.gameid = gameid;
 	fhq.ws.game_update_logo(data).done(function(){
 		$('#modalInfo').modal('hide');
-		fhq.ui.loadGames();
+		fhq.ui.loadPageGames();
 	}).fail(function(err){
 		$('#game_update_logo_error').show();
 		$('#game_update_logo_error').html(err.error);
@@ -1943,50 +1610,274 @@ fhq.ui.gameUpdateLogoForm = function(gameid){
 			}
 		};
 	})
-
-	// user info
-	/*fhq.ws.user({userid: userid}).done(function (obj) {
-			$('#modalInfoBody').html('');
-			$('#modalInfoBody').append('<h3>' + obj.data.nick + '</h3>');
-			if(obj.data.university && obj.data.university != ""){
-				$('#modalInfoBody').append('<p>University: ' + obj.data.university + '</p>');
-			}
-			$('#modalInfoBody').append('<p>' + fhq.t('Rating') + ': ' + obj.data.rating + '</p>');
-
-			if(obj.data.about != ""){
-				$('#modalInfoBody').append('<p>' + obj.data.about + '</p>');
-			}
-			
-			$('#modalInfoButtons').append(
-				'<button type="button" class="btn btn-secondary" userid="userid" id="open_in_new_tab">Open user page</button>'
-			);
-			
-			$('#open_in_new_tab').unbind().bind('click', function(){
-				var win = window.open('?user=' + userid, '_blank');
-				win.focus();
-			})
-		}
-	).fail(function(r){
-		$('#modalInfoBody').html("[Error] " + obj.error.message);
-	});*/
 }
 
-fhq.ui.gameView = function(game, currentGameId) {
-	var content = ''
-	+ '<div class="fhq0023">'
-	+ '		<div class="fhq0024">'
-	+ '			<div class="fhq0025">'
-	+ '				<div class="fhq0030" style="background-image: url(' + game.logo + ')" ></div>'
-	+ '</div>';
-	
-	
+fhq.ui.createGame = function()  {
+	fhq.ui.showLoading();
 
-	content += '			</div>';
-	content += '		</div>';
-	content += '	</div>';
-	content += '</div>'
-	content += '<div class="fhq0028"></div>';
-	return content;
+	var data = {};
+	data["uuid"] = $("#newgame_uuid").val();
+	data["name"] = $("#newgame_name").val();
+	data["state"] = $("#newgame_state").val();
+	data["form"] = $("#newgame_form").val();
+	data["type"] = $("#newgame_type").val();
+	data["date_start"] = $("#newgame_date_start").val();
+	data["date_stop"] = $("#newgame_date_stop").val();
+	data["date_restart"] = $("#newgame_date_restart").val();
+	data["description"] = $("#newgame_description").val();
+	data["organizators"] = $("#newgame_organizators").val();
+
+	fhq.ws.game_create(data).done(function(r){
+		fhq.ui.hideLoading();
+		fhq.ui.loadPageGames();
+	}).fail(function(err){
+		fhq.ui.hideLoading();
+		console.error(err);
+	})
+};
+
+fhq.ui.loadFormCreateGame = function() {
+	fhq.changeLocationState({'game_create':''});
+	var el = $('#content_page');
+	el.html('');
+	fhq.ui.hideLoading();
+	
+	el.html(''
+		+ '<div class="card">'
+		+ '		<div class="card-header">New Game</div>'
+		+ '		<div class="card-body">'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newgame_uuid" class="col-sm-2 col-form-label">UUID</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="text" class="form-control" value="' + guid() + '" id="newgame_uuid">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newgame_name" class="col-sm-2 col-form-label">Name</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="text" class="form-control" value="" id="newgame_name">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newgame_state" class="col-sm-2 col-form-label">State</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<select class="form-control" value="" id="newgame_state">'
+		+ '						<option value="original">Original</option>'
+		+ '						<option value="copy">Copy</option>'
+		+ '						<option value="unlicensed-copy">Unlicensed Copy</option>'
+		+ '					</select>'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newgame_form" class="col-sm-2 col-form-label">Form</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<select class="form-control" value="" id="newgame_form">'
+		+ '						<option value="online">Online</option>'
+		+ '						<option value="offline">Offline</option>'
+		+ '					</select>'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newgame_type" class="col-sm-2 col-form-label">Type</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<select class="form-control" value="" id="newgame_type">'
+		+ '						<option value="jeopardy">Jeopardy</option>'
+		+ '					</select>'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newgame_date_start" class="col-sm-2 col-form-label">Date Start</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="text" class="form-control" id="newgame_date_start" value="0000-00-00 00:00:00">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newgame_date_stop" class="col-sm-2 col-form-label">Date Stop</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="text" class="form-control" id="newgame_date_stop" value="0000-00-00 00:00:00">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newgame_date_restart" class="col-sm-2 col-form-label">Date Restart</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="text" class="form-control" id="newgame_date_restart" value="0000-00-00 00:00:00">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newgame_description" class="col-sm-2 col-form-label">Description</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<textarea type="text" class="form-control" style="height: 150px" value="" id="newgame_description"></textarea>'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newgame_organizators" class="col-sm-2 col-form-label">Organizators</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="text" class="form-control" value="" id="newgame_organizators">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label class="col-sm-2 col-form-label"></label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<div class="btn btn-danger" onclick="fhq.ui.createGame();">Create</div>'
+		+ '				</div>'
+		+ '			</div>'
+		+ '		</div>'
+		+ '</div>'
+	);
+	
+	$('#newgame_date_start').datetimepicker({
+		format:'Y-m-d H:i:s',
+		inline:false
+	});
+	
+	$('#newgame_date_stop').datetimepicker({
+		format:'Y-m-d H:i:s',
+		inline:false
+	});
+	
+	$('#newgame_date_restart').datetimepicker({
+		format:'Y-m-d H:i:s',
+		inline:false
+	});
+}
+
+fhq.ui.updateGame = function()  {
+	fhq.ui.showLoading();
+
+	var data = {};
+	data["uuid"] = $("#editgame_uuid").val();
+	data["name"] = $("#editgame_name").val();
+	data["state"] = $("#editgame_state").val();
+	data["form"] = $("#editgame_form").val();
+	data["type"] = $("#editgame_type").val();
+	data["date_start"] = $("#editgame_date_start").val();
+	data["date_stop"] = $("#editgame_date_stop").val();
+	data["date_restart"] = $("#editgame_date_restart").val();
+	data["description"] = $("#editgame_description").val();
+	data["organizators"] = $("#editgame_organizators").val();
+
+	fhq.ws.game_update(data).done(function(r){
+		fhq.ui.hideLoading();
+		fhq.ui.loadPageGames();
+	}).fail(function(err){
+		fhq.ui.hideLoading();
+		console.error(err);
+	});
+};
+
+fhq.ui.loadPageEditGame = function(gameuuid) {
+	fhq.ui.showLoading();
+	window.fhq.changeLocationState({'game_edit':gameuuid});
+	var el = $('#content_page');
+	el.html('Loading... ' + gameuuid);
+
+	fhq.ws.game_info({uuid: gameuuid}).done(function(r){
+		fhq.ui.hideLoading();
+		el.html(''
+			+ '<div class="card">'
+			+ '		<div class="card-header">Edit Game</div>'
+			+ '		<div class="card-body">'
+			+ '			<div class="form-group row">'
+			+ '				<label for="editgame_uuid" class="col-sm-2 col-form-label">UUID</label>'
+			+ ' 			<div class="col-sm-10">'
+			+ '					<input type="text" readonly class="form-control" value="" id="editgame_uuid">'
+			+ '				</div>'
+			+ '			</div>'
+			+ '			<div class="form-group row">'
+			+ '				<label for="editgame_name" class="col-sm-2 col-form-label">Name</label>'
+			+ ' 			<div class="col-sm-10">'
+			+ '					<input type="text" class="form-control" value="" id="editgame_name">'
+			+ '				</div>'
+			+ '			</div>'
+			+ '			<div class="form-group row">'
+			+ '				<label for="editgame_state" class="col-sm-2 col-form-label">State</label>'
+			+ ' 			<div class="col-sm-10">'
+			+ '					<select class="form-control" value="" id="editgame_state">'
+			+ '						<option value="original">Original</option>'
+			+ '						<option value="copy">Copy</option>'
+			+ '						<option value="unlicensed-copy">Unlicensed Copy</option>'
+			+ '					</select>'
+			+ '				</div>'
+			+ '			</div>'
+			+ '			<div class="form-group row">'
+			+ '				<label for="editgame_form" class="col-sm-2 col-form-label">Form</label>'
+			+ ' 			<div class="col-sm-10">'
+			+ '					<select class="form-control" value="" id="editgame_form">'
+			+ '						<option value="online">Online</option>'
+			+ '						<option value="offline">Offline</option>'
+			+ '					</select>'
+			+ '				</div>'
+			+ '			</div>'
+			+ '			<div class="form-group row">'
+			+ '				<label for="editgame_type" class="col-sm-2 col-form-label">Type</label>'
+			+ ' 			<div class="col-sm-10">'
+			+ '					<select class="form-control" value="" id="editgame_type">'
+			+ '						<option value="jeopardy">Jeopardy</option>'
+			+ '					</select>'
+			+ '				</div>'
+			+ '			</div>'
+			+ '			<div class="form-group row">'
+			+ '				<label for="editgame_date_start" class="col-sm-2 col-form-label">Date Start</label>'
+			+ ' 			<div class="col-sm-10">'
+			+ '					<input type="text" class="form-control" id="editgame_date_start" value="0000-00-00 00:00:00">'
+			+ '				</div>'
+			+ '			</div>'
+			+ '			<div class="form-group row">'
+			+ '				<label for="editgame_date_stop" class="col-sm-2 col-form-label">Date Stop</label>'
+			+ ' 			<div class="col-sm-10">'
+			+ '					<input type="text" class="form-control" id="editgame_date_stop" value="0000-00-00 00:00:00">'
+			+ '				</div>'
+			+ '			</div>'
+			+ '			<div class="form-group row">'
+			+ '				<label for="editgame_date_restart" class="col-sm-2 col-form-label">Date Restart</label>'
+			+ ' 			<div class="col-sm-10">'
+			+ '					<input type="text" class="form-control" id="editgame_date_restart" value="0000-00-00 00:00:00">'
+			+ '				</div>'
+			+ '			</div>'
+			+ '			<div class="form-group row">'
+			+ '				<label for="editgame_description" class="col-sm-2 col-form-label">Description</label>'
+			+ ' 			<div class="col-sm-10">'
+			+ '					<textarea type="text" class="form-control" style="height: 150px" value="" id="editgame_description"></textarea>'
+			+ '				</div>'
+			+ '			</div>'
+			+ '			<div class="form-group row">'
+			+ '				<label for="editgame_organizators" class="col-sm-2 col-form-label">Organizators</label>'
+			+ ' 			<div class="col-sm-10">'
+			+ '					<input type="text" class="form-control" value="" id="editgame_organizators">'
+			+ '				</div>'
+			+ '			</div>'
+			+ '			<div class="form-group row">'
+			+ '				<label class="col-sm-2 col-form-label"></label>'
+			+ ' 			<div class="col-sm-10">'
+			+ '					<div class="btn btn-danger" onclick="fhq.ui.updateGame();">' + fhq.t('Save') + '</div>'
+			+ '					<div class="btn btn-danger edit-game-cancel">' + fhq.t('Cancel') + '</div>'
+			+ '				</div>'
+			+ '			</div>'
+			+ '		</div>'
+			+ '</div>'
+		);
+		console.log(r);
+		
+		$('#editgame_uuid').val(r.data.uuid);
+		$('#editgame_name').val(r.data.title);
+		$('#editgame_state').val(r.data.state);
+		$('#editgame_form').val(r.data.form);
+		$('#editgame_type').val(r.data.type_game);
+		$('#editgame_date_start').val(r.data.date_start);
+		$('#editgame_date_stop').val(r.data.date_stop);
+		$('#editgame_date_restart').val(r.data.date_restart);
+		$('#editgame_description').val(r.data.description);
+		$('#editgame_organizators').val(r.data.organizators);
+
+		$('.edit-game-cancel').unbind().bind('click', function(){
+			fhq.ui.loadPageGames();
+		});
+
+	}).fail(function(err){
+		console.error(err);
+		fhq.ui.hideLoading();
+		el.html(err.error);
+	})
 }
 
 fhq.ui.loadFeedback = function() {
@@ -2561,7 +2452,6 @@ fhq.ui.loadQuestsBySubject = function(subject){
 	fhq.ui.showLoading();
 	fhq.changeLocationState({'subject':subject});
 	var el = $('#content_page');
-
 	el.html('Loading...');
 	var params = {};
 	params.subject = subject;
@@ -2572,11 +2462,8 @@ fhq.ui.loadQuestsBySubject = function(subject){
 			var q = r.data[i];
 			el.append(''
 				+ '<div class="card">'
-				+ '  <div class="card-header" style="' + (q.status == "completed" ? 'text-decoration: line-through;' : '') + '">'
-				+ '     <h4>Quests / ' + fhq.ui.capitalizeFirstLetter(q.subject) + ' / ' + q.name + '</h4>'
-				+ '  </div>'
 				+ '  <div class="card-body card-left-img ' + q.subject + '" style="background-image: url(images/quests/' + q.subject + '_150x150.png)">'
-				+ '    <h4 class="card-title" style="' + (q.status == "completed" ? 'text-decoration: line-through;' : '') + '">Score: +' + q.score + '</h4>'
+				+ '    <h4 class="card-title" style="' + (q.status == "completed" ? 'text-decoration: line-through;' : '') + '">' +  q.name + '(+' + q.score + ')</h4>'
 				+ '    <h6 class="card-subtitle mb-2 text-muted">Quest #' + q.questid + '</h6>'
 				+ '    <p class="card-text">' + fhq.t('Solved') + ': ' + q.solved + '</p>'
 				+ '	   <button questid="' + q.questid + '" type="button" class="open-quest btn btn-default">' + fhq.t('Open') + '</button>'
@@ -2584,7 +2471,7 @@ fhq.ui.loadQuestsBySubject = function(subject){
 				+ '</div><br>'
 			);
 		}
-		
+
 		$('.open-quest').unbind().bind('click', function(){
 			fhq.ui.loadQuest($(this).attr('questid'));
 		});

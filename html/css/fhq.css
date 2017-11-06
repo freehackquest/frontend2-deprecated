@@ -994,22 +994,6 @@ font.fhq_task {
 	padding-bottom: 20px;
 }
 
-.fhq0023 {
-	display: table;
-	width: 100%;
-	background-color: #eee;
-	border: 1px solid #999;
-}
-
-.fhq0024 {
-	display: table-row;
-}
-
-.fhq0025{
-	display: table-cell;
-	width: 110px;
-}
-
 .fhq0026{
 	display: table-cell;
 	vertical-align: top;
@@ -1022,21 +1006,10 @@ font.fhq_task {
     font-style: italic;
 }
 
-.fhq0028{
-	display: block;
-	height: 20px;
-}
-
 .fhq0029{
 	font-size: 30px;
     text-align: left;
     padding-top: 10px;
-}
-
-.fhq0030{
-	width: 110px;
-    height: 110px;
-    background-size: 100% 100%;
 }
 
 .fhq0031{

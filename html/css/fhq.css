@@ -900,64 +900,6 @@ font.fhq_task {
 .sendchatmessage-trigger.hide{
 	background-image: url("../images/menu/chat_150x150.png");
 }
-
-
-
-
-/* quests-list */
-
-.fhq0001{
-	display: table;
-	width: 100%;
-	background-color: #eee;
-    cursor: pointer;
-    border: 01px solid #999;
-}
-
-.fhq0001:hover {
-    background: #c8c8c8;
-    color: #333;
-}
-
-.fhq0002{
-	display: table-cell;
-	width: 110px;
-    min-width: 110px;
-    height: 110px;
-    max-height: 110px;
-    background-image: url(../images/menu/quests_150x150.png);
-	background-size: 100% 100%;
-}
-
-.fhq0003{
-	display: table-cell;
-	font-size: 30px;
-	vertical-align: middle;
-	text-align: left;
-    padding-left: 20px;
-}
-
-.fhq0004{
-	display: inline-block;
-	font-size: 20px;
-    font-style: italic;
-}
-
-.fhq0005{
-	
-}
-
-.fhq0007{
-	display: table-cell;
-	width: 300px;
-	vertical-align: middle;
-	font-size: 30px;
-}
-
-.fhq0008{
-	display: table-row;
-}
-
 .fhq0009{
 	display: block;
 }
@@ -1001,9 +943,6 @@ font.fhq_task {
     padding-top: 20px;
 }
 
-.fhq0015{
-	height: 20px;
-}
 
 .fhq0016{
 	width: 80%;
@@ -1290,14 +1229,6 @@ font.fhq_task {
     padding: 3px;
     text-decoration: none;
     margin: 3px 3px 3px 3px;
-}
-
-.fhq0060{
-	
-}
-
-.fhq0060 .fhq0003{
-	text-decoration: line-through;
 }
 
 .fhq0061{

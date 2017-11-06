@@ -2562,35 +2562,37 @@ fhq.ui.loadQuestsBySubject = function(subject){
 	fhq.changeLocationState({'subject':subject});
 	var el = $('#content_page');
 
-	el.html('<div class="fhq0005">Loading...</div>');
+	el.html('Loading...');
 	var params = {};
 	params.subject = subject;
 	fhq.ws.quests(params).done(function(r){
-		$('.fhq0005').html('');
+		el.html('');
+		
 		for(var i in r.data){
 			var q = r.data[i];
-			$('.fhq0005').append(''
-				+ '<div class="fhq0001 ' + (q.status == "completed" ? 'fhq0060' : '') + '" questid="' + q.questid + '">'
-				+ '	<div class="fhq0008">'
-				+ '		<div class="fhq0002"></div>' // TODO icon quest
-				+ ' 	<div class="fhq0003">' + q.name + ' (+' + q.score + ')<br>' // TODO passed quest
-				+ '			<div class="fhq0004">Quest ' + q.questid + '</div>'
-				+ '		</div>'
-				+ ' 	<div class="fhq0007">' + fhq.t('Solved') + ': ' + q.solved + '</div>'
-				+ '	</div>'
-				+ '</div>'
-				+ '<div class="fhq0015"></div>'
+			el.append(''
+				+ '<div class="card">'
+				+ '  <div class="card-header" style="' + (q.status == "completed" ? 'text-decoration: line-through;' : '') + '">'
+				+ '     <h4>Quests / ' + fhq.ui.capitalizeFirstLetter(q.subject) + ' / ' + q.name + '</h4>'
+				+ '  </div>'
+				+ '  <div class="card-body card-left-img ' + q.subject + '" style="background-image: url(images/quests/' + q.subject + '_150x150.png)">'
+				+ '    <h4 class="card-title" style="' + (q.status == "completed" ? 'text-decoration: line-through;' : '') + '">Score: +' + q.score + '</h4>'
+				+ '    <h6 class="card-subtitle mb-2 text-muted">Quest #' + q.questid + '</h6>'
+				+ '    <p class="card-text">' + fhq.t('Solved') + ': ' + q.solved + '</p>'
+				+ '	   <button questid="' + q.questid + '" type="button" class="open-quest btn btn-default">' + fhq.t('Open') + '</button>'
+				+ '  </div>'
+				+ '</div><br>'
 			);
 		}
 		
-		$('.fhq0001').unbind().bind('click', function(){
+		$('.open-quest').unbind().bind('click', function(){
 			fhq.ui.loadQuest($(this).attr('questid'));
 		});
 		fhq.ui.hideLoading();
 	}).fail(function(r){
 		fhq.ui.hideLoading();
 		console.error(r)
-		$('.fhq0005').html('Failed');
+		el.html('Failed');
 	});
 }
 

@@ -933,6 +933,9 @@ fhq.ui.loadAboutPage = function() {
 		+ '	<div class="card-body">'
 		+ '		<ul>'
 		+ '			<li>Evgenii Sopov</li>'
+		+ '			<li>Igor Polyakov</li>'
+		+ '			<li>Sergo</li>'
+		+ '			<li>Keima Shikai</li>'
 		+ '			<li>Used bootstrap-4</li>'
 		+ '		<ul>'
 		+ '	</div>'
@@ -2816,27 +2819,28 @@ window.fhq.ui.loadQuest = function(id){
 		
 		if(!q.completed){
 			if(fhq.isAuth()){
-				el.append(
-					'<div class="fhq0101">'
-					+ '<div class="newquestinfo_passquest_title">' + fhq.t('Answer') + '</div>'
-					+ '<div class="fhq0099">'
-					+ '		<input id="quest_answer" type="text" onkeydown="if (event.keyCode == 13) this.click();"/> '
-					+ '		<div class="fhq0100">' + fhq.t('Answer format') + ': ' + q.answer_format + '</div>'
-					+ '</div>'
-					+ '<div class="fhq0099">'
-					+ '		<div class="fhqbtn" id="newquestinfo_pass">' + fhq.t('Pass the quest') + '</div>'
-					+ '		<div id="quest_pass_error"></div>'
-					+ '</div>'
-					+ '</div>'
+				el.append( ''
+					+ '<br><div class="card">'
+					+ '		<div class="card-header">' + fhq.t('Answer') + '</div>'
+					+ '		<div class="card-body">'
+					+ '			<input id="quest_answer" class="form-control" placeholder="' + fhq.t('Answer') + '..." type="text" onkeydown="if (event.keyCode == 13) this.click();"/> '
+					+ '			<p><small>' + fhq.t('Answer format') + ': ' + q.answer_format + '</small><p>'
+					+ '			<div class="btn btn-info" id="newquestinfo_pass">' + fhq.t('Pass the quest') + '</div>'
+					+ '			<br><br><div class="alert alert-danger" style="display: none" id="quest_pass_error"></div>'
+					+ '		</div>'
+					+ '</div><br>'
 				);
 				
 				$('#newquestinfo_pass').unbind().bind('click', function(){
 					var answer = $('#quest_answer').val();
-					// TODO change to ws
+					$('#quest_pass_error').hide();
+					fhq.ui.showLoading();
 					fhq.ws.quest_pass({questid: q.id, answer: answer}).done(function(r){
 						fhq.ui.loadQuest(q.id);
 					}).fail(function(r){
+						fhq.ui.hideLoading();
 						$('#quest_pass_error').html(r.error);
+						$('#quest_pass_error').show();
 						/*if(fhq.ui.isShowMyAnswers()){
 							fhq.ui.updateMyAnswers(q.questid);
 						}*/
@@ -2854,11 +2858,13 @@ window.fhq.ui.loadQuest = function(id){
 					fhq.ui.loadMyAnswers(q.questid);
 				});
 			}else{
-				el.append(
-					'<div class="fhq0101">'
-					+ '<div class="newquestinfo_passquest_title">' + fhq.t('Answer') + '</div>'
-					+ fhq.t('Please authorize for pass the quest')
-					+ '</div>'
+				el.append( ''
+					+ '<br><div class="card">'
+					+ '		<div class="card-header">' + fhq.t('Answer') + '</div>'
+					+ '		<div class="card-body">'
+					+ '			' + fhq.t('Please authorize for pass the quest') 
+					+ '		</div>'
+					+ '</div><br>'
 				);
 			}
 		}

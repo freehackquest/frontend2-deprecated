@@ -767,15 +767,77 @@ fhq.ui.insertNews = function(){
 fhq.ui.loadServerInfo = function(){
 	fhq.changeLocationState({'server_info':''});
 	fhq.ui.hideLoading();
-	$("#content_page").html('<div class="fhq0054"></div>');
+	var el = $("#content_page");
+	el.html('Loading...');
 	fhq.ws.server_info().done(function(r){
-		$('.fhq0054').append('<div class="fhq0055"><h1>Request Statistics</h1></div>');
-		for(var i in r.data){
-			$('.fhq0055').append('<div class="fhq0056">' + i + ' => ' + r.data[i] + '</div>')
+		el.html('');
+		el.append('<h1>Server info</h1>');
+		el.append(''
+			+ '<div class="card">'
+			+ '	<div class="card-header">Server uptime</div>'
+			+ '	<div class="card-body">'
+			+ ' 	<p>Server started: ' + r.data.server_started + '</p>'
+			+ ' 	<p>Server uptime: ' + r.data.server_uptime_sec + ' sec</p>'
+			+ '	</div>'
+			+ '</div><br>'
+		);
+
+		el.append(''
+			+ '<div class="card">'
+			+ '	<div class="card-header">Requests statistics</div>'
+			+ '	<div class="card-body">'
+			+ '		<table class="table table-striped">'
+			+ '			<thead>'
+			+ '				<tr>'
+			+ '					<th>Handler</th>'
+			+ '					<th>Counter</th>'
+			+ '				</tr>'
+			+ '			</thead>'
+			+ '			<tbody id="request_statistics"></tbody>'
+			+ '		</table>'
+			+ '	</div>'
+			+ '</div><br>'
+		);
+		
+		var rs = r.data.request_statistics;
+
+		for(var i in rs){
+			$('#request_statistics').append(''
+				+ '	<tr>'
+				+ '		<td>' + i + '</td>'
+				+ '		<td>' + rs[i] + '</td>'
+				+ '	</tr>'
+			);
 		}
+		
+		el.append(''
+			+ '<div class="card">'
+			+ '	<div class="card-header">Last log messages</div>'
+			+ '	<div class="card-body">'
+			+ '		<table class="table table-striped">'
+			+ '			<thead>'
+			+ '				<tr>'
+			+ '					<th>Message</th>'
+			+ '				</tr>'
+			+ '			</thead>'
+			+ '			<tbody id="last_log_messages"></tbody>'
+			+ '		</table>'
+			+ '	</div>'
+			+ '</div><br>'
+		);
+		
+		msgs = r.data.last_log_messages;
+		for(var i in msgs){
+			$('#last_log_messages').append(''
+				+ '	<tr>'
+				+ '		<td>' + msgs[i] + '</td>'
+				+ '	</tr>'
+			);
+		}
+		
 	}).fail(function(r){
 		console.error(r);
-		$('.fhq0054').append(r.error);
+		el.append(r.error);
 	})
 }
 

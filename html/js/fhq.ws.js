@@ -369,15 +369,15 @@ fhq.ws.createquest = function(params){
 	return fhq.ws.send(params);
 }
 
-fhq.ws.deletequest = function(params){
+fhq.ws.quest_delete = function(params){
 	params = params || {};
-	params.cmd = 'deletequest';
+	params.cmd = 'quest_delete';
 	return fhq.ws.send(params);
 }
 
-fhq.ws.updatequest = function(params){
+fhq.ws.quest_update = function(params){
 	params = params || {};
-	params.cmd = 'updatequest';
+	params.cmd = 'quest_update';
 	return fhq.ws.send(params);
 }
 

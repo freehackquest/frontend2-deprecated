@@ -1205,8 +1205,8 @@ fhq.ui.loadApiPage = function() {
 			+ '<div class="card">'
 			+ '	<div class="card-header">Start communication with server</div>'
 			+ '	<div class="card-body">'
-			+ '		<p>Fisrt command must be hello and next login if you have api token'
-			+ '		<p>For example: <br><code>socket.send(JSON.stringify({cmd: "hello", "m": "m100"}))</code>'
+			+ '		<p>Fisrt command must be login or token if you have api token'
+			+ '		<p>For example: <br><code>socket.send(JSON.stringify({cmd: "login", "m": "m100", email: "email", password: "password"}))</code>'
 			+ '	</div>'
 			+ '</div><br>'
 			+ '<div class="card">'
@@ -2278,7 +2278,7 @@ fhq.ui.deleteQuest = function(id){
 
 	var params = {};
 	params.questid = parseInt(id,10);
-	fhq.ws.deletequest(params).done(function(r){
+	fhq.ws.quest_delete(params).done(function(r){
 		fhq.ui.loadQuestsBySubject(r.subject);
 	}).fail(function(r){
 		fhq.ui.showError(r.error);
@@ -2430,7 +2430,7 @@ fhq.ui.updateQuest = function(questid) {
 	params["state"] = $("#editquest_state").val();
 	params["description_state"] = $("#editquest_description_state").val();
 
-	fhq.ws.updatequest(params).done(function(r){
+	fhq.ws.quest_update(params).done(function(r){
 		fhq.ui.loadQuest(questid);
 	}).fail(function(r){
 		fhq.ui.showError(r.error);

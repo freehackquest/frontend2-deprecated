@@ -1,10 +1,5 @@
 if(!window.fhq) window.fhq = {};
 if(!window.fhq.api) window.fhq.api = {};
-if(!window.fhq.api.users) window.fhq.api.users = {};
-if(!window.fhq.api.events) window.fhq.api.events = {};
-if(!window.fhq.api.feedback) window.fhq.api.feedback = {};
-if(!window.fhq.api.quests) window.fhq.api.quests = {};
-if(!window.fhq.api.games) window.fhq.api.games = {};
 
 window.fhq.createUrlFromObj = function(obj) {
 	var str = "";

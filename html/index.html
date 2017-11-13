@@ -207,9 +207,38 @@
 			</div>
 		</footer -->
 		
-		
+		<!-- Modal --> 
+		<div class="modal fade" id="modalSignIn" tabindex="-1" role="dialog" aria-labelledby="modalSignIn" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="modalSignInTitle">Sign-in</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+					<div class="form-group">
+						<label for="signinEmailInput" id="signinEmailCaption">Email address</label>
+						<input type="email" class="form-control" id="signinEmailInput" aria-describedby="emailHelp" placeholder="Enter email">
+					</div>
+					<div class="form-group">
+						<label for="signinPasswordInput" id="signinPasswordCaption">Password</label>
+						<input type="password" class="form-control" id="signinPasswordInput" placeholder="Enter password">
+						<small id="signinForgotPassword" style="text-align: right; color: blue; cursor: pointer" class="form-text text-muted">Forgot password?</small>
+					</div>
+					<div class="alert alert-danger" id="signinErrorMessage" color="#ff0000"></div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="modalSignIn_go" onclick="fhq.ui.signin();">Sign-in</button>
+				<button type="button" class="btn btn-secondary" id="modalSignIn_cansel" data-dismiss="modal">Close</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+
 		<!-- Modal -->
-		<div class="modal fade" id="modalSettings" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="modalSettings" tabindex="-1" role="dialog" aria-labelledby="modalSettings" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
 			<div class="modal-content">
 			  <div class="modal-header">
@@ -230,7 +259,7 @@
 		</div>
 		
 		<!-- Modal -->
-		<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="modalInfo" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
 			<div class="modal-content">
 			  <div class="modal-header">

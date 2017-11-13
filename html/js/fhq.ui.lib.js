@@ -69,44 +69,58 @@ fhq.ui.clickModalDialog_dialog = function() {
 /* Sign In */
 
 fhq.ui.showSignInForm = function() {
-	fhq.ui.showModalDialog(fhq.ui.templates.singin());
-
+	
 	if(fhq.supportsHtml5Storage()){
-		if(localStorage.getItem("email") != null){
-			$("#signin-email").val(localStorage.getItem("email"));
-		}else{
-			$("#signin-email").val("");
-		}
-		if(localStorage.getItem("password") != null){
-			$("#signin-password").val(localStorage.getItem("password"));
-		}else{
-			$("#signin-password").val("");
-		}
+		localStorage.removeItem("email");
+		localStorage.removeItem("password");
 	}
+	$('#signinEmailCaption').html(fhq.t('Email address') + ':');
+	$('#signinPasswordCaption').html(fhq.t('Password') + ':');
+	$('#modalSignInTitle').html(fhq.t('Sign-in'));
+	$('#modalSignIn_go').html(fhq.t('Sign-in'));
+	$('#modalSignIn_cansel').html(fhq.t('Close'));
+	$('#signinErrorMessage').hide();
+	$('#signinForgotPassword').unbind().bind('click', function(){
+		fhq.ui.loadResetPasswordPage();
+		$('#modalSignIn').modal('hide');
+	})
+
+	$('#signinEmailInput').unbind().bind('keyup', function(event){
+		if (event.keyCode == 13){
+			fhq.ui.signin();
+		} else {
+			fhq.ui.cleanupSignInMessages();
+		}
+	});
+	
+	$('#signinPasswordInput').unbind().bind('keyup', function(event){
+		if (event.keyCode == 13){
+			fhq.ui.signin();
+		} else {
+			fhq.ui.cleanupSignInMessages();
+		}
+	});
+	
+	$('#modalSignIn').modal('show');
 }
 
 fhq.ui.cleanupSignInMessages = function() {
-	$('#signin-error-message').html('');
+	$('#signinErrorMessage').html('');
+	$('#signinErrorMessage').hide();
 }
 
 fhq.ui.signin = function() {
-	var email = $("#signin-email").val();
-	var password = $("#signin-password").val();
+	var email = $("#signinEmailInput").val();
+	var password = $("#signinPasswordInput").val();
 	
 	fhq.ws.login({email: email,password: password}).done(function(r){
-		// TODO
-		// $('#signin-email').val('');
-		// $("#signin-password").val('');
 		$('.message_chat').remove();
-		if(fhq.supportsHtml5Storage()){
-			localStorage.setItem("email", email);
-			localStorage.setItem("password", password);
-		}
 		fhq.ui.processParams();
-		fhq.ui.closeModalDialog();
+		$('#modalSignIn').modal('hide');
 		//window.location.reload();
 	}).fail(function(r){
-		$("#signin-error-message").html(r.error);
+		$('#signinErrorMessage').show();
+		$("#signinErrorMessage").html(r.error);
 	})
 }
 
@@ -3600,24 +3614,6 @@ fhq.ui.loadClassbookLocalizationUpdateRecord = function(classbook_localizationid
 
 
 window.fhq.ui.templates = window.fhq.ui.templates || {};
-
-fhq.ui.templates.singin = function(){
-	var content = ''
-		+ '<div id="signin-form">'
-		+ '		<!-- img src="images/logo_middle.png" /><br><br -->'
-		+ '		<!-- todo replace type="text" to type="email" (html5) -->'
-		+ '		<input placeholder="your@email.com" id="signin-email" value="" type="text" onkeydown="if (event.keyCode == 13) fhq.ui.signin(); else fhq.ui.cleanupSignInMessages();">'
-		+ '		<br><br>'
-		+ '		<input placeholder="*****" id="signin-password" value="" type="password"  onkeydown="if (event.keyCode == 13) fhq.ui.signin(); else fhq.ui.cleanupSignInMessages();">'
-		+ '		<br><br>'
-		+ '		<font id="signin-error-message" color="#ff0000"></font>'
-		+ '</div>';
-	return {
-		'header' : fhq.t('Sign-in'),
-		'content': content,
-		'buttons': '<div class="fhqbtn" onclick="fhq.ui.signin();">' + fhq.t('Sign-in') + '</div>'
-	};
-}
 
 fhq.ui.templates.dialog_btn_cancel = function(){
 	return '<div class="fhqbtn" onclick="fhq.ui.closeModalDialog();">' + fhq.t('Cancel') + '</div>';

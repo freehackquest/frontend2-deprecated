@@ -753,5 +753,17 @@ window.fhq.localization = {
 	'Edit localization':{
 		'en': 'Edit localization',
 		'ru': 'Изменить перевод'
+	},
+	'Close':{
+		'en': 'Close',
+		'ru': 'Закрыть'
+	},
+	'Email address':{
+		'en': 'Email address',
+		'ru': 'Адрес электронной почты'
+	},
+	'Password':{
+		'en': 'Password',
+		'ru': 'Пароль'
 	}
 };

@@ -7,22 +7,29 @@
 		<meta name="description" content="competition information security" />
 		<meta name="keywords" content="security, fhq, fhq 2012, fhq 2013, fhq 2014, free, hack, quest, competition, information security, ctf, joepardy" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-
-		<link rel="shortcut icon" href="favicon.ico?1">
-		<script src="js/libs/jquery-3.1.0.min.js"></script>
-		<script src="js/libs/popper.min.js"></script>
-		<script src="js/libs/bootstrap.min.js"></script>
-		<script src="https://apis.google.com/js/api.js"></script>
-		<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+		<link rel="shortcut icon" href="favicon.ico">
 		
-		<!-- script src="js/fhq.google.auth.js?ver=2"></script -->
+		<!-- libs -->
+
+		<script type="text/javascript" src="js/libs/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="js/libs/popper.min.js"></script>
+		<script type="text/javascript" src="js/libs/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/libs/jquery.datetimepicker.js"></script>
+		<script type="text/javascript" src="js/libs/progressbar-0.8.1.min.js"></script>
+		<script type="text/javascript" src="js/libs/Chart-1.0.2.js"></script>
+		<script type="text/javascript" src="js/libs/showdown.min.js"></script>
+		<script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
+		<script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?ver=1"/>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.min.css?ver=1"/>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.min.css?ver=1"/>
 		<link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css?ver=1"/>
+		
+		<!-- fhq -->
+
+		<!-- script src="js/fhq.google.auth.js?ver=2"></script -->		
 		<link rel="stylesheet" type="text/css" href="css/fhq.css?ver=2"/>
-		<!-- link rel="stylesheet" type="text/css" href="css/fhq.min.css?ver=1"/-->
 
 		<script type="text/javascript" src="js/fhq.base.js?ver=1"></script>
 		<script type="text/javascript" src="js/fhq.localization.js?ver=1"></script>
@@ -31,20 +38,9 @@
 		<script type="text/javascript" src="js/fhq.ws.js?ver=2"></script>
 		<script type="text/javascript" src="js/fhq.ui.lib.js?ver=2"></script>
 		<script type="text/javascript" src="js/tools/fhq.tools.js?ver=2"></script>
-		
-		<script type="text/javascript" src="js/jquery.datetimepicker.js"></script>
-		<script type="text/javascript" src="js/libs/progressbar-0.8.1.min.js"></script>
-		<script type="text/javascript" src="js/libs/Chart-1.0.2.js"></script>
-		<script type="text/javascript" src="js/libs/showdown.min.js"></script>
-		<script type="text/javascript" src="js/fhq_send_request.js?ver=1"></script>
 		<script type="text/javascript" src="js/fhq_modal_dialog.js?ver=1"></script>
-		<script type="text/javascript" src="js/fhq_users.js?ver=1"></script>
-		<script type="text/javascript" src="js/fhq_feedback.js?ver=1"></script>
 		<script type="text/javascript">
 			var fhqgui = new FHQGuiLib(fhq);
-
-			/*if (fhq.token && fhq.token != "")  // todo 
-				fhq.security.logout();*/
 
 			$(document).ready(function() {
 				fhq.ws.setWSState(fhq.ws.getWSState()); // Update state of WS
@@ -132,8 +128,7 @@
 							<div class="dropdown-item admin-menu" id="btnmenu_createquest" onclick="fhq.ui.loadCreateQuestForm();">Create Quest</div>
 							
 							<div class="dropdown-divider admin-menu"></div>
-							<div class="dropdown-item admin-menu" id="btnmenu_users" onclick="createPageUsers(); updateUsers();">Users</div>
-							<div class="dropdown-item admin-menu" id="btnmenu_users2" onclick="fhq.ui.loadUsers()">Users 2</div>
+							<div class="dropdown-item admin-menu" id="btnmenu_users" onclick="fhq.ui.loadUsersPage();">Users</div>
 							<div class="dropdown-item admin-menu" id="btnmenu_answerlist" onclick="fhq.ui.loadAnswerList()">Answer List</div>
 							<div class="dropdown-item admin-menu" id="btnmenu_serverinfo" onclick="fhq.ui.loadServerInfo()">Server Info</div>
 							<div class="dropdown-item admin-menu" id="btnmenu_serversettings" onclick="fhq.ui.loadServerSettings();">Server Settings</div>
@@ -279,8 +274,8 @@
 		  </div>
 		</div>
 		<div class="fhq-page-loader">
-			<div class="fhq0105">
-				<div class="fhq0106">
+			<div class="fhq-page-loader-tbl">
+				<div class="fhq-page-loader-cell">
 					<img src="images/loader.gif"/>
 				</div>
 			</div>

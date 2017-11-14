@@ -200,32 +200,6 @@ function FHQGuiLib(api) {
 	var self = this;
 	this.fhq = api;
 	this.api = api;
-
-	this.createComboBox = function(idelem, defaultvalue, arr) {
-		var result = '<select id="' + idelem + '">';
-		for (var k in arr) {
-			result += '<option ';
-			if (arr[k].value == defaultvalue)
-				result += ' selected ';
-			result += ' value="' + arr[k].value + '">';
-			result += arr[k].caption + '</option>';
-		}
-		result += '</select>';
-		return result;
-	};
-	
-	this.combobox = function(idelem, defaultvalue, arr) {
-		var result = '<select id="' + idelem + '">';
-		for (var k in arr) {
-			result += '<option ';
-			if (arr[k].value == defaultvalue)
-				result += ' selected ';
-			result += ' value="' + arr[k].value + '">';
-			result += arr[k].caption + '</option>';
-		}
-		result += '</select>';
-		return result;
-	};
 	
 	this.readonly = function(idelem, value) {
 		return '<div id="' + idelem +'">' + value + '</div>';
@@ -378,6 +352,7 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["new_quest"] = fhq.ui.loadCreateQuestForm;
 	fhq.ui.pageHandlers["edit_quest"] = fhq.ui.loadEditQuestForm;
 	fhq.ui.pageHandlers["chat"] = fhq.ui.loadChatPage;
+	fhq.ui.pageHandlers["users"] = fhq.ui.loadUsersPage;
 
 	function renderPage(){
 		fhq.ui.updateMenu();
@@ -1269,6 +1244,59 @@ fhq.ui.loadApiPage = function() {
 	})
 }
 
+fhq.ui.loadUsersPage = function(){
+	fhq.ui.showLoading();
+	var onpage = 5;
+	if(fhq.containsPageParam("onpage")){
+		onpage = parseInt(fhq.pageParams['onpage'], 10);
+	}
+
+	var page = 0;
+	if(fhq.containsPageParam("page")){
+		page = parseInt(fhq.pageParams['page'], 10);
+	}
+	
+	var el = $("#content_page");
+	el.html('Loading...')
+	
+	window.fhq.changeLocationState({'users': '', 'onpage': onpage, 'page': page});
+
+	fhq.ws.users({'onpage': onpage, 'page': page}).done(function(r){
+		fhq.ui.hideLoading();
+		
+		el.html('');
+		el.append('<h1>' + fhq.t('Users') + '</h1>');
+		el.append(fhq.ui.paginator(0, r.count, r.onpage, r.page));
+		el.append('<table class="table table-striped">'
+			+ '		<thead>'
+			+ '			<tr>'
+			+ '				<th>#</th>'
+			+ '				<th>Email / Nick</th>'
+			+ '				<th>Last IP <br> Country / City / University</th>'
+			+ '				<th>Last Sign in <br> Status / Role</th>'
+			+ '			</tr>'
+			+ '		</thead>'
+			+ '		<tbody id="users_list">'
+			+ '		</tbody>'
+			+ '</table>'
+		)
+		for(var i in r.data){
+			var u = r.data[i];
+			$('#users_list').append('<tr>'
+				+ '	<td>' + u.id + '</td>'
+				+ '	<td><p>' + u.email + '</p><p>'  + u.nick + '</p></td>'
+				+ '	<td><p>' + u.last_ip + '</p><p>' + u.country + ' / ' + u.city + ' / ' + u.university + '</p></td>'
+				+ '	<td><p>' + u.dt_last_login + '</p><p>' + '' + u.role + '</p></td>'
+				+ '</tr>'
+			)
+		}
+	}).fail(function(r){
+		fhq.ui.hideLoading();
+		console.error(r);
+		el.append(r.error);
+	})
+}
+
 fhq.ui.loadUserProfile = function(userid) {
 	if(!userid){
 		userid = fhq.userinfo ? fhq.userinfo.id : userid;
@@ -2046,45 +2074,6 @@ fhq.ui.loadUserInfo = function(uuid){
 		
 		$('.fhqrightinfo').html(pt.render());
 	});
-}
-
-window.fhq.ui.updateUsers = function(){
-	var params = {};
-	params.filter_text = $('#users_filter_text').val();
-	params.filter_role = $('#users_filter_role').val();
-	fhq.ws.users(params).done(function(response){
-		$('.fhqleftlist .users .content').html('');
-		$('#users_found').html('Found: ' + response.data.length);
-		for(var i in response.data){
-			var u = response.data[i];
-			$('.fhqleftlist .users .content').append('<div class="fhqleftitem" uuid="' + u.uuid + '"><div class="name">' + u.nick + ' (' + u.email + ')</div></div>');
-		}
-		$('.users .fhqleftitem').unbind('click').bind('click', function(){
-			fhq.ui.loadUserInfo($(this).attr('uuid'));
-		});
-	})
-}
-
-window.fhq.ui.loadUsers = function(){
-	$('#content_page').html('<div class="fhqrightinfo center"></div><div class="fhqleftlist"></div>');
-	$('.fhqleftlist').html('');
-	var list = '<div class="users">'
-	+ '<div class="icon">Users</div>'
-	+ '<div class="filter"><input type="text" id="users_filter_text" value="" placeholder="Email or nick.."/></div>'
-	+ '<div class="filter">Role:   <select id="users_filter_role" value="">'
-	+ '<option selected="" value="">*</option>'
-	+ '<option value="user">User</option>'
-	+ '<option value="tester">Tester</option>'
-	+ '<option value="admin">Admin</option>'
-	+ '</select></div>'
-	+ '<div class="filter"><div class="fhqbtn" id="users_search">Search</div></div>'
-	+ '<div class="filter" id="users_found"></div>'
-	+ '<div class="content"></div>'
-	+ '</div>';
-	$('.fhqleftlist').append(list);
-	$('.fhqleftlist .users .content').html('Loading...');
-	$('#users_search').unbind('click').bind('click', fhq.ui.updateUsers);
-	fhq.ui.updateUsers();
 }
 
 window.fhq.ui.updateQuests = function(){

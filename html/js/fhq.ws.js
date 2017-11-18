@@ -231,9 +231,9 @@ fhq.ws.classbook_get_list = function(params){
 	return fhq.ws.send(params);
 }
 
-fhq.ws.classbook_get_info = function(params){
+fhq.ws.classbook_info = function(params){
 	params = params || {};
-	params.cmd = 'classbook_get_info';
+	params.cmd = 'classbook_info';
 	return fhq.ws.send(params);
 }
 

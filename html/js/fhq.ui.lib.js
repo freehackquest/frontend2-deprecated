@@ -3247,7 +3247,7 @@ fhq.ui.loadClassbookUpdateRecord = function(classbookid){
 		+ '</div>'
 	);
 
-	fhq.ws.classbook_get_info({classbookid: classbookid}).done(function(r){
+	fhq.ws.classbook_info({classbookid: classbookid}).done(function(r){
 		fhq.ui.hideLoading();
 		$('#cb_edit_name').val(r.data.name);
 		$('#cb_edit_content').val(r.data.content);
@@ -3366,7 +3366,7 @@ fhq.ui.loadClassbook = function(classbookid){
 	data2.lang = lang;
 
 	if(classbookid != 0){
-		fhq.ws.classbook_get_info(data2).done(function(r){
+		fhq.ws.classbook_info(data2).done(function(r){
 			fhq.ui.hideLoading();
 
 			$('#classbook_path').html('');

@@ -1615,7 +1615,7 @@ fhq.ui.loadPageGames = function() {
 				if (fhq.isAdmin()){
 					buttons += '<div class="btn btn-danger delete-game" gameuuid="' + game.uuid + '">' + fhq.t('Delete') + '</div>';
 					buttons += ' <div class="btn btn-danger edit-game" gameuuid="' + game.uuid + '">' + fhq.t('Edit') + '</div>';
-					buttons += ' <div class="btn btn-danger" onclick="fhqgui.exportGame(' + game.id + ');">' + fhq.t('Export') + '</div>';
+					buttons += ' <div class="btn btn-danger" onclick="fhq.ws.game_export({uuid: \\"' + game.uuid + '\\"});">' + fhq.t('Export') + '</div>';
 					buttons += ' <div class="btn btn-danger" onclick="fhq.ui.gameUpdateLogoForm(' + game.id + ');">' + fhq.t('Update Logo') + '</div>';
 				}
 

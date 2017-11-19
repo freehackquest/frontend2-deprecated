@@ -3345,7 +3345,7 @@ fhq.ui.loadClassbook = function(classbookid){
 	data.parentid = classbookid;
 	data.search = '';
 	$('#classbook_items').html('');
-	fhq.ws.classbook_get_list(data).done(function(r){
+	fhq.ws.classbook_list(data).done(function(r){
 		fhq.ui.hideLoading();
 		for(var i in r.data){
 			var item = r.data[i];

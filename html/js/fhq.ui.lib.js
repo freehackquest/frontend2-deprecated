@@ -1598,6 +1598,25 @@ fhq.ui.gameDelete = function(el){
 	});	
 }
 
+fhq.ui.gameExport = function(gameuuid){
+	fhq.ui.showLoading();
+	fhq.ws.game_export({uuid: gameuuid}).done(function(r){
+		fhq.ui.hideLoading();
+		console.log(r);
+		var a = window.document.createElement('a');
+		a.href = 'data:application/octet-stream;base64,'  + r.data.zipfile_base64;
+		a.download = r.data.zipfile_name;
+		// Append anchor to body.
+		document.body.appendChild(a);
+		a.click();
+		// Remove anchor from body
+		document.body.removeChild(a);
+	}).fail(function(err){
+		fhq.ui.hideLoading();
+		console.error(err);
+	});
+}
+
 fhq.ui.loadPageGames = function() {
 	fhq.ui.showLoading();
 	window.fhq.changeLocationState({'games':''});
@@ -1615,7 +1634,7 @@ fhq.ui.loadPageGames = function() {
 				if (fhq.isAdmin()){
 					buttons += '<div class="btn btn-danger delete-game" gameuuid="' + game.uuid + '">' + fhq.t('Delete') + '</div>';
 					buttons += ' <div class="btn btn-danger edit-game" gameuuid="' + game.uuid + '">' + fhq.t('Edit') + '</div>';
-					buttons += ' <div class="btn btn-danger" onclick="fhq.ws.game_export({uuid: \\"' + game.uuid + '\\"});">' + fhq.t('Export') + '</div>';
+					buttons += ' <div class="btn btn-danger export-game" gameuuid="' + game.uuid + '">' +  fhq.t('Export') + '</div>';
 					buttons += ' <div class="btn btn-danger" onclick="fhq.ui.gameUpdateLogoForm(' + game.id + ');">' + fhq.t('Update Logo') + '</div>';
 				}
 
@@ -1636,6 +1655,11 @@ fhq.ui.loadPageGames = function() {
 			var gameuuid = $(this).attr('gameuuid');
 			fhq.ui.loadPageEditGame(gameuuid);
 		});
+		
+		$('.export-game').unbind().bind('click', function(){
+			var gameuuid = $(this).attr('gameuuid');
+			fhq.ui.gameExport(gameuuid);
+		})
 		
 		$('.delete-game').unbind().bind('click', function(){
 			var gameuuid = $(this).attr('gameuuid');

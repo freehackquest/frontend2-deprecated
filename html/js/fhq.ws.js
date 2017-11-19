@@ -225,9 +225,9 @@ fhq.ws.users = function(params){
 	return fhq.ws.send(params);
 }
 
-fhq.ws.classbook_get_list = function(params){
+fhq.ws.classbook_list = function(params){
 	params = params || {};
-	params.cmd = 'classbook_get_list';
+	params.cmd = 'classbook_list';
 	return fhq.ws.send(params);
 }
 

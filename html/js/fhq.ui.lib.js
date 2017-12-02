@@ -2705,54 +2705,6 @@ function removeQuestFile(id, questid)
 	);
 }
 
-window.fhq.ui.refreshHints = function(questid, hints, perm_edit){
-	var result = "";
-	var i = 1;
-	for(var h in hints){
-		var hint = hints[h];
-		result += '<div><b>Hint ' + i + ':</b> <pre style="display: inline-block;">' + $('<div/>').text(hint.text).html() + '</pre>' + (fhq.isAdmin() ? ' <div class="fhqbtn deletehint" hintid="' + hint.id + '">' + fhq.t('Delete') + '</div>' : '') + '</div>';
-		i++;
-	}
-	result += (perm_edit ? '<div><input type="text" id="quest_addhinttext"/> <div class="fhqbtn" id="quest_addhint">' + fhq.t('Add') + '</div></div>' : '');
-
-	$('#newquestinfo_hints').html(result);
-
-	$('.deletehint').unbind().bind('click', function(e){
-		var hintid = parseInt($(this).attr('hintid'),10);
-		fhq.ui.deleteHint(hintid, questid);
-	});
-
-	$('#quest_addhint').unbind().bind('click', function(){
-		fhq.ui.addHint(questid);
-	});
-}
-
-window.fhq.ui.deleteHint = function(hintid, questid){
-	fhq.ws.deletehint({"hintid": hintid}).done(function(){
-		fhq.ws.hints({"questid": questid}).done(function(response){
-			fhq.ui.refreshHints(questid, response.data, true);
-		}).fail(function(){
-			alert("Problem with get hints from ws");
-		});
-	}).fail(function(){
-		console.error("Problem with delete hint");
-	});
-}
-
-window.fhq.ui.addHint = function(questid){
-	var val = $('#quest_addhinttext').val();
-	fhq.ws.addhint({questid: questid, hint: val}).done(function(){
-		$('#quest_addhinttext').val('');
-		fhq.ws.hints({"questid": questid}).done(function(response){
-			fhq.ui.refreshHints(questid, response.data, true);
-		}).fail(function(){
-			alert("Problem with get hints from ws");
-		});
-	}).fail(function(){
-		console.error("Problem with add hint");
-	});
-}
-
 fhq.ui.renderQuestAppendButtons = function(el, q){
 	el.append(''
 		+ '<div class="card">'
@@ -2792,11 +2744,28 @@ fhq.ui.renderQuestAppendButtons = function(el, q){
 	})
 }
 
-fhq.ui.renderQuestShareButtons = function(el){
+fhq.ui.renderQuestDetails = function(el, q){
 	el.append(''
 		+ '<div class="card">'
-		+ '		<div class="card-header"> Share </div>'
+		+ '		<div class="card-header">' + fhq.t('Details') + '</div>'
 		+ '		<div class="card-body">'
+		+ '			<div class="row">'
+		+ '				<div class="col"><strong>' + fhq.t('Subject') + ':</strong> <a href="?subject=' + q.subject + '">' + q.subject + '</a></div>'
+		+ '				<div class="col"><strong>' + fhq.t('Score') + ':</strong> +' + q.score + '</div>'
+		+ '				<div class="col"><strong>' + fhq.t('Status') + ':</strong> ' + (q.completed ? fhq.t('status_completed') + ' (' + q.dt_passed + ')' : fhq.t('status_open')) + '</div>'
+		+ '			</div>'
+		+ '			<div class="row">'
+		+ '				<div class="col"><strong>' + fhq.t('State') + ':</strong> ' + fhq.t('state_' + q.state) + '</div>'
+		+ '				<div class="col"><strong>' + fhq.t('Author') + ':</strong> ' + q.author + '</div>'
+		+ '				<div class="col"><strong>' + fhq.t('Copyright') + ':</strong> ' + q.copyright + '</div>'
+		+ '			</div>'
+		+ '			<div class="row">'
+		+ '				<div class="col"><strong>' + fhq.t('Solved') + ':</strong> ' + q.count_user_solved + ' ' + fhq.t('users_solved') + '</div>'
+		+ '				<div class="col"></div>'
+		+ '				<div class="col"></div>'
+		+ '			</div>'
+		+ '		</div>'
+		+ '		<div class="card-footer">'
 		+ '			<script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>'
 		+ '			<script src="//yastatic.net/share2/share.js"></script>'
 		+ '			<div class="ya-share2" data-services="collections,vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,blogger,reddit,linkedin,lj,viber,whatsapp,skype,telegram"></div>'
@@ -2805,56 +2774,84 @@ fhq.ui.renderQuestShareButtons = function(el){
 	);
 }
 
-fhq.ui.renderQuestDetails = function(el, q){
-	el.append(''
-		+ '<div class="fhq0101">'
-		+ '<div class="fhq0102">' + fhq.t('Details') + '</div>'
-		+ '	<div class="newquestinfo-details-left"> '
-		+ '		<div class="newquestinfo-details-row">'
-		+ '			<div class="newquestinfo-details-cell">' + fhq.t('Subject') + ':</div>'
-		+ '			<div class="newquestinfo-details-cell">' + q.subject + '</div>'
-		+ '		</div>'
-		+ '		<div class="newquestinfo-details-row">'
-		+ '			<div class="newquestinfo-details-cell">' + fhq.t('Score') + ':</div>'
-		+ '			<div class="newquestinfo-details-cell">+' + q.score + '</div>'
-		+ '		</div>'
-		+ '		<div class="newquestinfo-details-row">'
-		+ '			<div class="newquestinfo-details-cell">' + fhq.t('Status') + ':</div>'
-		+ '			<div class="newquestinfo-details-cell">' + (q.completed ? fhq.t('status_completed') + ' (' + q.dt_passed + ')' : fhq.t('status_open')) + '</div>'
-		+ '		</div>'
-		+ '	</div>'
-		+ '	<div class="newquestinfo-details-right"> '
-		+ '		<div class="newquestinfo-details-row">'
-		+ '			<div class="newquestinfo-details-cell">' + fhq.t('State') + ':</div>'
-		+ '			<div class="newquestinfo-details-cell">' + fhq.t('state_' + q.state) + '</div>'
-		+ '		</div>'
-		+ '		<div class="newquestinfo-details-row">'
-		+ '			<div class="newquestinfo-details-cell">' + fhq.t('Solved') + ':</div>'
-		+ '			<div class="newquestinfo-details-cell">' + q.count_user_solved + ' ' + fhq.t('users_solved') + '</div>'
-		+ '		</div>'
-		+ '		<div class="newquestinfo-details-row">'
-		+ '			<div class="newquestinfo-details-cell">' + fhq.t('Author') + ':</div>'
-		+ '			<div class="newquestinfo-details-cell">' + q.author + '</div>'
-		+ '		</div>'
-		+ '		<div class="newquestinfo-details-row">'
-		+ '			<div class="newquestinfo-details-cell">' + fhq.t('Copyright') + ':</div>'
-		+ '			<div class="newquestinfo-details-cell">' + q.copyright + '</div>'
-		+ '		</div>'			
-		+ '	</div>'
-		+ '</div>'
-	)
-}
-
 fhq.ui.renderQuestDescription = function(el, q){
 	var converter = new showdown.Converter();
 	el.append(''
-		+ '<br><div class="card">'
+		+ '<div class="card">'
 		+ '		<div class="card-header">' + fhq.t('Description') + '</div>'
 		+ '		<div class="card-body">'
 		+ converter.makeHtml(q.text)
 		+ '		</div>'
 		+ '</div><br>'
 	);
+}
+
+fhq.ui.deleteHint = function(hintid, questid){
+	fhq.ws.deletehint({"hintid": hintid}).done(function(){
+		fhq.ws.hints({"questid": questid}).done(function(response){
+			fhq.ui.refreshHints(questid, response.data, true);
+		}).fail(function(){
+			alert("Problem with get hints from ws");
+		});
+	}).fail(function(){
+		console.error("Problem with delete hint");
+	});
+}
+
+fhq.ui.addHint = function(questid){
+	var val = $('#quest_addhinttext').val();
+	fhq.ws.addhint({questid: questid, hint: val}).done(function(){
+		$('#quest_addhinttext').val('');
+		fhq.ws.hints({"questid": questid}).done(function(response){
+			fhq.ui.refreshHints(questid, response.data, true);
+		}).fail(function(){
+			alert("Problem with get hints from ws");
+		});
+	}).fail(function(){
+		console.error("Problem with add hint");
+	});
+}
+
+fhq.ui.refreshHints = function(questid, hints, perm_edit){
+	var result = "";
+	var i = 1;
+	for(var h in hints){
+		var hint = hints[h];
+		result += '<div><b>Hint ' + i + ':</b> <pre style="display: inline-block;">' + $('<div/>').text(hint.text).html() + '</pre>' + (fhq.isAdmin() ? ' <div class="fhqbtn deletehint" hintid="' + hint.id + '">' + fhq.t('Delete') + '</div>' : '') + '</div>';
+		i++;
+	}
+	result += (perm_edit ? '<div><input type="text" id="quest_addhinttext"/> <div class="fhqbtn" id="quest_addhint">' + fhq.t('Add') + '</div></div>' : '');
+
+	$('#quest_hints').html(result);
+
+	$('.deletehint').unbind().bind('click', function(e){
+		var hintid = parseInt($(this).attr('hintid'),10);
+		fhq.ui.deleteHint(hintid, questid);
+	});
+
+	$('#quest_addhint').unbind().bind('click', function(){
+		fhq.ui.addHint(questid);
+	});
+}
+
+fhq.ui.renderQuestHints = function(el, hi, q){
+	if(hi.length > 0 || fhq.isAdmin()){
+		el.append(''
+			+ '<div class="card">'
+			+ '		<div class="card-header"><a id="quest_show_hints" href="javascript:void(0);">' + fhq.t('Hints') + ' (' + hi.length + ')</a></div>'
+			+ '		<div class="card-body" id="quest_hints"  style="display: none">'
+			+ '		</div>'
+			+ '</div><br>'
+		);
+		fhq.ui.refreshHints(q.id, hi, fhq.isAdmin());
+		$('#quest_show_hints').unbind().bind('click', function(){
+			if($('#quest_hints').is(":visible")){
+				$('#quest_hints').hide();
+			}else{
+				$('#quest_hints').show();
+			}
+		});
+	}
 }
 
 fhq.ui.loadQuest = function(id){
@@ -2889,11 +2886,8 @@ fhq.ui.loadQuest = function(id){
 		});
 
 		fhq.ui.renderQuestAppendButtons(el, q);
-		fhq.ui.renderQuestShareButtons(el);
 		fhq.ui.renderQuestDetails(el, q);
 		fhq.ui.renderQuestDescription(el, q);
-
-		
 
 		if(fi.length > 0){
 			var files1 = '';						
@@ -2909,25 +2903,7 @@ fhq.ui.loadQuest = function(id){
 			)
 		}
 
-		if(hi.length > 0 || fhq.isAdmin()){
-			var hints = '<div class="fhq0051">'
-				+ '<div class="fhq0053 hide" id="quest_show_hints">' + fhq.t('Hints') + '</div>'
-				+ '<div id="newquestinfo_hints" style="display: none;">';
-			hints += '</div></div>';
-			el.append(hints);
-			fhq.ui.refreshHints(q.id, hi, fhq.isAdmin());
-			$('#quest_show_hints').unbind().bind('click', function(){
-				if($('#newquestinfo_hints').is(":visible")){
-					$('#newquestinfo_hints').hide();
-					$('#quest_show_hints').removeClass('show');
-					$('#quest_show_hints').addClass('hide');
-				}else{
-					$('#newquestinfo_hints').show();
-					$('#quest_show_hints').removeClass('hide');
-					$('#quest_show_hints').addClass('show');
-				}
-			});
-		}
+		fhq.ui.renderQuestHints(el, hi, q);
 		
 		if(!q.completed){
 			if(fhq.isAuth()){

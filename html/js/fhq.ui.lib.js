@@ -2753,6 +2753,45 @@ window.fhq.ui.addHint = function(questid){
 	});
 }
 
+fhq.ui.questAppendButtons = function(el, q){
+	el.append(''
+		+ '<br><div class="card">'
+		+ '		<div class="card-body" id="quest_btns">'
+		+ '			<div class="btn btn-danger" id="quest_report">' + fhq.t('Report an error') + '</div>'
+		+ '		</div>'
+		+ '</div><br>'
+	);
+	if(fhq.isAdmin()){
+		$('#quest_btns').append(' '
+			+ '<div class="btn btn-info" questid="' + q.id + '" id="quest_edit">' + fhq.t('Edit') + '</div> '
+			+ '<div class="btn btn-info" questid="' + q.id + '" id="quest_export">' + fhq.t('Export') + '</div> '
+			+ '<div class="btn btn-danger" questid="' + q.id + '" id="quest_delete">' + fhq.t('Delete') + '</div> '
+		)
+	}
+
+	$('#quest_report').unbind().bind('click', function(){
+		fhq.ui.showFeedbackDialog(
+			'error',
+			fhq.t('Report an error'),
+			'GameID: "' + q.gameid + '"\n'
+			+ 'Quest: ' + q.name + ', ID: #' + q.id + '\n'
+			+ 'Comment:\n'
+		);
+	});
+
+	$('#quest_delete').unbind().bind('click', function(){
+		fhq.ui.deleteQuest(q.id);
+	});
+	
+	$('#quest_edit').unbind().bind('click', function(){
+		fhq.ui.loadEditQuestForm(q.id);
+	})
+
+	$('#quest_export').unbind().bind('click', function(){
+		fhqgui.exportQuest(q.id);
+	})
+}
+
 window.fhq.ui.loadQuest = function(id){
 	fhq.ui.showLoading();
 	$('#content_page').html('<div class="fhq0009"></div>')
@@ -2783,38 +2822,8 @@ window.fhq.ui.loadQuest = function(id){
 		$('.fhq0011').css({ // game logo
 			'background-image': 'url(' + g.logo + ')'
 		});
-		
-		var c = '<div class="fhq0051">';
-		if(fhq.isAdmin()){
-			c += '<div class="fhqbtn" id="quest_edit">' + fhq.t('Edit') + '</div>';
-			c += '<div class="fhqbtn" id="quest_delete">' + fhq.t('Delete') + '</div>';
-			c += '<div class="fhqbtn" id="quest_export">' + fhq.t('Export') + '</div>';
-		}
-		c += '<div class="fhqbtn" id="quest_report">' + fhq.t('Report an error') + '</div>';
-		c += '</div>'
-		el.append(c);
-		
-		$('#quest_report').unbind().bind('click', function(){
-			fhq.ui.showFeedbackDialog(
-				'error',
-				fhq.t('Report an error'),
-				'GameID: "' + q.gameid + '"\n'
-				+ 'Quest: ' + q.name + ', ID: #' + q.id + '\n'
-				+ 'Comment:\n'
-			);
-		});
 
-		$('#quest_delete').unbind().bind('click', function(){
-			fhq.ui.deleteQuest(q.id);
-		});
-		
-		$('#quest_edit').unbind().bind('click', function(){
-			fhq.ui.loadEditQuestForm(q.id);
-		})
-
-		$('#quest_export').unbind().bind('click', function(){
-			fhqgui.exportQuest(q.id);
-		})
+		fhq.ui.questAppendButtons(el, q);
 
 		el.append('<div class="fhq0051"><br>'
 			+ '<script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>'

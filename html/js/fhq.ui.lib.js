@@ -2753,9 +2753,9 @@ window.fhq.ui.addHint = function(questid){
 	});
 }
 
-fhq.ui.questAppendButtons = function(el, q){
+fhq.ui.renderQuestAppendButtons = function(el, q){
 	el.append(''
-		+ '<br><div class="card">'
+		+ '<div class="card">'
 		+ '		<div class="card-body" id="quest_btns">'
 		+ '			<div class="btn btn-danger" id="quest_report">' + fhq.t('Report an error') + '</div>'
 		+ '		</div>'
@@ -2792,7 +2792,72 @@ fhq.ui.questAppendButtons = function(el, q){
 	})
 }
 
-window.fhq.ui.loadQuest = function(id){
+fhq.ui.renderQuestShareButtons = function(el){
+	el.append(''
+		+ '<div class="card">'
+		+ '		<div class="card-header"> Share </div>'
+		+ '		<div class="card-body">'
+		+ '			<script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>'
+		+ '			<script src="//yastatic.net/share2/share.js"></script>'
+		+ '			<div class="ya-share2" data-services="collections,vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,blogger,reddit,linkedin,lj,viber,whatsapp,skype,telegram"></div>'
+		+ '		</div>'
+		+ '</div><br>'
+	);
+}
+
+fhq.ui.renderQuestDetails = function(el, q){
+	el.append(''
+		+ '<div class="fhq0101">'
+		+ '<div class="fhq0102">' + fhq.t('Details') + '</div>'
+		+ '	<div class="newquestinfo-details-left"> '
+		+ '		<div class="newquestinfo-details-row">'
+		+ '			<div class="newquestinfo-details-cell">' + fhq.t('Subject') + ':</div>'
+		+ '			<div class="newquestinfo-details-cell">' + q.subject + '</div>'
+		+ '		</div>'
+		+ '		<div class="newquestinfo-details-row">'
+		+ '			<div class="newquestinfo-details-cell">' + fhq.t('Score') + ':</div>'
+		+ '			<div class="newquestinfo-details-cell">+' + q.score + '</div>'
+		+ '		</div>'
+		+ '		<div class="newquestinfo-details-row">'
+		+ '			<div class="newquestinfo-details-cell">' + fhq.t('Status') + ':</div>'
+		+ '			<div class="newquestinfo-details-cell">' + (q.completed ? fhq.t('status_completed') + ' (' + q.dt_passed + ')' : fhq.t('status_open')) + '</div>'
+		+ '		</div>'
+		+ '	</div>'
+		+ '	<div class="newquestinfo-details-right"> '
+		+ '		<div class="newquestinfo-details-row">'
+		+ '			<div class="newquestinfo-details-cell">' + fhq.t('State') + ':</div>'
+		+ '			<div class="newquestinfo-details-cell">' + fhq.t('state_' + q.state) + '</div>'
+		+ '		</div>'
+		+ '		<div class="newquestinfo-details-row">'
+		+ '			<div class="newquestinfo-details-cell">' + fhq.t('Solved') + ':</div>'
+		+ '			<div class="newquestinfo-details-cell">' + q.count_user_solved + ' ' + fhq.t('users_solved') + '</div>'
+		+ '		</div>'
+		+ '		<div class="newquestinfo-details-row">'
+		+ '			<div class="newquestinfo-details-cell">' + fhq.t('Author') + ':</div>'
+		+ '			<div class="newquestinfo-details-cell">' + q.author + '</div>'
+		+ '		</div>'
+		+ '		<div class="newquestinfo-details-row">'
+		+ '			<div class="newquestinfo-details-cell">' + fhq.t('Copyright') + ':</div>'
+		+ '			<div class="newquestinfo-details-cell">' + q.copyright + '</div>'
+		+ '		</div>'			
+		+ '	</div>'
+		+ '</div>'
+	)
+}
+
+fhq.ui.renderQuestDescription = function(el, q){
+	var converter = new showdown.Converter();
+	el.append(''
+		+ '<br><div class="card">'
+		+ '		<div class="card-header">' + fhq.t('Description') + '</div>'
+		+ '		<div class="card-body">'
+		+ converter.makeHtml(q.text)
+		+ '		</div>'
+		+ '</div><br>'
+	);
+}
+
+fhq.ui.loadQuest = function(id){
 	fhq.ui.showLoading();
 	$('#content_page').html('<div class="fhq0009"></div>')
 	var el = $('.fhq0009');
@@ -2823,63 +2888,12 @@ window.fhq.ui.loadQuest = function(id){
 			'background-image': 'url(' + g.logo + ')'
 		});
 
-		fhq.ui.questAppendButtons(el, q);
+		fhq.ui.renderQuestAppendButtons(el, q);
+		fhq.ui.renderQuestShareButtons(el);
+		fhq.ui.renderQuestDetails(el, q);
+		fhq.ui.renderQuestDescription(el, q);
 
-		el.append('<div class="fhq0051"><br>'
-			+ '<script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>'
-			+ '<script src="//yastatic.net/share2/share.js"></script>'
-			+ '<div class="ya-share2" data-services="collections,vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,blogger,reddit,linkedin,lj,viber,whatsapp,skype,telegram"></div>'
-			+ '</div>'
-		);
 		
-		el.append(
-			'<div class="fhq0101">'
-			+ '<div class="fhq0102">' + fhq.t('Details') + '</div>'
-			+ '	<div class="newquestinfo-details-left"> '
-			+ '		<div class="newquestinfo-details-row">'
-			+ '			<div class="newquestinfo-details-cell">' + fhq.t('Subject') + ':</div>'
-			+ '			<div class="newquestinfo-details-cell">' + q.subject + '</div>'
-			+ '		</div>'
-			+ '		<div class="newquestinfo-details-row">'
-			+ '			<div class="newquestinfo-details-cell">' + fhq.t('Score') + ':</div>'
-			+ '			<div class="newquestinfo-details-cell">+' + q.score + '</div>'
-			+ '		</div>'
-			+ '		<div class="newquestinfo-details-row">'
-			+ '			<div class="newquestinfo-details-cell">' + fhq.t('Status') + ':</div>'
-			+ '			<div class="newquestinfo-details-cell">' + (q.completed ? fhq.t('status_completed') + ' (' + q.dt_passed + ')' : fhq.t('status_open')) + '</div>'
-			+ '		</div>'
-			+ '	</div>'
-			+ '	<div class="newquestinfo-details-right"> '
-			+ '		<div class="newquestinfo-details-row">'
-			+ '			<div class="newquestinfo-details-cell">' + fhq.t('State') + ':</div>'
-			+ '			<div class="newquestinfo-details-cell">' + fhq.t('state_' + q.state) + '</div>'
-			+ '		</div>'
-			+ '		<div class="newquestinfo-details-row">'
-			+ '			<div class="newquestinfo-details-cell">' + fhq.t('Solved') + ':</div>'
-			+ '			<div class="newquestinfo-details-cell">' + q.count_user_solved + ' ' + fhq.t('users_solved') + '</div>'
-			+ '		</div>'
-			+ '		<div class="newquestinfo-details-row">'
-			+ '			<div class="newquestinfo-details-cell">' + fhq.t('Author') + ':</div>'
-			+ '			<div class="newquestinfo-details-cell">' + q.author + '</div>'
-			+ '		</div>'
-			+ '		<div class="newquestinfo-details-row">'
-			+ '			<div class="newquestinfo-details-cell">' + fhq.t('Copyright') + ':</div>'
-			+ '			<div class="newquestinfo-details-cell">' + q.copyright + '</div>'
-			+ '		</div>'			
-			+ '	</div>'
-			+ '</div>'
-		)
-
-		var converter = new showdown.Converter();
-
-		el.append(''
-			+ '<br><div class="card">'
-			+ '		<div class="card-header">' + fhq.t('Description') + '</div>'
-			+ '		<div class="card-body">'
-			+ converter.makeHtml(q.text)
-			+ '		</div>'
-			+ '</div><br>'
-		);
 
 		if(fi.length > 0){
 			var files1 = '';						

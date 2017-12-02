@@ -753,11 +753,24 @@ fhq.ui.insertNews = function(){
 	})
 };
 
+fhq.ui.formatUptime = function(t){
+	var t_sec = t % 60;
+	t = (t - t_sec) / 60;
+	var t_min = t % 60;
+	t = (t - t_min) / 60;
+	var t_hours = t % 24;
+	t = (t - t_hours) / 24;
+	var t_days = t;
+	return t_days + " day(s) " + t_hours + " h " + t_min + " m " + t_sec + " s";
+}
+
 fhq.ui.loadServerInfo = function(){
 	fhq.changeLocationState({'server_info':''});
 	fhq.ui.hideLoading();
 	var el = $("#content_page");
 	el.html('Loading...');
+	
+	
 	fhq.ws.server_info().done(function(r){
 		el.html('');
 		el.append('<h1>Server info</h1>');
@@ -766,7 +779,7 @@ fhq.ui.loadServerInfo = function(){
 			+ '	<div class="card-header">Server uptime</div>'
 			+ '	<div class="card-body">'
 			+ ' 	<p>Server started: ' + r.data.server_started + '</p>'
-			+ ' 	<p>Server uptime: ' + r.data.server_uptime_sec + ' sec</p>'
+			+ ' 	<p>Server uptime: ' + fhq.ui.formatUptime(r.data.server_uptime_sec) + ' sec</p>'
 			+ '	</div>'
 			+ '</div><br>'
 		);

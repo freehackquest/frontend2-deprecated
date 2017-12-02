@@ -2786,51 +2786,69 @@ fhq.ui.renderQuestDescription = function(el, q){
 	);
 }
 
-fhq.ui.deleteHint = function(hintid, questid){
-	fhq.ws.deletehint({"hintid": hintid}).done(function(){
-		fhq.ws.hints({"questid": questid}).done(function(response){
-			fhq.ui.refreshHints(questid, response.data, true);
-		}).fail(function(){
-			alert("Problem with get hints from ws");
-		});
-	}).fail(function(){
-		console.error("Problem with delete hint");
-	});
-}
-
-fhq.ui.addHint = function(questid){
-	var val = $('#quest_addhinttext').val();
-	fhq.ws.addhint({questid: questid, hint: val}).done(function(){
-		$('#quest_addhinttext').val('');
-		fhq.ws.hints({"questid": questid}).done(function(response){
-			fhq.ui.refreshHints(questid, response.data, true);
-		}).fail(function(){
-			alert("Problem with get hints from ws");
-		});
-	}).fail(function(){
-		console.error("Problem with add hint");
-	});
-}
-
-fhq.ui.refreshHints = function(questid, hints, perm_edit){
-	var result = "";
+fhq.ui.refreshHints = function(questid, hints){
 	var i = 1;
+	$('#quest_hints').html('');
 	for(var h in hints){
 		var hint = hints[h];
-		result += '<div><b>Hint ' + i + ':</b> <pre style="display: inline-block;">' + $('<div/>').text(hint.text).html() + '</pre>' + (fhq.isAdmin() ? ' <div class="fhqbtn deletehint" hintid="' + hint.id + '">' + fhq.t('Delete') + '</div>' : '') + '</div>';
+		$('#quest_hints').append(''
+			+ '<div class="form-row">'
+			+ '		<div class="input-group col-md-12">'
+			+ '			<span class="input-group-addon">Hint ' + i + ':</span>'
+			+ '			<input type="email" class="form-control" id="hint' + i + '" readonly value="">'
+			+ '			<span class="input-group-btn ' + (fhq.isAdmin() ? '' : 'hide') + '">'
+			+ '				<button class="btn btn-danger deletehint" hintid="' + hint.id + ' type="button">' + fhq.t('Delete') + '</button>'
+			+ '			</span>'
+			+ '		</div>'
+			+ '</div><br>'
+		);
+		$('#hint' + i).val(hint.text);
+	
 		i++;
 	}
-	result += (perm_edit ? '<div><input type="text" id="quest_addhinttext"/> <div class="fhqbtn" id="quest_addhint">' + fhq.t('Add') + '</div></div>' : '');
-
-	$('#quest_hints').html(result);
+	if(fhq.isAdmin()){
+		$('#quest_hints').append(''
+			+ '<div class="form-row">'
+			+ '		<div class="input-group col-md-12">'
+			+ '			<span class="input-group-addon">Hint ' + i + ':</span>'
+			+ '			<input type="email" class="form-control" id="quest_addhinttext" value="">'
+			+ '			<span class="input-group-btn">'
+			+ '				<button class="btn btn-danger" id="quest_addhint" type="button">' + fhq.t('Add') + '</button>'
+			+ '			</span>'
+			+ '		</div>'
+			+ '</div><br>'
+		);
+	}
 
 	$('.deletehint').unbind().bind('click', function(e){
 		var hintid = parseInt($(this).attr('hintid'),10);
-		fhq.ui.deleteHint(hintid, questid);
+		console.log('hintid: ' + hintid);
+		fhq.ws.deletehint({"hintid": hintid}).done(function(){
+			fhq.ws.hints({"questid": questid}).done(function(response){
+				console.log(response.data);
+				fhq.ui.refreshHints(questid, response.data, true);
+			}).fail(function(){
+				alert("Problem with get hints from ws");
+			});
+		}).fail(function(){
+			console.error("Problem with delete hint");
+		});
+	
+		// fhq.ui.deleteHint(hintid, questid);
 	});
 
 	$('#quest_addhint').unbind().bind('click', function(){
-		fhq.ui.addHint(questid);
+		var val = $('#quest_addhinttext').val();
+		fhq.ws.addhint({questid: questid, hint: val}).done(function(){
+			$('#quest_addhinttext').val('');
+			fhq.ws.hints({"questid": questid}).done(function(response){
+				fhq.ui.refreshHints(questid, response.data, true);
+			}).fail(function(){
+				alert("Problem with get hints from ws");
+			});
+		}).fail(function(){
+			console.error("Problem with add hint");
+		});
 	});
 }
 
@@ -2843,7 +2861,7 @@ fhq.ui.renderQuestHints = function(el, hi, q){
 			+ '		</div>'
 			+ '</div><br>'
 		);
-		fhq.ui.refreshHints(q.id, hi, fhq.isAdmin());
+		fhq.ui.refreshHints(q.id, hi);
 		$('#quest_show_hints').unbind().bind('click', function(){
 			if($('#quest_hints').is(":visible")){
 				$('#quest_hints').hide();
@@ -2908,7 +2926,7 @@ fhq.ui.loadQuest = function(id){
 		if(!q.completed){
 			if(fhq.isAuth()){
 				el.append( ''
-					+ '<br><div class="card">'
+					+ '<div class="card">'
 					+ '		<div class="card-header">' + fhq.t('Answer') + '</div>'
 					+ '		<div class="card-body">'
 					+ '			<input id="quest_answer" class="form-control" placeholder="' + fhq.t('Answer') + '..." type="text" onkeydown="if (event.keyCode == 13) this.click();"/> '
@@ -2947,7 +2965,7 @@ fhq.ui.loadQuest = function(id){
 				});
 			}else{
 				el.append( ''
-					+ '<br><div class="card">'
+					+ '<div class="card">'
 					+ '		<div class="card-header">' + fhq.t('Answer') + '</div>'
 					+ '		<div class="card-body">'
 					+ '			' + fhq.t('Please authorize for pass the quest') 

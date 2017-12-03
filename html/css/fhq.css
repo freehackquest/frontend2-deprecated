@@ -100,13 +100,12 @@
 	cursor: pointer;
 }
 
-/* very old styles */
-
-
-#user_skills {
-	display: table;
-    width: 100%;
+.list-group-item{
+	cursor: pointer;
 }
+
+
+/* very old styles */
 
 .fhq0117{
 	display: table-row;

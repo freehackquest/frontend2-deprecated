@@ -3355,6 +3355,43 @@ fhq.ui.deleteClassbookRecord = function(classbookid){
 	});
 }
 
+fhq.ui.renderClassbookPath = function(data){
+	if(data){
+		var parents = data.parents;
+		$('#classbook_path').html('');
+		for(var i in parents){
+			$('#classbook_path').append(''
+				+ '<div class="btn btn-link" onclick="fhq.ui.loadClassbook(' + parents[i].classbookid + ')">' + parents[i].name + '</div>'
+				+ '<i class="fa fa-arrow-right" aria-hidden="true"></i>');	
+		}
+		$('#classbook_path').append('<div class="btn btn-link" onclick="fhq.ui.loadClassbook(' + data.classbookid + ')">' + data.name + '</div>');
+	}else{
+		$('#classbook_path').html('<div class="btn btn-link" onclick="fhq.ui.loadClassbook(0)">Root</div>');
+	}
+}
+
+fhq.ui.renderClassbookItems = function(classbookid, lang){
+	var data = {};
+	data.parentid = classbookid;
+	data.search = '';
+	$('#classbook_items').html('');
+	fhq.ws.classbook_list(data).done(function(r){
+		fhq.ui.hideLoading();
+		for(var i in r.data){
+			var item = r.data[i];
+			$('#classbook_items').append('<li class="list-group-item classbook-item" onclick="fhq.ui.loadClassbook(' + item.classbookid + ')">' + item.name + '</li>');
+		}
+		if(fhq.isAdmin()){
+			$('#classbook_items').append('<button class="btn btn-danger" onclick="fhq.ui.loadClassbookAddRecord(' + classbookid + ')"> + ' + fhq.t('Add record') + '</button>');
+		}
+		
+	}).fail(function(err){
+		fhq.ui.hideLoading();
+		console.error(err);
+		$('#classbook_items').html(err.error);
+	})
+}
+
 fhq.ui.loadClassbook = function(classbookid){
 	fhq.ui.showLoading();
 	var classbookid_ = 0;
@@ -3395,25 +3432,7 @@ fhq.ui.loadClassbook = function(classbookid){
 		+ '</div>'
 	);
 
-	var data = {};
-	data.parentid = classbookid;
-	data.search = '';
-	$('#classbook_items').html('');
-	fhq.ws.classbook_list(data).done(function(r){
-		fhq.ui.hideLoading();
-		for(var i in r.data){
-			var item = r.data[i];
-			$('#classbook_items').append('<li class="list-group-item classbook-item" onclick="fhq.ui.loadClassbook(' + item.classbookid + ')">' + item.name + '</li>');
-		}
-		if(fhq.isAdmin()){
-			$('#classbook_items').append('<button class="btn btn-danger" onclick="fhq.ui.loadClassbookAddRecord(' + classbookid + ')"> + ' + fhq.t('Add record') + '</button>');
-		}
-		
-	}).fail(function(err){
-		fhq.ui.hideLoading();
-		console.error(err);
-		$('#classbook_items').html(err.error);
-	})
+	fhq.ui.renderClassbookItems(classbookid, lang);
 	
 	var data2 = {};
 	data2.classbookid = classbookid;
@@ -3422,11 +3441,8 @@ fhq.ui.loadClassbook = function(classbookid){
 	if(classbookid != 0){
 		fhq.ws.classbook_info(data2).done(function(r){
 			fhq.ui.hideLoading();
-
-			$('#classbook_path').html('');
-			$('#classbook_path').append('<div class="btn btn-default" onclick="fhq.ui.loadClassbook(0)">Root</div>');
-			$('#classbook_path').append(' / <div class="btn btn-default" onclick="fhq.ui.loadClassbook(' + r.data.classbookid + ')">' + r.data.name + '</div>');
-
+			console.log(r);
+			fhq.ui.renderClassbookPath(r.data);
 			$('#classbook_content').html('');
 			
 			var tab_langs = '<ul class="nav nav-tabs">';
@@ -3481,8 +3497,9 @@ fhq.ui.loadClassbook = function(classbookid){
 			$('#classbook_content').html(err.error);
 		})
 	}else{
+		fhq.ui.renderClassbookPath();
+		
 		$('#classbook_content').html('Welcome');
-		$('#classbook_path').html('');
 	}
 }
 

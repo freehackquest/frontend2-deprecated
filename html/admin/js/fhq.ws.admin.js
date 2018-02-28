@@ -70,6 +70,7 @@ window.fhq.ws.setWSState = function(s){
 		document.getElementById('websocket_state').innerHTML = s;
 	}
 }
+
 window.fhq.ws.onconnect = function(){
 	
 };
@@ -83,6 +84,7 @@ window.fhq.ws.initWebsocket = function(){
 		setTimeout(window.fhq.ws.onconnect,1);
 		fhq.ws.setWSState("OK");
 		fhq.ws.token();
+		fhq.hideLoader();
 	};
 
 	window.fhq.ws.socket.onclose = function(event) {

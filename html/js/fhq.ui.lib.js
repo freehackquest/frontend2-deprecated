@@ -2281,6 +2281,7 @@ fhq.ui.loadProposalQuestForm = function(){
 	
 	el.html('<h1>' + fhq.t('Proposal Quest') + '</h1>'
 		+ '<div class="card">'
+		+ '		<div class="card-header">Yet not work now.</div>'
 		+ '		<div class="card-body">'
 		+ '			<div class="form-group row">'
 		+ '				<label for="newquest_gameid" class="col-sm-2 col-form-label">' + fhq.t('Game') + '</label>'
@@ -2295,7 +2296,7 @@ fhq.ui.loadProposalQuestForm = function(){
 		+ '				</div>'
 		+ '			</div>'
 		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_text" class="col-sm-2 col-form-label">' + fhq.t('Text') + ' (Use markdown format)</label>'
+		+ '				<label for="newquest_text" class="col-sm-2 col-form-label">' + fhq.t('Text') + '</label>'
 		+ ' 			<div class="col-sm-10 newquest-text">'
 		+ '					<textarea type="text" class="form-control" style="height: 150px" value="" id="newquest_text"></textarea>'
 		+ '				</div>'
@@ -2353,7 +2354,7 @@ fhq.ui.loadProposalQuestForm = function(){
 		+ '			<div class="form-group row">'
 		+ '				<label class="col-sm-2 col-form-label"></label>'
 		+ ' 			<div class="col-sm-10">'
-		+ '					<div class="btn btn-danger" onclick="fhq.ui.createQuest();">' + fhq.t('Send') + '</div>'
+		+ '					<div class="btn btn-danger" onclick="fhq.ui.proposalQuest();">' + fhq.t('Send') + '</div>'
 		+ '				</div>'
 		+ '			</div>'
 		+ '		</div>'
@@ -2369,7 +2370,7 @@ fhq.ui.loadProposalQuestForm = function(){
 	});
 }
 
-fhq.ui.createQuest = function() {
+fhq.ui.proposalQuest = function() {
 	var params = {};
 	params["gameid"] = parseInt($("#newquest_gameid").val(),10);
 	params["name"] = $("#newquest_name").val();

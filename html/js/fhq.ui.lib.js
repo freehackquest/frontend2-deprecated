@@ -20,11 +20,10 @@ fhq.ui.showModalDialog = function(obj) {
 }
 
 fhq.ui.showError = function(msg){
-	fhq.ui.showModalDialog({
-		'header' : fhq.t('Error'),
-		'content' : msg,
-		'buttons' : ''
-	});
+	$('#modalInfoTitle').html(fhq.t('Error'));
+	$('#modalInfo').modal('show');
+	$('#modalInfoBody').html(msg);
+	$('#modalInfoButtons').html('<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>');
 }
 
 fhq.ui.showLoading = function(){
@@ -151,6 +150,7 @@ fhq.ui.updateMenu = function(){
 	
 	// users/unauth menu
 	$('#btnmenu_newfeedback').html(fhq.t('New Feedback'));
+	$('#btnmenu_proposal_quest').html(fhq.t('Proposal Quest'));
 	
 	$('#btnmenu_creategame').html(fhq.t('Create Game'));
 	$('#btnmenu_importgame').html(fhq.t('Import Game'));
@@ -320,6 +320,8 @@ fhq.ui.chatSoundOn = true;
 fhq.ui.pageHandlers = {};
 
 fhq.ui.processParams = function() {
+	// console.error("processParams onDocReady");
+	
 	fhq.ui.pageHandlers["quests"] = fhq.ui.loadStatSubjectsQuests;
 	fhq.ui.pageHandlers["user"] = fhq.ui.loadUserProfile;
 	fhq.ui.pageHandlers["classbook"] = fhq.ui.loadClassbook;
@@ -339,14 +341,17 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["quest"] = fhq.ui.loadQuest;
 	fhq.ui.pageHandlers["subject"] = fhq.ui.loadQuestsBySubject;
 	fhq.ui.pageHandlers["feedback_add"] = fhq.ui.loadFeedbackAdd;
-	fhq.ui.pageHandlers["create_news"] = fhq.ui.loadCreateNews;
 	fhq.ui.pageHandlers["tools"] = fhq.ui.loadTools;
 	fhq.ui.pageHandlers["tool"] = fhq.ui.loadTool;
-	fhq.ui.pageHandlers["server_info"] = fhq.ui.loadServerInfo;
-	fhq.ui.pageHandlers["server_settings"] = fhq.ui.loadServerSettings;
-	fhq.ui.pageHandlers["answerlist"] = fhq.ui.loadAnswerList;
 	fhq.ui.pageHandlers["feedback"] = fhq.ui.loadFeedback;
 	fhq.ui.pageHandlers["api"] = fhq.ui.loadApiPage;
+	fhq.ui.pageHandlers["proposal_quest"] = fhq.ui.loadProposalQuestForm;
+	
+	// admin api
+	fhq.ui.pageHandlers["create_news"] = fhq.ui.loadCreateNews;
+	fhq.ui.pageHandlers["server_info"] = fhq.ui.loadServerInfo;
+	fhq.ui.pageHandlers["server_settings"] = fhq.ui.loadServerSettings;
+	fhq.ui.pageHandlers["answerlist"] = fhq.ui.loadAnswerList;	
 	fhq.ui.pageHandlers["new_quest"] = fhq.ui.loadCreateQuestForm;
 	fhq.ui.pageHandlers["edit_quest"] = fhq.ui.loadEditQuestForm;
 	fhq.ui.pageHandlers["chat"] = fhq.ui.loadChatPage;
@@ -375,6 +380,27 @@ fhq.ui.processParams = function() {
 window.onpopstate = function(){
 	window.fhq.pageParams = fhq.parsePageParams();
 	fhq.ui.processParams();
+}
+
+var bDocReady = false;
+var bUpdatePageBeforeDocReady = false;
+
+$(document).ready(function(){
+	// console.warn("processParams onDocReady");
+	bDocReady = true;
+	if(bUpdatePageBeforeDocReady){
+		bUpdatePageBeforeDocReady = false;
+		
+		fhq.ui.processParams();	
+	}
+});
+
+fhq.ui.processParamsOnReady = function(){
+	if(!bDocReady){
+		bUpdatePageBeforeDocReady = true;
+	}else{
+		fhq.ui.processParams();
+	}
 }
 
 /* Registration */
@@ -736,11 +762,7 @@ fhq.ui.insertNews = function(){
 	
 		console.error(r);
 		var msg = r.error;
-		fhq.ui.showModalDialog({
-			'header' : fhq.t('Error'),
-			'content' : msg,
-			'buttons' : ''
-		});
+		fhq.ui.showError(msg);
 	})
 };
 
@@ -1519,11 +1541,7 @@ fhq.ui.loadFeedbackAdd = function() {
 			fhq.ui.hideLoading();
 		}).fail(function(r){
 			fhq.ui.hideLoading();
-			fhq.ui.showModalDialog({
-				'header' : fhq.t('Error'),
-				'content' : r.error,
-				'buttons' : ''
-			});
+			fhq.ui.showError(r.error);
 		})
 	});
 }
@@ -2249,6 +2267,129 @@ fhq.ui.createQuest = function() {
 		fhq.ui.showError(r.error);
 	});
 };
+
+fhq.ui.loadProposalQuestForm = function(){
+	window.fhq.changeLocationState({'proposal_quest':''});
+	fhq.ui.showLoading();
+	var el = $('#content_page');
+	
+	if(!fhq.isAuth()){
+		fhq.ui.hideLoading();
+		el.html(fhq.t('Please authorize: ') + '<button class="btn btn-default" onclick="fhq.ui.showSignInForm();">Sign In</button>');
+		return;
+	}
+	
+	el.html('<h1>' + fhq.t('Proposal Quest') + '</h1>'
+		+ '<div class="card">'
+		+ '		<div class="card-body">'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newquest_gameid" class="col-sm-2 col-form-label">' + fhq.t('Game') + '</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<select class="form-control" id="newquest_gameid"></select>'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newquest_name" class="col-sm-2 col-form-label">' + fhq.t('Quest Name') + '</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="text" class="form-control" value="" id="newquest_name">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newquest_text" class="col-sm-2 col-form-label">' + fhq.t('Text') + ' (Use markdown format)</label>'
+		+ ' 			<div class="col-sm-10 newquest-text">'
+		+ '					<textarea type="text" class="form-control" style="height: 150px" value="" id="newquest_text"></textarea>'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newquest_score" class="col-sm-2 col-form-label">' + fhq.t('Score') + ' (+)</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="number" class="form-control" id="newquest_score" value="100">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newquest_subject" class="col-sm-2 col-form-label">' + fhq.t('Subject') + '</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<select class="form-control" value="" id="newquest_subject">'
+		+ '						<option value="trivia">Trivia</option>'
+		+ '						<option value="hashes">Hashes</option>'
+		+ '						<option value="stego">Stego</option>'
+		+ '						<option value="reverse">Reverse</option>'
+		+ '						<option value="recon">Recon</option>'
+		+ '						<option value="crypto">Crypto</option>'
+		+ '						<option value="forensics">Forensics</option>'
+		+ '						<option value="network">Network</option>'
+		+ '						<option value="web">Web</option>'
+		+ '						<option value="ppc">PPC</option>'
+		+ '						<option value="admin">Admin</option>'
+		+ '						<option value="enjoy">Enjoy</option>'
+		+ '						<option value="unknown">Unknown</option>'
+		+ '					</select>'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newquest_answer" class="col-sm-2 col-form-label">' + fhq.t('Answer') + '</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="text" class="form-control" id="newquest_answer" value="">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newquest_answerformat" class="col-sm-2 col-form-label">' + fhq.t('Answer format') + '</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="text" class="form-control" id="newquest_answerformat" value="">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newquest_author" class="col-sm-2 col-form-label">' + fhq.t('Author') + '</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="text" class="form-control" value="" id="newquest_author">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newquest_copyright" class="col-sm-2 col-form-label">' + fhq.t('Copyright') + '</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="text" class="form-control" value="" id="newquest_copyright">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label class="col-sm-2 col-form-label"></label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<div class="btn btn-danger" onclick="fhq.ui.createQuest();">' + fhq.t('Send') + '</div>'
+		+ '				</div>'
+		+ '			</div>'
+		+ '		</div>'
+		+ '</div>'
+	);
+	
+	window.simplemde = new SimpleMDE({ element: document.getElementById("newquest_text") });
+	fhq.ws.games().done(function(r){
+		for(var i in r.data){
+			$('#newquest_gameid').append('<option value="' + r.data[i]["id"] + '">' + r.data[i]["title"] + '</option>');
+		}
+		fhq.ui.hideLoading();
+	});
+}
+
+fhq.ui.createQuest = function() {
+	var params = {};
+	params["gameid"] = parseInt($("#newquest_gameid").val(),10);
+	params["name"] = $("#newquest_name").val();
+	params["text"] = window.simplemde.value();
+	params["score"] = parseInt($("#newquest_score").val(),10);
+	params["subject"] = $("#newquest_subject").val();
+	params["copyright"] = $("#newquest_copyright").val();
+	params["author"] = $("#newquest_author").val();
+	params["answer"] = $("#newquest_answer").val();
+	params["answer_format"] = $("#newquest_answerformat").val();
+	
+	console.log(params);
+	
+	fhq.ws.quest_proposal(params).done(function(r){
+		fhq.ui.loadQuest(r.questid);
+	}).fail(function(r){
+		fhq.ui.showError(r.error);
+	});
+};
+
 
 fhq.ui.deleteQuest = function(id){
 	if (!confirm("Are you sure that wand remove this quest?"))

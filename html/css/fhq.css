@@ -116,6 +116,10 @@
 	z-index: 2000;
 }
 
+.newquest-text .CodeMirror{
+	height: 200px;
+}
+
 /* very old styles */
 
 .fhq0117{

@@ -765,5 +765,17 @@ window.fhq.localization = {
 	'Password':{
 		'en': 'Password',
 		'ru': 'Пароль'
+	},
+	'Proposal Quest':{
+		'en': 'Proposal Quest',
+		'ru': 'Предложить квест'
+	},
+	'Quest Name':{
+		'en': 'Quest Name',
+		'ru': 'Название квеста'
+	},
+	'Please authorize: ':{
+		'en': 'Please authorize: ',
+		'ru': 'Пожалуйста авторизуйтесь: '
 	}
 };

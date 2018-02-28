@@ -163,14 +163,10 @@ fhq.ws.updateUserProfileAsync = function(){
 			fhq.userinfo.email = r.data.email;
 			fhq.userinfo.role = r.data.role;
 			fhq.userinfo.logo = r.data.logo;
-			$(document).ready(function(){
-				fhq.ui.processParams();
-			});
+			// fhq.ui.processParamsOnReady();
 		}).fail(function(){
 			fhq.api.cleanuptoken();
-			$(document).ready(function(){
-				fhq.ui.processParams();
-			});
+			fhq.ui.processParamsOnReady();
 		});
 	},10);
 }
@@ -181,15 +177,11 @@ fhq.ws.token = function(){
 		'cmd': 'token',
 		'token': fhq.getTokenFromCookie()
 	}).done(function(r){
-		$(document).ready(function(){
-			fhq.ui.processParams();
-		});
+		fhq.ui.processParamsOnReady();
 		fhq.ws.updateUserProfileAsync();
 	}).fail(function(r){
 		fhq.api.cleanuptoken();
-		$(document).ready(function(){
-			fhq.ui.processParams();
-		});
+		fhq.ui.processParamsOnReady();
 	});
 	return d;
 }
@@ -204,9 +196,7 @@ fhq.ws.login = function(params){
 		fhq.userinfo = r.user;
 		localStorage.setItem('userinfo', JSON.stringify(fhq.userinfo));
 		fhq.setTokenToCookie(r.token);
-		$(document).ready(function(){
-			fhq.ui.processParams();
-		});
+		// fhq.ui.processParamsOnReady();
 		fhq.ws.updateUserProfileAsync();	
 		d.resolve(r);
 		// try{fhq.ws.socket.close();fhq.ws.initWebsocket()}catch(e){console.error(e)};
@@ -366,6 +356,12 @@ fhq.ws.games = function(params){
 fhq.ws.createquest = function(params){
 	params = params || {};
 	params.cmd = 'createquest';
+	return fhq.ws.send(params);
+}
+
+fhq.ws.quest_proposal = function(params){
+	params = params || {};
+	params.cmd = 'quest_proposal';
 	return fhq.ws.send(params);
 }
 

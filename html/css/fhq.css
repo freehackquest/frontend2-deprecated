@@ -104,6 +104,17 @@
 	cursor: pointer;
 }
 
+.editor-toolbar.fullscreen{
+	z-index: 2000;
+}
+
+.CodeMirror-fullscreen{
+	z-index: 2000;
+}
+
+.editor-preview-side.editor-preview-active-side{
+	z-index: 2000;
+}
 
 /* very old styles */
 

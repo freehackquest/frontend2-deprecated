@@ -157,8 +157,6 @@ fhq.ui.updateMenu = function(){
 	$('#btnmenu_createnews').html(fhq.t('Create News'));
 	$('#btnmenu_createquest').html(fhq.t('Create Quest'));
 
-	$('#btnmenu_users').html(fhq.t('Users'));
-	$('#btnmenu_users2').html(fhq.t('Users') + "2");
 	$('#btnmenu_answerlist').html(fhq.t('Answer List'));
 	$('#btnmenu_serverinfo').html(fhq.t('Server Info'));
 	$('#btnmenu_serversettings').html(fhq.t('Server Settings'));
@@ -352,7 +350,6 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["new_quest"] = fhq.ui.loadCreateQuestForm;
 	fhq.ui.pageHandlers["edit_quest"] = fhq.ui.loadEditQuestForm;
 	fhq.ui.pageHandlers["chat"] = fhq.ui.loadChatPage;
-	fhq.ui.pageHandlers["users"] = fhq.ui.loadUsersPage;
 
 	function renderPage(){
 		fhq.ui.updateMenu();
@@ -368,13 +365,7 @@ fhq.ui.processParams = function() {
 		}
 		
 		if(!processed){
-			
-			if(fhq.containsPageParam("users")){
-				createPageUsers();
-				updateUsers();
-			}else{
-				fhq.ui.loadStatSubjectsQuests();
-			}
+			fhq.ui.loadStatSubjectsQuests();
 		}
 	}
 
@@ -1254,59 +1245,6 @@ fhq.ui.loadApiPage = function() {
 	}).fail(function(r){
 		fhq.ui.hideLoading();
 		console.error(r);
-	})
-}
-
-fhq.ui.loadUsersPage = function(){
-	fhq.ui.showLoading();
-	var onpage = 5;
-	if(fhq.containsPageParam("onpage")){
-		onpage = parseInt(fhq.pageParams['onpage'], 10);
-	}
-
-	var page = 0;
-	if(fhq.containsPageParam("page")){
-		page = parseInt(fhq.pageParams['page'], 10);
-	}
-	
-	var el = $("#content_page");
-	el.html('Loading...')
-	
-	window.fhq.changeLocationState({'users': '', 'onpage': onpage, 'page': page});
-
-	fhq.ws.users({'onpage': onpage, 'page': page}).done(function(r){
-		fhq.ui.hideLoading();
-		
-		el.html('');
-		el.append('<h1>' + fhq.t('Users') + '</h1>');
-		el.append(fhq.ui.paginator(0, r.count, r.onpage, r.page));
-		el.append('<table class="table table-striped">'
-			+ '		<thead>'
-			+ '			<tr>'
-			+ '				<th>#</th>'
-			+ '				<th>Email / Nick</th>'
-			+ '				<th>Last IP <br> Country / City / University</th>'
-			+ '				<th>Last Sign in <br> Status / Role</th>'
-			+ '			</tr>'
-			+ '		</thead>'
-			+ '		<tbody id="users_list">'
-			+ '		</tbody>'
-			+ '</table>'
-		)
-		for(var i in r.data){
-			var u = r.data[i];
-			$('#users_list').append('<tr>'
-				+ '	<td>' + u.id + '</td>'
-				+ '	<td><p>' + u.email + '</p><p>'  + u.nick + '</p></td>'
-				+ '	<td><p>' + u.last_ip + '</p><p>' + u.country + ' / ' + u.city + ' / ' + u.university + '</p></td>'
-				+ '	<td><p>' + u.dt_last_login + '</p><p>' + '' + u.role + '</p></td>'
-				+ '</tr>'
-			)
-		}
-	}).fail(function(r){
-		fhq.ui.hideLoading();
-		console.error(r);
-		el.append(r.error);
 	})
 }
 
@@ -3287,7 +3225,7 @@ fhq.ui.loadClassbookUpdateRecord = function(classbookid){
 		+ '		<div class="form-group row">'
 		+ '			<label for="cb_edit_content" class="col-sm-2 col-form-label">' + fhq.t('Content') + '</label>'
 		+ '			<div class="col-sm-10">'
-		+ '				<textarea type="text" class="form-control" id="cb_edit_content" style="height: 300px"></textarea>'
+		+ '				<textarea type="text" class="form-control" id="cb_edit_content"></textarea>'
 		+ '			</div>'
 		+ '		</div>'
 		+ '		<div class="row">'
@@ -3300,11 +3238,13 @@ fhq.ui.loadClassbookUpdateRecord = function(classbookid){
 		+ '		</div>'
 		+ '</div>'
 	);
+	
+	var simplemde = new SimpleMDE({ element: document.getElementById("cb_edit_content") });
 
 	fhq.ws.classbook_info({classbookid: classbookid}).done(function(r){
 		fhq.ui.hideLoading();
 		$('#cb_edit_name').val(r.data.name);
-		$('#cb_edit_content').val(r.data.content);
+		simplemde.value(r.data.content);
 	}).fail(function(err){
 		fhq.ui.hideLoading();
 		console.error(err);
@@ -3315,12 +3255,12 @@ fhq.ui.loadClassbookUpdateRecord = function(classbookid){
 	$('#cancel_record').unbind().bind('click', function(){
 		fhq.ui.loadClassbook(classbookid);
 	})
-	
+
 	$('#update_record').unbind().bind('click', function(){
 		var data = {};
 		data.classbookid = classbookid;
 		data.name = $('#cb_edit_name').val();
-		data.content = $('#cb_edit_content').val();
+		data.content = simplemde.value();
 		$('#cb_edit_error').hide();
 		fhq.ui.showLoading();
 		fhq.ws.classbook_update_record(data).done(function(r){
@@ -3384,7 +3324,6 @@ fhq.ui.renderClassbookItems = function(classbookid, lang){
 		if(fhq.isAdmin()){
 			$('#classbook_items').append('<button class="btn btn-danger" onclick="fhq.ui.loadClassbookAddRecord(' + classbookid + ')"> + ' + fhq.t('Add record') + '</button>');
 		}
-		
 	}).fail(function(err){
 		fhq.ui.hideLoading();
 		console.error(err);
@@ -3433,7 +3372,7 @@ fhq.ui.loadClassbook = function(classbookid){
 	);
 
 	fhq.ui.renderClassbookItems(classbookid, lang);
-	
+
 	var data2 = {};
 	data2.classbookid = classbookid;
 	data2.lang = lang;
@@ -3458,7 +3397,8 @@ fhq.ui.loadClassbook = function(classbookid){
 			$('#classbook_content').append(tab_langs);
 			
 			$('#classbook_content').append('<h1>' + r.data.name + '</h1>');
-			$('#classbook_content').append(r.data.content);
+			var converter = new showdown.Converter();
+			$('#classbook_content').append(converter.makeHtml(r.data.content));
 			
 			if(fhq.isAdmin()){
 				var btns = '';

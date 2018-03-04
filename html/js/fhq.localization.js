@@ -777,5 +777,13 @@ window.fhq.localization = {
 	'Please authorize: ':{
 		'en': 'Please authorize: ',
 		'ru': 'Пожалуйста авторизуйтесь: '
+	},
+	'Thanks! Your proposal accepted. Administrator contact this you if will be questions':{
+		'en': 'Thanks! Your proposal accepted. Administrator contact this you if will be questions',
+		'ru': 'Спасибо! Ваше предложение принято. Администратор свяжется с вами через email, если будут вопросы.'
+	},
+	'You can':{
+		'en': 'You can',
+		'ru': 'Вы можете'
 	}
 };

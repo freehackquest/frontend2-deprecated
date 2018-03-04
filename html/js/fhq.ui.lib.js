@@ -2371,6 +2371,8 @@ fhq.ui.loadProposalQuestForm = function(){
 }
 
 fhq.ui.proposalQuest = function() {
+	fhq.ui.showLoading();
+	
 	var params = {};
 	params["gameid"] = parseInt($("#newquest_gameid").val(),10);
 	params["name"] = $("#newquest_name").val();
@@ -2383,10 +2385,12 @@ fhq.ui.proposalQuest = function() {
 	params["answer_format"] = $("#newquest_answerformat").val();
 	
 	console.log(params);
-	
 	fhq.ws.quest_proposal(params).done(function(r){
-		fhq.ui.loadQuest(r.questid);
+		var el = $('#content_page');
+		el.html(fhq.t("Thanks! Your proposal accepted. Administrator contact this you if will be questions"));
+		fhq.ui.hideLoading();
 	}).fail(function(r){
+		fhq.ui.hideLoading();
 		fhq.ui.showError(r.error);
 	});
 };
@@ -2602,6 +2606,8 @@ fhq.ui.loadStatSubjectsQuests = function(){
 	fhq.ws.quests_subjects().done(function(r){
 		console.log(r);
 		el.html('');
+		el.append(fhq.t('You can') + '  <button class="btn btn-secondary" onclick="fhq.ui.loadProposalQuestForm()">'+ fhq.t('Proposal Quest') + "</button><br><br>");
+		
 		for(var i in r.data){
 			var o = r.data[i];
 			el.append(''

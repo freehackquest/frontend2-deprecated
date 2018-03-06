@@ -22,18 +22,29 @@
 		<script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
 		<script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 		
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css?ver=1"/>
+		<link rel="stylesheet" id="bootstrap_file" type="text/css" href=""/>
+		<script type="text/javascript">
+			if(localStorage && localStorage.getItem('dark') != null){
+				document.getElementById('bootstrap_file').href = 'css/bootstrap.cyborg.min.css?ver=1';
+			}else{
+				document.getElementById('bootstrap_file').href = 'css/bootstrap.min.css?ver=1';
+			}
+		</script>
+
+		<!-- link rel="stylesheet" type="text/css" href="css/bootstrap.cyborg.min.css?ver=1"/ -->
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.min.css?ver=1"/>
-		<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.min.css?ver=1"/>
+		<!-- link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.min.css?ver=1"/ -->
 		<link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css?ver=1"/>
 		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css?ver=1"/>
 		<link rel="stylesheet" type="text/css" href="css/simplemde.min.css?ver=1"/>
-		
+
 		
 		<!-- fhq -->
 
 		<!-- script src="js/fhq.google.auth.js?ver=2"></script -->		
 		<link rel="stylesheet" type="text/css" href="css/fhq.css?ver=2"/>
+
+		<!-- link rel="stylesheet" type="text/css" href="css/darkly.min.css?ver=1"/ -->
 
 		<script type="text/javascript" src="js/fhq.base.js?ver=1"></script>
 		<script type="text/javascript" src="js/fhq.localization.js?ver=1"></script>

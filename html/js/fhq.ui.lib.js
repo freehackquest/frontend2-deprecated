@@ -911,14 +911,27 @@ fhq.ui.loadAnswerList = function(){
 
 fhq.ui.loadAboutPage = function() {
 	window.fhq.changeLocationState({'about':''});
+	
+	var dark_switcher = '';
+	if(localStorage && localStorage.getItem('dark') != null){
+		dark_switcher = '<a href="javascript:void(0);" onclick="localStorage.removeItem(\'dark\'); window.location.reload();">Default theme</a>'
+	}else{
+		dark_switcher = '<a href="javascript:void(0);" onclick="localStorage.setItem(\'dark\', true); window.location.reload();">Cyborg theme</a>'
+	}
+	
 	var el = $('#content_page');
 	el.html('');
-	
 	el.append(''
 		+ '<div class="card">'
 		+ '	<div class="card-header">' + fhq.t('About') + '</div>'
 		+ '	<div class="card-body">'
 		+ '		<strong>FreeHackQuest</strong> - ' + fhq.t('This is an open source platform for competitions in computer security.')
+		+ '	</div>'
+		+ '</div><br>'
+		+ '<div class="card">'
+		+ '	<div class="card-header">' + fhq.t('Theme') + '</div>'
+		+ '	<div class="card-body">'
+		+ '<p>' + dark_switcher + '</p>'
 		+ '	</div>'
 		+ '</div><br>'
 		+ '<div class="card">'
@@ -2615,7 +2628,7 @@ fhq.ui.loadStatSubjectsQuests = function(){
 				+ '    <h4 class="card-title">' + fhq.ui.capitalizeFirstLetter(o.subject) + '</h4>'
 				+ '    <h6 class="card-subtitle mb-2 text-muted">(' + o.count + ' quests)</h6>'
 				+ '    <p class="card-text">' + fhq.t(o.subject + '_description') + '</p>'
-				+ '	   <button subject="' + o.subject + '" type="button" class="open-subject btn btn-default">' + fhq.t('Open') + '</button>'
+				+ '	   <button subject="' + o.subject + '" type="button" class="open-subject btn btn-secondary">' + fhq.t('Open') + '</button>'
 				// + '	   <button subject="' + o.subject + '" type="button" class="best-subject-users btn btn-default">' + fhq.t('Best users') + '</button>'
 				+ '  </div>'
 				+ '</div><br>'
@@ -2656,7 +2669,7 @@ fhq.ui.loadQuestsBySubject = function(subject){
 				+ '    <h4 class="card-title" style="' + (q.status == "completed" ? 'text-decoration: line-through;' : '') + '">' +  q.name + '(+' + q.score + ')</h4>'
 				+ '    <h6 class="card-subtitle mb-2 text-muted">Quest #' + q.questid + '</h6>'
 				+ '    <p class="card-text">' + fhq.t('Solved') + ': ' + q.solved + '</p>'
-				+ '	   <button questid="' + q.questid + '" type="button" class="open-quest btn btn-default">' + fhq.t('Open') + '</button>'
+				+ '	   <button questid="' + q.questid + '" type="button" class="open-quest btn btn-secondary">' + fhq.t('Open') + '</button>'
 				+ '  </div>'
 				+ '</div><br>'
 			);

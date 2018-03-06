@@ -163,9 +163,10 @@ fhq.ws.updateUserProfileAsync = function(){
 			fhq.userinfo.email = r.data.email;
 			fhq.userinfo.role = r.data.role;
 			fhq.userinfo.logo = r.data.logo;
-			// fhq.ui.processParamsOnReady();
+			fhq.ui.processParamsOnReady();
 		}).fail(function(){
 			fhq.api.cleanuptoken();
+			localStorage.removeItem('userinfo');
 			fhq.ui.processParamsOnReady();
 		});
 	},10);
@@ -177,7 +178,7 @@ fhq.ws.token = function(){
 		'cmd': 'token',
 		'token': fhq.getTokenFromCookie()
 	}).done(function(r){
-		fhq.ui.processParamsOnReady();
+		// fhq.ui.processParamsOnReady();
 		fhq.ws.updateUserProfileAsync();
 	}).fail(function(r){
 		fhq.api.cleanuptoken();

@@ -320,7 +320,7 @@ fhq.ui.chatSoundOn = true;
 fhq.ui.pageHandlers = {};
 
 fhq.ui.processParams = function() {
-	// console.error("processParams onDocReady");
+	console.error("processParams onDocReady");
 	
 	fhq.ui.pageHandlers["quests"] = fhq.ui.loadStatSubjectsQuests;
 	fhq.ui.pageHandlers["user"] = fhq.ui.loadUserProfile;
@@ -373,8 +373,7 @@ fhq.ui.processParams = function() {
 			fhq.ui.loadStatSubjectsQuests();
 		}
 	}
-
-	fhq.ws.user().done(renderPage).fail(renderPage);
+	renderPage();
 }
 
 window.onpopstate = function(){

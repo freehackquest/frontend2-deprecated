@@ -29,6 +29,16 @@
 	min-height: 170px;
 }
 
+.card-right-img{
+	background-repeat: no-repeat;
+    background-size: 150px 150px;
+    background-position: right;
+    padding-right: 170px;
+    margin-right: 20px;
+    height: auto;
+	min-height: 170px;
+}
+
 .card-left-img.admin{
 	background-image: url(../images/quests/admin_150x150.png);
 }
@@ -119,6 +129,32 @@
 .newquest-text .CodeMirror{
 	height: 200px;
 }
+
+.card.subject-quest{
+	margin-bottom: 20px;
+	overflow: hidden;
+	max-height: 500px;
+	left: 0;
+	-webkit-transition: max-height 1s, left 1s, margin-bottom 1s; /* Safari */
+	-moz-transition: max-height 1s, left 1s, margin-bottom 1s; /* Safari */
+	-o-transition: max-height 1s, left 1s, margin-bottom 1s; /* Safari */
+    transition: max-height 1s, left 1s, margin-bottom 1s;
+    
+    width: 50%;
+    min-width: 350px;
+    display: inline-flex;
+}
+
+@media (min-width: 576px) {
+	.card.subject-quest{
+		width: 100%;
+	}
+}
+/*.head-quests .card-left-img{
+	padding-left: 20px;
+    background-image: none !important;
+}*/
+
 
 /* very old styles */
 

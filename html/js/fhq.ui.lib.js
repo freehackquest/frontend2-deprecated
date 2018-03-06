@@ -2610,6 +2610,32 @@ fhq.ui.capitalizeFirstLetter = function(s) {
     return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
+fhq.ui.animateSubjects = function(subject){
+	var els = $('.card.subject-quest');
+	var len = els.length;
+	for(var i = 0; i < len; i++){
+		var el = $(els[i]);
+		if(!subject || el.hasClass(subject)){
+			el.css({'max-height': ''});
+			el.css({'margin-bottom': ''});
+			el.css({left: '0'});
+			if(subject){
+				el.addClass("head-quests");
+			}else{
+				el.removeClass("head-quests");
+			}
+		}else{
+			el.css({left: '-150%'});
+			el.css({'max-height': '0px'});
+			el.css({'margin-bottom': '0px'});
+			el.removeClass("head-quests");
+		}
+	}
+	setTimeout(function(){
+		$("HTML, BODY").animate({ scrollTop: 0 }, 500);
+	},1000);
+}
+
 fhq.ui.loadStatSubjectsQuests = function(){
 	fhq.changeLocationState({'quests':''});
 	fhq.ui.showLoading();
@@ -2623,7 +2649,7 @@ fhq.ui.loadStatSubjectsQuests = function(){
 		for(var i in r.data){
 			var o = r.data[i];
 			el.append(''
-				+ '<div class="card">'
+				+ '<div class="card subject-quest ' + o.subject + '">'
 				+ '  <div class="card-body card-left-img ' + o.subject + '" style="background-image: url(images/quests/' + o.subject + '_150x150.png)">'
 				+ '    <h4 class="card-title">' + fhq.ui.capitalizeFirstLetter(o.subject) + '</h4>'
 				+ '    <h6 class="card-subtitle mb-2 text-muted">(' + o.count + ' quests)</h6>'
@@ -2631,12 +2657,32 @@ fhq.ui.loadStatSubjectsQuests = function(){
 				+ '	   <button subject="' + o.subject + '" type="button" class="open-subject btn btn-secondary">' + fhq.t('Open') + '</button>'
 				// + '	   <button subject="' + o.subject + '" type="button" class="best-subject-users btn btn-default">' + fhq.t('Best users') + '</button>'
 				+ '  </div>'
-				+ '</div><br>'
+				+ '</div>'
 			);
 		}
 		
+		el.append('<div id="content_quests"></div>');
+		
 		$('.open-subject').unbind().bind('click', function(){
-			fhq.ui.loadQuestsBySubject($(this).attr('subject'));
+			if(!window.opened_subject){
+				var subject = $(this).attr('subject');
+				window.opened_subject = subject;
+				$('.open-subject').html('<- Open subjects');
+				fhq.ui.animateSubjects(subject);
+				fhq.ui.loadQuestsBySubject(subject, true);
+			}else{
+				var subject = window.opened_subject;
+				window.opened_subject = null;
+				$('.open-subject').html(fhq.t('Open'));
+				fhq.ui.animateSubjects();
+				$('#content_quests').html('');
+				fhq.changeLocationState({'quests':''});
+				setTimeout(function(){
+					var e = $('.card.subject-quest.' + subject);
+					var top = e.offset().top;
+					$("HTML, BODY").animate({ scrollTop: top - 100 }, 500);
+				},1000);
+			}
 		})
 		
 		$('.best-subject-users').unbind().bind('click', function(){
@@ -2651,10 +2697,10 @@ fhq.ui.loadStatSubjectsQuests = function(){
 	});
 }
 
-fhq.ui.loadQuestsBySubject = function(subject){
+fhq.ui.loadQuestsBySubject = function(subject, cq){
 	fhq.ui.showLoading();
 	fhq.changeLocationState({'subject':subject});
-	var el = $('#content_page');
+	var el = cq ? $('#content_quests') : $('#content_page');
 	el.html('Loading...');
 	var params = {};
 	params.subject = subject;
@@ -2665,8 +2711,8 @@ fhq.ui.loadQuestsBySubject = function(subject){
 			var q = r.data[i];
 			el.append(''
 				+ '<div class="card">'
-				+ '  <div class="card-body card-left-img ' + q.subject + '" style="background-image: url(images/quests/' + q.subject + '_150x150.png)">'
-				+ '    <h4 class="card-title" style="' + (q.status == "completed" ? 'text-decoration: line-through;' : '') + '">' +  q.name + '(+' + q.score + ')</h4>'
+				+ '  <div class="card-body card-right-img ' + q.subject + '" style="background-image: url(images/quests/' + q.subject + '_150x150.png)">'
+				+ '    <h4 class="card-title" style="' + (q.status == "completed" ? 'text-decoration: line-through;' : '') + '">' +  q.name + ' (+' + q.score + ')</h4>'
 				+ '    <h6 class="card-subtitle mb-2 text-muted">Quest #' + q.questid + '</h6>'
 				+ '    <p class="card-text">' + fhq.t('Solved') + ': ' + q.solved + '</p>'
 				+ '	   <button questid="' + q.questid + '" type="button" class="open-quest btn btn-secondary">' + fhq.t('Open') + '</button>'

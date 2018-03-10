@@ -342,9 +342,9 @@ fhq.ws.deletepublicevent = function(params){
 	return fhq.ws.send(params);
 }
 
-fhq.ws.api = function(params){
+fhq.ws.server_api = function(params){
 	params = params || {};
-	params.cmd = 'api';
+	params.cmd = 'server_api';
 	return fhq.ws.send(params);
 }
 

@@ -1214,7 +1214,7 @@ fhq.ui.loadApiPage = function() {
 	var el = $('#content_page');
 	
 	el.html('<h1>FreeHackQuest API</h1>Loading...');
-	fhq.ws.api().done(function(r){
+	fhq.ws.server_api().done(function(r){
 		el.html('<h1>FreeHackQuest API (version: ' + r.version + ')</h1>');
 		fhq.ui.hideLoading();
 		
@@ -1225,8 +1225,8 @@ fhq.ui.loadApiPage = function() {
 			+ '	<div class="card-header">Connection</div>'
 			+ '	<div class="card-body">'
 			+ '		Connection string: ws://' + fhq.ws.hostname + ':' + fhq.ws.port + '/ <br> '
-			+ '		Or if enabled ssl: wss://' + fhq.ws.hostname + ':' + r.data.ssl_port + '/ - with ssl</p>'
-			+ '		<p>For example: <br><code>var socket = new WebSocket("wss://freehackquest.com:' + r.data.ssl_port + '/");</code></p>'
+			+ '		Or if enabled ssl: wss://' + fhq.ws.hostname + ':' + r.ssl_port + '/ - with ssl</p>'
+			+ '		<p>For example: <br><code>var socket = new WebSocket("wss://freehackquest.com:' + r.ssl_port + '/");</code></p>'
 			+ '	</div>'
 			+ '</div><br>'
 			+ '<div class="card">'
@@ -1246,8 +1246,8 @@ fhq.ui.loadApiPage = function() {
 			+ '</div><br>'
 		);
 
-		for(var i in r.data.handlers){
-			var h = r.data.handlers[i];
+		for(var i in r.data){
+			var h = r.data[i];
 			
 			var ins = '';
 			if(h.inputs.length != 0){
@@ -1268,7 +1268,6 @@ fhq.ui.loadApiPage = function() {
 				+ '		<p>' + fhq.t('Access') + ':</p><ul>'
 				+ '			<li>' + fhq.t('Unauthorized') + ': ' + (h.access_unauthorized ? 'allow': 'deny') + '</li>'
 				+ '			<li>' + fhq.t('User') + ': ' + (h.access_user ? 'allow': 'deny') + '</li>'
-				+ '			<li>' + fhq.t('Tester') + ': ' + (h.access_tester ? 'allow': 'deny') + '</li>'
 				+ '			<li>' + fhq.t('Admin') + ': ' + (h.access_admin ? 'allow': 'deny') + '</li>'
 				+ '		</ul>'
 				+ ins

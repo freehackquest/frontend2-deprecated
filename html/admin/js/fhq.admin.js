@@ -239,9 +239,66 @@ fhq.pages['users'] = function(){
 	})
 }
 
+fhq.pages['mails'] = function(){
+	$('#page_name').html('Mails');
+	$('#page_content').html('');
+	fhq.showLoader();
+	
+	var onpage = 5;
+	if(fhq.containsPageParam("onpage")){
+		onpage = parseInt(fhq.pageParams['onpage'], 10);
+	}
+
+	var page = 0;
+	if(fhq.containsPageParam("page")){
+		page = parseInt(fhq.pageParams['page'], 10);
+	}
+	
+	var el = $("#page_content");
+	el.html('Loading...')
+	
+	window.fhq.changeLocationState({'mails': '', 'onpage': onpage, 'page': page});
+
+	fhq.ws.mails_list({'onpage': onpage, 'page': page}).done(function(r){
+		fhq.hideLoader();
+		console.log(r);
+		el.html('');
+		el.append(fhq.paginator(0, r.count, r.onpage, r.page));
+		el.append('<table class="table table-striped">'
+			+ '		<thead>'
+			+ '			<tr>'
+			+ '				<th>#</th>'
+			+ '				<th>To Email <br> Subject</th>'
+			+ '				<th>Message</th>'
+			+ '				<th>Datetime <br> Status <br> Priority </th>'
+			+ '			</tr>'
+			+ '		</thead>'
+			+ '		<tbody id="users_list">'
+			+ '		</tbody>'
+			+ '</table>'
+		)
+		for(var i in r.data){
+			var em = r.data[i];
+			$('#users_list').append('<tr>'
+				+ '	<td>' + em.id + '</td>'
+				+ '	<td><p>' + em.email + '</p><p>'  + em.subject + '</p></td>'
+				+ '	<td><pre>' + em.message + '</pre></td>'
+				+ '	<td><p>' + em.dt + '</p><p>Status: ' + em.status + '</p><p>Priority: ' + em.priority + ' </p></td>'
+				+ '</tr>'
+			)
+		}
+	}).fail(function(r){
+		fhq.hideLoader();
+		console.error(r);
+		el.append(r.error);
+	})
+}
+
 
 fhq.pages['quests'] = function(){
 	$('#page_name').html('Quests');
 	$('#page_content').html('');
 
 }
+
+

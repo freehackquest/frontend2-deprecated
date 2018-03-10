@@ -89,10 +89,7 @@ window.fhq.ws.initWebsocket = function(){
 
 	window.fhq.ws.socket.onclose = function(event) {
 		console.log('Closed');
-		
-		if(fhq.ui && fhq.ui.onwsclose){
-			fhq.ui.onwsclose();
-		}
+		fhq.showLoader();
 		
 		if (event.wasClean) {
 			fhq.ws.setWSState("CLOSED");
@@ -240,6 +237,12 @@ fhq.ws.login = function(params){
 fhq.ws.users = function(params){
 	params = params || {};
 	params.cmd = 'users';
+	return fhq.ws.send(params);
+}
+
+fhq.ws.mails_list = function(params){
+	params = params || {};
+	params.cmd = 'mails_list';
 	return fhq.ws.send(params);
 }
 

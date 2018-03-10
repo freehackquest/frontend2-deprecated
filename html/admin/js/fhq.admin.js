@@ -184,6 +184,12 @@ fhq.signin = function() {
 	})
 }
 
+fhq.bindUserCreate = function(){
+    $('#user_create').unbind().bind('click', function(){
+
+    });
+}
+
 fhq.pages['users'] = function(){
 	$('#page_name').html('Users');
 	$('#page_content').html('');
@@ -208,6 +214,9 @@ fhq.pages['users'] = function(){
 		fhq.hideLoader();
 		
 		el.html('');
+        el.append('<button id="user_create" class="btn btn-secondary">Create User</button><hr>');
+
+
 		el.append(fhq.paginator(0, r.count, r.onpage, r.page));
 		el.append('<table class="table table-striped">'
 			+ '		<thead>'

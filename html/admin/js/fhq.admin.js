@@ -184,10 +184,87 @@ fhq.signin = function() {
 	})
 }
 
-fhq.bindUserCreate = function(){
-    $('#user_create').unbind().bind('click', function(){
+fhq.createUser = function()  {
+	fhq.showLoader();
+	$('#error_info').hide();
+	var data = {};
+	data["role"] = $("#newuser_role").val();
+	data["email"] = $("#newuser_login").val();
+	data["password"] = $("#newuser_password").val();
+	data["nick"] = $("#newuser_nick").val();
+	data["university"] = $("#newuser_university").val();
+	
+	console.log(data);
+	
+	fhq.ws.user_create(data).done(function(r){
+		fhq.hideLoader();
+		fhq.pages['users']();
+	}).fail(function(err){
+		fhq.hideLoader();
+		console.error(err);
+		$('#error_info').show();
+		$('#error_info .alert').html('ERROR: ' + err.error);
+		
+	})
+};
 
-    });
+fhq.pages['user_create'] = function(){
+	fhq.changeLocationState({'user_create':''});
+	$('#page_name').html('User Create');
+	var el = $('#page_content');
+	fhq.hideLoader();
+	el.html(''
+		+ '<div class="card">'
+		+ '		<div class="card-header">New user</div>'
+		+ '		<div class="card-body">'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newuser_role" class="col-sm-2 col-form-label">Role</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<select class="form-control" value="" id="newuser_role">'
+		+ '						<option value="user">User</option>'
+		+ '						<option value="admin">Admin</option>'
+		+ '					</select>'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newuser_login" class="col-sm-2 col-form-label">Email or login</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="text" class="form-control" value="" id="newuser_login">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newuser_password" class="col-sm-2 col-form-label">Password</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="password" class="form-control" value="" id="newuser_password">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newuser_name" class="col-sm-2 col-form-label">Nick</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="text" class="form-control" value="" id="newuser_name">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label for="newuser_university" class="col-sm-2 col-form-label">University (optional)</label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<input type="text" class="form-control" value="" id="newuser_university">'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row">'
+		+ '				<label class="col-sm-2 col-form-label"></label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<div class="btn btn-secondary" onclick="fhq.createUser();">Create</div>'
+		+ '				</div>'
+		+ '			</div>'
+		+ '			<div class="form-group row" id="error_info" style="display: none">'
+		+ '				<label class="col-sm-2 col-form-label"></label>'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<div class="alert alert-danger"></div>'
+		+ '				</div>'
+		+ '			</div>'
+		+ '		</div>'
+		+ '</div>'
+	);
 }
 
 fhq.pages['users'] = function(){
@@ -215,7 +292,8 @@ fhq.pages['users'] = function(){
 		
 		el.html('');
         el.append('<button id="user_create" class="btn btn-secondary">Create User</button><hr>');
-
+		$('#user_create').unbind().bind('click', fhq.pages['user_create']);
+		
 
 		el.append(fhq.paginator(0, r.count, r.onpage, r.page));
 		el.append('<table class="table table-striped">'
@@ -241,6 +319,9 @@ fhq.pages['users'] = function(){
 				+ '</tr>'
 			)
 		}
+		
+		
+		
 	}).fail(function(r){
 		fhq.hideLoader();
 		console.error(r);

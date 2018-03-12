@@ -498,6 +498,12 @@ fhq.ws.user_change_password = function(data){
 	return fhq.ws.send(data);
 }
 
+fhq.ws.user_create = function(data){
+	data = data || {};
+	data.cmd = 'user_create';
+	return fhq.ws.send(data);
+}
+
 fhq.ws.user_update = function(data){
 	data = data || {};
 	data.cmd = 'user_update';

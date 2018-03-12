@@ -586,3 +586,15 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 pre {
 	color: inherit !important;
 }
+
+.card{
+	background-color: rgba(60,141,188,0.1);
+	box-shadow: 0 0 10px rgba(60,141,188,0.5) !important;
+}
+
+.alert-danger{
+	background-color: rgba(60,141,188,0.1);
+	box-shadow: 0 0 10px rgba(60,141,188,0.5) !important;
+	color: #3c8dbc !important;
+	border: none !important;
+}

@@ -246,6 +246,12 @@ fhq.ws.mails_list = function(params){
 	return fhq.ws.send(params);
 }
 
+fhq.ws.mail_send = function(params){
+	params = params || {};
+	params.cmd = 'mail_send';
+	return fhq.ws.send(params);
+}
+
 fhq.ws.classbook_list = function(params){
 	params = params || {};
 	params.cmd = 'classbook_list';

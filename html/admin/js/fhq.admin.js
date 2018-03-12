@@ -5,7 +5,9 @@ fhq.showLoader = function(){
 }
 
 fhq.hideLoader = function(){
-	$('.fhq-page-loader').hide();
+	setTimeout(function(){
+		$('.fhq-page-loader').hide();
+	},1000);
 }
 
 fhq.parsePageParams = function() {

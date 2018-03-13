@@ -1,4 +1,5 @@
 *.sql~
 *.*~
+.DS_Store
 
 html/files/classbook/*.md

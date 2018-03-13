@@ -2,6 +2,7 @@
 	margin-top: 85px;
     margin-bottom: 50px;
     height: auto;
+    text-align: center;
 }
 
 .dropdown-item{
@@ -22,11 +23,11 @@
 
 .card-left-img{
 	background-repeat: no-repeat;
-    background-size: 150px 150px;
+    background-size: 100px 100px;
     background-position: 10 10;
-    padding-left: 170px;
+    padding-left: 120px;
     height: auto;
-	min-height: 170px;
+	min-height: 120px;
 }
 
 .card-right-img{
@@ -41,6 +42,50 @@
 
 .card-left-img.admin{
 	background-image: url(../images/quests/admin_150x150.png);
+}
+
+.card-left-img.crypto{
+	background-image: url(../images/quests/crypto_150x150.png);
+}
+
+.card-left-img.forensics{
+	background-image: url(../images/quests/forensics_150x150.png);
+}
+
+.card-left-img.hashes{
+	background-image: url(../images/quests/hashes_150x150.png);
+}
+
+.card-left-img.recon{
+	background-image: url(../images/quests/recon_150x150.png);
+}
+
+.card-left-img.ppc{
+	background-image: url(../images/quests/ppc_150x150.png);
+}
+
+.card-left-img.reverse{
+	background-image: url(../images/quests/reverse_150x150.png);
+}
+
+.card-left-img.stego{
+	background-image: url(../images/quests/stego_150x150.png);
+}
+
+.card-left-img.trivia{
+	background-image: url(../images/quests/trivia_150x150.png);
+}
+
+.card-left-img.web{
+	background-image: url(../images/quests/web_150x150.png);
+}
+
+.card-left-img.enjoy{
+	background-image: url(../images/quests/enjoy_150x150.png);
+}
+
+.card-left-img.network{
+	background-image: url(../images/quests/network_150x150.png);
 }
 
 #map {
@@ -135,25 +180,39 @@
 	overflow: hidden;
 	max-height: 500px;
 	left: 0;
-	-webkit-transition: max-height 1s, left 1s, margin-bottom 1s; /* Safari */
-	-moz-transition: max-height 1s, left 1s, margin-bottom 1s; /* Safari */
-	-o-transition: max-height 1s, left 1s, margin-bottom 1s; /* Safari */
-    transition: max-height 1s, left 1s, margin-bottom 1s;
+	-webkit-transition: all 1s; /* Safari */
+	-moz-transition: all 1s; /* Safari */
+	-o-transition: all 1s; /* Safari */
+    transition: all 1s;
     
     width: 50%;
     min-width: 350px;
     display: inline-flex;
 }
 
+.card.subject-quest .card-text{
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card.subject-quest.open-subject:hover{
+	cursor: pointer;
+	transform: scale(1.05);
+	background-color: rgba(0,0,0,0.1);
+}
+
 @media (min-width: 576px) {
 	.card.subject-quest{
-		width: 100%;
+		width: calc(50% - 40px);
+		margin-right: 20px;
 	}
 }
-/*.head-quests .card-left-img{
-	padding-left: 20px;
-    background-image: none !important;
-}*/
+.head-quests {
+	width: 100% !important;
+	background-color: rgba(0,0,0,0.1);
+	transform: scale(1.05);
+}
 
 
 /* very old styles */

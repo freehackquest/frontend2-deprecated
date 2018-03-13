@@ -2459,19 +2459,24 @@ fhq.ui.animateSubjects = function(subject){
 	
 	var els = $('.card.subject-quest');
 	var len = els.length;
+	var d_width = $(document).width();
 	for(var i = 0; i < len; i++){
 		var el = $(els[i]);
 		if(!subject || el.hasClass(subject)){
 			el.css({'max-height': ''});
 			el.css({'margin-bottom': ''});
-			el.css({left: '0'});
+			el.css({transform: ''});
 			if(subject){
 				el.addClass("head-quests");
 			}else{
 				el.removeClass("head-quests");
 			}
 		}else{
-			el.css({left: '-150%'});
+			var r_left = Math.random()>0.5 ? -1 : 1;
+			
+			r_left = r_left*Math.floor(Math.random()*2000 + 1500);
+			r_top = -1*Math.floor(Math.random()*2000 + 1000);
+			el.css({transform: 'translate(' + r_left + 'px,' + r_top + 'px)'});
 			el.css({'max-height': '0px'});
 			el.css({'margin-bottom': '0px'});
 			el.removeClass("head-quests");
@@ -2486,6 +2491,7 @@ fhq.ui.animateSubjects = function(subject){
 
 fhq.ui.loadStatSubjectsQuests = function(){
 	fhq.changeLocationState({'quests':''});
+	window.opened_subject = null;
 	fhq.ui.showLoading();
 	var el = $('#content_page');
 	el.html('Loading...');
@@ -2496,13 +2502,14 @@ fhq.ui.loadStatSubjectsQuests = function(){
 		
 		for(var i in r.data){
 			var o = r.data[i];
+			// style="background-image: url(images/quests/' + o.subject + '_150x150.png)"
 			el.append(''
-				+ '<div class="card subject-quest ' + o.subject + '">'
-				+ '  <div class="card-body card-left-img ' + o.subject + '" style="background-image: url(images/quests/' + o.subject + '_150x150.png)">'
+				+ '<div class="card subject-quest open-subject ' + o.subject + '" subject="' + o.subject + '">'
+				+ '  <div class="card-body card-left-img ' + o.subject + '">'
 				+ '    <h4 class="card-title">' + fhq.ui.capitalizeFirstLetter(o.subject) + '</h4>'
 				+ '    <h6 class="card-subtitle mb-2 text-muted">(' + o.count + ' quests)</h6>'
 				+ '    <p class="card-text">' + fhq.t(o.subject + '_description') + '</p>'
-				+ '	   <button subject="' + o.subject + '" type="button" class="open-subject btn btn-secondary">' + fhq.t('Open') + '</button>'
+				// + '	   <button subject="' + o.subject + '" type="button" class="open-subject btn btn-secondary">' + fhq.t('Open') + '</button>'
 				// + '	   <button subject="' + o.subject + '" type="button" class="best-subject-users btn btn-default">' + fhq.t('Best users') + '</button>'
 				+ '  </div>'
 				+ '</div>'
@@ -2514,11 +2521,11 @@ fhq.ui.loadStatSubjectsQuests = function(){
 		$('.open-subject').unbind().bind('click', function(){
 			if(!window.opened_subject){
 				var subject = $(this).attr('subject');
-				$('.open-subject').html('<i class="fa fa-chevron-circle-left"></i>   ' + fhq.t('Open Subjects'));
+				// $('.open-subject').html('<i class="fa fa-chevron-circle-left"></i>   ' + fhq.t('Open Subjects'));
 				fhq.ui.animateSubjects(subject);
 				fhq.ui.loadQuestsBySubject(subject, true);
 			}else{
-				$('.open-subject').html(fhq.t('Open'));
+				// $('.open-subject').html(fhq.t('Open'));
 				fhq.ui.animateSubjects();
 				$('#content_quests').html('');
 				fhq.changeLocationState({'quests':''});

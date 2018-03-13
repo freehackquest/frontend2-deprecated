@@ -26,6 +26,10 @@ This is an open source platform for competitions in computer security.
 
 Copy folder `html` to your web-server
 
+## Build
+
+	$ npm install
+	$ npm run build
 
 ## PS Biography platform
 

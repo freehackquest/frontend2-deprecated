@@ -3,3 +3,5 @@
 .DS_Store
 
 html/files/classbook/*.md
+node_modules/*
+package-lock.json

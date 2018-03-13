@@ -2810,6 +2810,7 @@ fhq.ui.refreshHints = function(questid, hints){
 	
 		i++;
 	}
+	
 	if(fhq.isAdmin()){
 		$('#quest_hints').append(''
 			+ '<div class="form-row">'
@@ -2878,7 +2879,7 @@ fhq.ui.renderQuestHints = function(el, hi, q){
 
 fhq.ui.loadQuest = function(id){
 	fhq.ui.showLoading();
-	$('#content_page').html('<div class="fhq0009"></div>')
+	$('#content_page').html('<div class="fhq0009" style="text-align: left"></div>')
 	var el = $('.fhq0009');
 	el.html('Loading...');
 	var questid = parseInt(id,10);
@@ -2914,14 +2915,16 @@ fhq.ui.loadQuest = function(id){
 		if(fi.length > 0){
 			var files1 = '';						
 			for (var k in fi) {
-				files1 += '<a class="fhqbtn" href="' + fi[k].filepath + '" target="_blank">'+ fi[k].filename + '</a> ';
+				files1 += '<a class="btn btn-secondary" href="' + fi[k].filepath + '" target="_blank">'+ fi[k].filename + '</a> ';
 			}
 			
-			el.append(
-				'<div class="fhq0101">'
-				+ '<div class="newquestinfo_attachments_title">' + fhq.t('Attachments') + '</div>'
+			el.append( ''
+				+ '<div class="card">'
+				+ '		<div class="card-header">' + fhq.t('Attachments') + '</div>'
+				+ '		<div class="card-body">'
 				+ files1
-				+ '</div>'
+				+ '		</div>'
+				+ '</div><br>'
 			)
 		}
 

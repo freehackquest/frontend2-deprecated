@@ -2448,6 +2448,15 @@ fhq.ui.capitalizeFirstLetter = function(s) {
 }
 
 fhq.ui.animateSubjects = function(subject){
+	var prev_subject = window.opened_subject;
+					
+	if(subject){
+		window.opened_subject = subject;
+		window.opened_subject_scroll_top = Math.floor($(document).scrollTop());
+	}else{
+		window.opened_subject = null;
+	}
+	
 	var els = $('.card.subject-quest');
 	var len = els.length;
 	for(var i = 0; i < len; i++){
@@ -2468,9 +2477,11 @@ fhq.ui.animateSubjects = function(subject){
 			el.removeClass("head-quests");
 		}
 	}
-	setTimeout(function(){
+	if(subject){
 		$("HTML, BODY").animate({ scrollTop: 0 }, 500);
-	},1000);
+	}else{
+		$("HTML, BODY").animate({ scrollTop: window.opened_subject_scroll_top }, 500);
+	}
 }
 
 fhq.ui.loadStatSubjectsQuests = function(){
@@ -2503,22 +2514,14 @@ fhq.ui.loadStatSubjectsQuests = function(){
 		$('.open-subject').unbind().bind('click', function(){
 			if(!window.opened_subject){
 				var subject = $(this).attr('subject');
-				window.opened_subject = subject;
-				$('.open-subject').html('<- Open subjects');
+				$('.open-subject').html('<i class="fa fa-chevron-circle-left"></i>   ' + fhq.t('Open Subjects'));
 				fhq.ui.animateSubjects(subject);
 				fhq.ui.loadQuestsBySubject(subject, true);
 			}else{
-				var subject = window.opened_subject;
-				window.opened_subject = null;
 				$('.open-subject').html(fhq.t('Open'));
 				fhq.ui.animateSubjects();
 				$('#content_quests').html('');
 				fhq.changeLocationState({'quests':''});
-				setTimeout(function(){
-					var e = $('.card.subject-quest.' + subject);
-					var top = e.offset().top;
-					$("HTML, BODY").animate({ scrollTop: top - 100 }, 500);
-				},1000);
 			}
 		})
 		

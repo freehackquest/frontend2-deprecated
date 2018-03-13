@@ -717,5 +717,9 @@ fhq.localization = {
 	'You can':{
 		'en': 'You can',
 		'ru': 'Вы можете'
+	},
+	'Open Subjects':{
+		'en': 'Open Subjects',
+		'ru': 'Открыть все разделы'
 	}
 };

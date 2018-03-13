@@ -2521,6 +2521,7 @@ fhq.ui.loadStatSubjectsQuests = function(){
 		$('.open-subject').unbind().bind('click', function(){
 			if(!window.opened_subject){
 				var subject = $(this).attr('subject');
+				audio_selected_subject.play();
 				// $('.open-subject').html('<i class="fa fa-chevron-circle-left"></i>   ' + fhq.t('Open Subjects'));
 				fhq.ui.animateSubjects(subject);
 				fhq.ui.loadQuestsBySubject(subject, true);

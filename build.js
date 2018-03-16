@@ -27,6 +27,7 @@ var minifier_js = [
 	'src/admin/js/fhq.admin.mails.js',
 	'src/admin/js/fhq.admin.settings.js',
 	'src/admin/js/fhq.admin.quests.js',
+	'src/admin/js/fhq.admin.quests_proposal.js',
 	'src/admin/js/fhq.admin.orchestra.js',
 	'src/admin/js/fhq.admin.version.js'
 ];

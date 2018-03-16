@@ -498,6 +498,12 @@ fhq.ws.quests = function(data){
 	return fhq.ws.send(data);
 }
 
+fhq.ws.quests_proposal_list = function(data){
+	data = data || {};
+	data.cmd = 'quests_proposal_list';
+	return fhq.ws.send(data);
+}
+
 fhq.ws.user_change_password = function(data){
 	data = data || {};
 	data.cmd = 'user_change_password';

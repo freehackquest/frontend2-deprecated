@@ -381,15 +381,6 @@ fhq.localization = {
 		'en': 'Rating of users',
 		'ru': 'Рейтинг пользователей'
 	},
-	'Create Game':{
-		'en': 'Create Game',
-		'ru': 'Создать игру'
-		
-	},
-	'Import Game':{
-		'en': 'Import Game',
-		'ru': 'Импортировать игру'
-	},
 	'Organizators':{
 		'en': 'Organizators',
 		'ru': 'Организаторы'

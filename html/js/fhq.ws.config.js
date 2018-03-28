@@ -9,5 +9,5 @@ if(window.location.protocol == "https:"){
 }
 
 if(window.location.hostname == "freehackquest.com"){
-	fhq.ws.base_url = 'wss://freehackquest.com/api-ws/';
+	fhq.ws.base_url = 'wss://freehackquest.com/api-wss/';
 }

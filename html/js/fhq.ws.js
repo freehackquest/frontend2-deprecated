@@ -359,12 +359,6 @@ fhq.ws.game_info = function(data){
 	return fhq.ws.send(data);
 }
 
-fhq.ws.createquest = function(params){
-	params = params || {};
-	params.cmd = 'createquest';
-	return fhq.ws.send(params);
-}
-
 fhq.ws.quest_proposal = function(params){
 	params = params || {};
 	params.cmd = 'quest_proposal';

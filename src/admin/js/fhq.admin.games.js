@@ -30,7 +30,7 @@ fhq.createGame = function()  {
 
 fhq.pages['game_create'] = function() {
 	fhq.changeLocationState({'game_create':''});
-	$('#page_name').html('Game Edit');
+	$('#page_name').html('Game Create');
 	$('#page_content').html('');
 	var el = $('#page_content');
 	el.html('');

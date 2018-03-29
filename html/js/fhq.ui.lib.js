@@ -168,8 +168,7 @@ fhq.ui.updateMenu = function(){
 	$('#btnmenu_proposal_quest').html(fhq.t('Proposal Quest'));
 	
 	$('#btnmenu_createnews').html(fhq.t('Create News'));
-	$('#btnmenu_createquest').html(fhq.t('Create Quest'));
-
+	
 	$('#btnmenu_answerlist').html(fhq.t('Answer List'));
 	$('#btnmenu_serverinfo').html(fhq.t('Server Info'));
 	$('#btnmenu_serversettings').html(fhq.t('Server Settings'));
@@ -364,7 +363,6 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["create_news"] = fhq.ui.loadCreateNews;
 	fhq.ui.pageHandlers["server_info"] = fhq.ui.loadServerInfo;
 	fhq.ui.pageHandlers["answerlist"] = fhq.ui.loadAnswerList;	
-	fhq.ui.pageHandlers["new_quest"] = fhq.ui.loadCreateQuestForm;
 	fhq.ui.pageHandlers["edit_quest"] = fhq.ui.loadEditQuestForm;
 	fhq.ui.pageHandlers["chat"] = fhq.ui.loadChatPage;
 
@@ -1590,153 +1588,6 @@ window.fhq.ui.updateQuests = function(){
 	});
 }
 
-// TODO redesign
-function createQuestRow(name, value) {
-	return '<div class="quest_info_row">\n'
-	+ '\t<div class="quest_info_param">' + name + '</div>\n'
-	+ '\t<div class="quest_info_value">' + value + '</div>\n'
-	+ '</div>\n';
-
-}
-
-
-fhq.ui.loadCreateQuestForm = function(){
-	window.fhq.changeLocationState({'new_quest':''});
-	fhq.ui.hideLoading();
-	var el = $('#content_page');
-	el.html('');
-	el.html(''
-		+ '<div class="card">'
-		+ '		<div class="card-header">' + fhq.t('Create Quest') + '</div>'
-		+ '		<div class="card-body">'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_quest_uuid" class="col-sm-2 col-form-label">' + fhq.t('UUID') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" value="' + guid() + '" id="newquest_quest_uuid">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_gameid" class="col-sm-2 col-form-label">' + fhq.t('Game') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<select class="form-control" id="newquest_gameid"></select>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_name" class="col-sm-2 col-form-label">' + fhq.t('Name') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" value="" id="newquest_name">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_text" class="col-sm-2 col-form-label">' + fhq.t('Text') + ' (Use markdown format)</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<textarea type="text" class="form-control" style="height: 150px" value="" id="newquest_text"></textarea>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_score" class="col-sm-2 col-form-label">' + fhq.t('Score') + ' (+)</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="number" class="form-control" id="newquest_score">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_subject" class="col-sm-2 col-form-label">' + fhq.t('Subject') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<select class="form-control" value="" id="newquest_subject">'
-		+ '						<option value="trivia">Trivia</option>'
-		+ '						<option value="hashes">Hashes</option>'
-		+ '						<option value="stego">Stego</option>'
-		+ '						<option value="reverse">Reverse</option>'
-		+ '						<option value="recon">Recon</option>'
-		+ '						<option value="crypto">Crypto</option>'
-		+ '						<option value="forensics">Forensics</option>'
-		+ '						<option value="network">Network</option>'
-		+ '						<option value="web">Web</option>'
-		+ '						<option value="ppc">PPC</option>'
-		+ '						<option value="admin">Admin</option>'
-		+ '						<option value="enjoy">Enjoy</option>'
-		+ '						<option value="unknown">Unknown</option>'
-		+ '					</select>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_answer" class="col-sm-2 col-form-label">' + fhq.t('Answer') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" id="newquest_answer" value="">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_answerformat" class="col-sm-2 col-form-label">' + fhq.t('Answer format') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" id="newquest_answerformat" value="">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_author" class="col-sm-2 col-form-label">' + fhq.t('Author') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" value="" id="newquest_author">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_copyright" class="col-sm-2 col-form-label">' + fhq.t('Copyright') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" value="" id="newquest_copyright">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_state" class="col-sm-2 col-form-label">' + fhq.t('State') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<select class="form-control" value="" id="newquest_state">'
-		+ '						<option value="open">Open</option>'
-		+ '						<option value="closed">Closed</option>'
-		+ '						<option value="broken">Broken</option>'
-		+ '					</select>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_description_state" class="col-sm-2 col-form-label">' + fhq.t('Description State') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<textarea type="text" class="form-control" style="height: 150px" value="" id="newquest_description_state"></textarea>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label class="col-sm-2 col-form-label"></label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<div class="btn btn-danger" onclick="fhq.ui.createQuest();">Create</div>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '		</div>'
-		+ '</div>'
-	);
-	
-	fhq.ws.games().done(function(r){
-		for(var i in r.data){
-			$('#newquest_gameid').append('<option value="' + r.data[i]["id"] + '">' + r.data[i]["title"] + '</option>');
-		}
-	})
-}
-
-fhq.ui.createQuest = function() {
-	var params = {};
-	params["uuid"] = $("#newquest_quest_uuid").val();
-	params["gameid"] = parseInt($("#newquest_gameid").val(),10);
-	params["name"] = $("#newquest_name").val();
-	params["text"] = $("#newquest_text").val();
-	params["score"] = parseInt($("#newquest_score").val(),10);
-	params["subject"] = $("#newquest_subject").val();
-	params["copyright"] = $("#newquest_copyright").val();
-	params["author"] = $("#newquest_author").val();
-	params["answer"] = $("#newquest_answer").val();
-	params["answer_format"] = $("#newquest_answerformat").val();
-	params["state"] = $("#newquest_state").val();
-	params["description_state"] = $("#newquest_description_state").val();
-
-	fhq.ws.createquest(params).done(function(r){
-		fhq.ui.loadQuest(r.questid);
-	}).fail(function(r){
-		fhq.ui.showError(r.error);
-	});
-};
 
 fhq.ui.loadProposalQuestForm = function(){
 	window.fhq.changeLocationState({'proposal_quest':''});

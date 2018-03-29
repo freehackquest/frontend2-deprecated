@@ -19,6 +19,21 @@ fhq.ui.showModalDialog = function(obj) {
 	}
 }
 
+fhq.ui.playStopMusic = function(){
+	var status = $('#btnmenu_sound').attr('status');
+	if(status && status == 'playing'){
+		$('#btnmenu_sound').html('Play Sound');
+		$('#btnmenu_sound').attr({'status': 'paused'})
+		audio_night_thus.pause();
+	}else{
+		$('#btnmenu_sound').html('Stop Sound');
+		$('#btnmenu_sound').attr({'status': 'playing'})
+		audio_night_thus.play();
+	}
+	
+	
+}
+
 fhq.ui.showError = function(msg){
 	$('#modalInfoTitle').html(fhq.t('Error'));
 	$('#modalInfo').modal('show');

@@ -2713,7 +2713,8 @@ window.fhq.ui.updateQuestStatistics = function(questid){
 		console.error(err);
 		fhq.ui.hideLoading();
 	}).done(function(response){
-		var q = response.data;
+		var q = response;
+		
 		// quest_chart
 		var options = {
 			segmentShowStroke : true,
@@ -2726,6 +2727,7 @@ window.fhq.ui.updateQuestStatistics = function(questid){
 			animateScale : false,
 			legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
 		};
+		
 		var data = [
 			{
 				value: q.solved,

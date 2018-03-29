@@ -2513,21 +2513,18 @@ fhq.ui.loadQuest = function(id){
 
 		fhq.changeLocationState({quest: q.id});
 		el.html('');
+		
 		el.append(''
-			+ '<div class="fhq0010">'
-			+ '	<div class="fhq0012">'
-			+ '		<div class="fhq0011"></div>'
-			+ '		<div class="fhq0013">'
-			+ ' 		<a href="?subject=' + q.subject + '">' + fhq.ui.capitalizeFirstLetter(q.subject) + '</a> / <a href="?quest=' + q.id + '">Quest ' + q.id + '</a>' 
-			+ ' 		(' + (q.completed ? fhq.t('Quest completed') : fhq.t('Quest open')) + ')'
-			+ '			<div class="fhq0014">' + q.name + ' (+' + q.score + ')</div>'
+			+ '<div class="card alert-secondary">'
+			+ '		<div class="card-body card-left-img text-center" id="quest_head" style="background-image: url(' + g.logo + ');">'
+			+ '			<div class="card-text">'
+			+ '				<a href="?subject=' + q.subject + '">' + fhq.ui.capitalizeFirstLetter(q.subject) + '</a> / '
+			+ '				<a href="?quest=' + q.id + '">Quest ' + q.id + '</a>'
+			+ '				<div class="card-subtitle mb-2 text-muted d-inline">(' + (q.completed ? fhq.t('Quest completed') : fhq.t('Quest open')) + ')</div>'
+			+ '			</div>'
+			+ '			<h2 class="card-title">' + q.name + ' (+' + q.score + ')</h2>'
 			+ '		</div>'
-			+ '	</div>'
-			+ '</div>');
-
-		$('.fhq0011').css({ // game logo
-			'background-image': 'url(' + g.logo + ')'
-		});
+			+ '</div><br>');
 
 		fhq.ui.renderQuestAppendButtons(el, q);
 		fhq.ui.renderQuestDetails(el, q);

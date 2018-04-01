@@ -5,3 +5,5 @@
 html/files/classbook/*.md
 node_modules/*
 package-lock.json
+src/admin/js/.fhq.admin.users.js.swp
+npm-debug.log

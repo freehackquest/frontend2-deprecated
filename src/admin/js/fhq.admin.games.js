@@ -434,7 +434,7 @@ fhq.pages['games'] = function(){
 			+ '			<tr>'
 			+ '				<th>#</th>'
 			+ '				<th>Info</th>'
-			+ '				<th>Action</th>'
+			+ '				<th>Actions</th>'
 			+ '			</tr>'
 			+ '		</thead>'
 			+ '		<tbody id="list">'

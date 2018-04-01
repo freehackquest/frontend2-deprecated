@@ -23,6 +23,25 @@ fhq.createUser = function()  {
 	})
 };
 
+fhq.deleteUser = function(el) {
+	fhq.showLoader();
+	$('#error_info').hide();
+	var data = {};
+	data["uuid"] = $(el).attr('uuid');
+	data["password"] = $("#user_delete_admin_password").val();
+	fhq.ws.user_delete(data).done(function(r){
+		fhq.hideLoader();
+		fhq.pages['users']();
+		$('#modalInfo').modal('hide');
+	}).fail(function(err){
+		fhq.hideLoader();
+		console.error(err);
+		$('#error_info').show();
+		$('#error_info .alert').html('ERROR: ' + err.error);
+		$('#modalInfo').modal('hide');	
+	})
+}
+
 fhq.pages['user_create'] = function(){
 	fhq.changeLocationState({'user_create':''});
 	$('#page_name').html('User Create');
@@ -109,6 +128,7 @@ fhq.pages['users'] = function(){
         el.append('<button id="user_create" class="btn btn-secondary">Create User</button><hr>');
 		$('#user_create').unbind().bind('click', fhq.pages['user_create']);
 		
+		
 
 		el.append(fhq.paginator(0, r.count, r.onpage, r.page));
 		el.append('<table class="table table-striped">'
@@ -118,6 +138,7 @@ fhq.pages['users'] = function(){
 			+ '				<th>Email / Nick</th>'
 			+ '				<th>Last IP <br> Country / City / University</th>'
 			+ '				<th>Last Sign in <br> Status / Role</th>'
+			+ '				<th>Actions</th>'
 			+ '			</tr>'
 			+ '		</thead>'
 			+ '		<tbody id="users_list">'
@@ -127,15 +148,38 @@ fhq.pages['users'] = function(){
 		for(var i in r.data){
 			var u = r.data[i];
 			$('#users_list').append('<tr>'
-				+ '	<td>' + u.id + '</td>'
+				+ '	<td><p>' + u.id + '</td>'
 				+ '	<td><p>' + u.email + '</p><p>'  + u.nick + '</p></td>'
 				+ '	<td><p>' + u.last_ip + '</p><p>' + u.country + ' / ' + u.city + ' / ' + u.university + '</p></td>'
 				+ '	<td><p>' + u.dt_last_login + '</p><p>' + '' + u.role + '</p></td>'
+				+ '	<td><p><button class="btn btn-secondary user_delete" uuid=' + u.uuid + '>Delete User</button><hr></p></td>'
 				+ '</tr>'
 			)
 		}
 		
-		
+		$('.user_delete').unbind().bind('click', function(){
+			console.warn('user_delete');
+			var uuid = $(this).attr('uuid');
+			
+			$('#modalInfoTitle').html('User {' + uuid + '} confirm deletion');
+			$('#modalInfoBody').html('');
+			$('#modalInfoBody').append(''
+				+ 'Admin password:'
+				+ '<input class="form-control" id="user_delete_admin_password" type="password"><br>'
+				+ '<div class=" alert alert-danger" style="display: none" id="user_delete_error"></div>'
+			);
+			$('#modalInfoButtons').html(''
+				+ '<button type="button" class="btn btn-secondary" id="user_delet_btn" uuid="' + uuid + '" onclick="fhq.deleteUser(this);">Delete</button> '
+				+ '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>'
+			);
+			$('#modalInfo').modal('show');
+		});
+
+		el.append('<div class="form-group row" id="error_info" style="display: none">'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<div class="alert alert-danger"></div>'
+		+ '				</div>'
+		+ '			</div>');
 		
 	}).fail(function(r){
 		fhq.hideLoader();

@@ -518,6 +518,12 @@ fhq.ws.user_create = function(data){
 	return fhq.ws.send(data);
 }
 
+fhq.ws.user_delete = function(data){
+	data = data || {};
+	data.cmd = 'user_delete';
+	return fhq.ws.send(data);
+}
+
 fhq.ws.user_update = function(data){
 	data = data || {};
 	data.cmd = 'user_update';
@@ -1596,6 +1602,25 @@ fhq.createUser = function()  {
 	})
 };
 
+fhq.deleteUser = function(el) {
+	fhq.showLoader();
+	$('#error_info').hide();
+	var data = {};
+	data["uuid"] = $(el).attr('uuid');
+	data["password"] = $("#user_delete_admin_password").val();
+	fhq.ws.user_delete(data).done(function(r){
+		fhq.hideLoader();
+		fhq.pages['users']();
+		$('#modalInfo').modal('hide');
+	}).fail(function(err){
+		fhq.hideLoader();
+		console.error(err);
+		$('#error_info').show();
+		$('#error_info .alert').html('ERROR: ' + err.error);
+		$('#modalInfo').modal('hide');	
+	})
+}
+
 fhq.pages['user_create'] = function(){
 	fhq.changeLocationState({'user_create':''});
 	$('#page_name').html('User Create');
@@ -1682,6 +1707,7 @@ fhq.pages['users'] = function(){
         el.append('<button id="user_create" class="btn btn-secondary">Create User</button><hr>');
 		$('#user_create').unbind().bind('click', fhq.pages['user_create']);
 		
+		
 
 		el.append(fhq.paginator(0, r.count, r.onpage, r.page));
 		el.append('<table class="table table-striped">'
@@ -1691,6 +1717,7 @@ fhq.pages['users'] = function(){
 			+ '				<th>Email / Nick</th>'
 			+ '				<th>Last IP <br> Country / City / University</th>'
 			+ '				<th>Last Sign in <br> Status / Role</th>'
+			+ '				<th>Actions</th>'
 			+ '			</tr>'
 			+ '		</thead>'
 			+ '		<tbody id="users_list">'
@@ -1700,15 +1727,38 @@ fhq.pages['users'] = function(){
 		for(var i in r.data){
 			var u = r.data[i];
 			$('#users_list').append('<tr>'
-				+ '	<td>' + u.id + '</td>'
+				+ '	<td><p>' + u.id + '</td>'
 				+ '	<td><p>' + u.email + '</p><p>'  + u.nick + '</p></td>'
 				+ '	<td><p>' + u.last_ip + '</p><p>' + u.country + ' / ' + u.city + ' / ' + u.university + '</p></td>'
 				+ '	<td><p>' + u.dt_last_login + '</p><p>' + '' + u.role + '</p></td>'
+				+ '	<td><p><button class="btn btn-secondary user_delete" uuid=' + u.uuid + '>Delete User</button><hr></p></td>'
 				+ '</tr>'
 			)
 		}
 		
-		
+		$('.user_delete').unbind().bind('click', function(){
+			console.warn('user_delete');
+			var uuid = $(this).attr('uuid');
+			
+			$('#modalInfoTitle').html('User {' + uuid + '} confirm deletion');
+			$('#modalInfoBody').html('');
+			$('#modalInfoBody').append(''
+				+ 'Admin password:'
+				+ '<input class="form-control" id="user_delete_admin_password" type="password"><br>'
+				+ '<div class=" alert alert-danger" style="display: none" id="user_delete_error"></div>'
+			);
+			$('#modalInfoButtons').html(''
+				+ '<button type="button" class="btn btn-secondary" id="user_delet_btn" uuid="' + uuid + '" onclick="fhq.deleteUser(this);">Delete</button> '
+				+ '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>'
+			);
+			$('#modalInfo').modal('show');
+		});
+
+		el.append('<div class="form-group row" id="error_info" style="display: none">'
+		+ ' 			<div class="col-sm-10">'
+		+ '					<div class="alert alert-danger"></div>'
+		+ '				</div>'
+		+ '			</div>');
 		
 	}).fail(function(r){
 		fhq.hideLoader();
@@ -2153,7 +2203,7 @@ fhq.pages['games'] = function(){
 			+ '			<tr>'
 			+ '				<th>#</th>'
 			+ '				<th>Info</th>'
-			+ '				<th>Action</th>'
+			+ '				<th>Actions</th>'
 			+ '			</tr>'
 			+ '		</thead>'
 			+ '		<tbody id="list">'
@@ -2529,12 +2579,107 @@ fhq.pages['quests'] = function(){
 	window.fhq.changeLocationState({'quests':''});
 	fhq.hideLoader();
 	$('#page_name').html('Quests');
-	var el = $('#page_content');
-	el.html('');
-	el.append('<button id="quest_create" class="btn btn-secondary">Quest Create</button>');
-	$('#quest_create').unbind().bind('click', fhq.pages['quest_create']);
+	var el = $("#page_content");
+	el.html('Loading...')
 	
-	el.append('<hr>');
+	var onpage = 5;
+	if(fhq.containsPageParam("onpage")){
+		onpage = parseInt(fhq.pageParams['onpage'], 10);
+	}
+
+	var page = 0;
+	if(fhq.containsPageParam("page")){
+		page = parseInt(fhq.pageParams['page'], 10);
+	}
+	
+	
+	
+	window.fhq.changeLocationState({'quests': '', 'onpage': onpage, 'page': page});
+
+	fhq.ws.quests({'onpage': onpage, 'page': page}).done(function(r){
+		fhq.hideLoader();
+		console.log(r);
+		el.html('');
+
+		el.append('<button id="quest_create" class="btn btn-secondary">Quest Create</button>');
+		$('#quest_create').unbind().bind('click', fhq.pages['quest_create']);
+	
+		el.append('<button id="quest_import" class="btn btn-secondary">Import Quest</button>');
+		$('#quest_import').unbind().bind('click', function(){
+			alert("TODO");
+		});
+				
+		el.append('<hr>');
+
+		// el.append(fhq.paginator(0, r.count, r.onpage, r.page));
+		el.append('<table class="table table-striped">'
+			+ '		<thead>'
+			+ '			<tr>'
+			+ '				<th>#</th>'
+			+ '				<th>Info</th>'
+			+ '				<th>State</th>'
+			+ '				<th>Actions</th>'
+			+ '			</tr>'
+			+ '		</thead>'
+			+ '		<tbody id="list">'
+			+ '		</tbody>'
+			+ '</table>'
+		)
+
+
+		for(var i in r.data){
+			var q = r.data[i];
+			$('#list').append('<tr>'
+				+ '	<td>' + q.questid + '</td>'
+				+ '	<td>' 
+				+ "		<p>GameID: " + q.gameid+ "<p>"
+				+ "		<p>Name: " + q.name+ "<p>"
+				+ "		<p>Subject: " + q.subject+ "<p>"
+				+ "		<p>Score: +" + q.score+ "<p>"
+				+ "		<p>Solved: " + q.solved + " user(s)<p>"
+				+ '</td>'
+				+ '	<td>' + q.state + '</td>'
+				+ '	<td>'
+				+ '		<!-- p><button class="btn btn-secondary quest-remove" questid="' + q.questid + '">Remove</button></p>'
+				+ '		<p><button class="btn btn-secondary quest-edit" questid="' + q.questid + '">Edit</button></p>'
+				+ '		<p><button class="btn btn-secondary quest-export" questid="' + q.questid + '">Export</button></p -->'
+				+ '</td>'
+				+ '</tr>'
+			);
+		}
+		
+		/*$('.game-edit').unbind().bind('click', function(){
+			var gameuuid = $(this).attr('gameuuid');
+			fhq.pages['game_edit'](gameuuid);
+		});
+		
+		$('.game-export').unbind().bind('click', function(){
+			var gameuuid = $(this).attr('gameuuid');
+			fhq.gameExport(gameuuid);
+		})
+		
+		$('.game-remove').unbind().bind('click', function(){
+			console.warn('game_remove');
+			var gameuuid = $(this).attr('gameuuid');
+			
+			$('#modalInfoTitle').html('Game {' + gameuuid + '} confirm deletion');
+			$('#modalInfoBody').html('');
+			$('#modalInfoBody').append(''
+				+ 'Admin password:'
+				+ '<input class="form-control" id="game_delete_admin_password" type="password"><br>'
+				+ '<div class=" alert alert-danger" style="display: none" id="game_delete_error"></div>'
+			);
+			$('#modalInfoButtons').html(''
+				+ '<button type="button" class="btn btn-secondary" id="game_delet_btn" gameuuid="' + gameuuid + '" onclick="fhq.gameDelete(this);">Delete</button> '
+				+ '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>'
+			);
+			$('#modalInfo').modal('show');
+		});*/
+	}).fail(function(r){
+		fhq.hideLoader();
+		console.error(r);
+		el.append(r.error);
+	})
 }
 
 fhq.pages['quest_create'] = function(){

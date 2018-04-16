@@ -1,3 +1,7 @@
+[![npm][npm]][npm-url]
+[![node][node]][node-url]
+[![deps][deps]][deps-url]
+
 # freehackquest-frontend
 
 This is an open source platform for competitions in computer security.

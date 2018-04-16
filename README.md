@@ -8,9 +8,29 @@ This is an open source platform for competitions in computer security.
 
 "free-hack-quest" of "fhq" it is a web-engine for running CTF-challenges
 
+## Development Admin
+
+```
+$ npm install
+$ npm run start
+```
+
+## Build && Install
+
+```
+$ npm install
+$ npm run build2
+```
+
+*Use `apt-get install libpng-dev` if will be traubles*
+
+
+After building: Copy folder `dist` to your web-server
+
 ## developers and designers
 
 * Evgenii Sopov
+* Danila
 * Used default scheme of bootstrap
 
 ## Thanks for
@@ -26,15 +46,7 @@ This is an open source platform for competitions in computer security.
 	Extrim Code,
 	Taisiya Lebedeva
 
-## Install
-
-Copy folder `html` to your web-server
-
-## Build
-
-	$ npm install
-	$ npm run build
-
+	
 ## PS Biography platform
 
 Brief history and biography platform.
@@ -66,6 +78,8 @@ In 2015 I decided to finish and freeze the development as a platform for archive
 At the end of 2016, I began to rewrite the server part on Qt (WebSockets)
 
 In October 2017, FHQ 2017 was played on the split backend / frontend platform. Where the backend worked completely on Qt.
+
+In April 2018: Uploaded backend (fhq-server) to ppa launchpad ubuntu.
 
 Development continues...
 

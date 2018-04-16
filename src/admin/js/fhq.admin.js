@@ -23,7 +23,7 @@ fhq.parsePageParams = function() {
 	var regex = new RegExp("(.*)=([^&#]*)");
 	for(var i = 0; i < arr.length; i++){
 		if(arr[i].trim() != ""){
-			p = regex.exec(arr[i].trim());
+			var p = regex.exec(arr[i].trim());
 			console.log("results: " + JSON.stringify(p));
 			if(p == null)
 				result[decodeURIComponent(arr[i].trim().replace(/\+/g, " "))] = '';

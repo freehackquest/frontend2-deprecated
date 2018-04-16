@@ -1,3 +1,8 @@
+// Custom.scss
+// Option A: Include all of Bootstrap
+
+@import "node_modules/bootstrap/scss/bootstrap";
+
 html, body {
 	height: 100%;
 }
@@ -7,7 +12,7 @@ body {
 	font-weight: 400;
 	margin: 0px;
 	background-color: #041119;
-	background-image: url("../images/background.png");
+	background-image: url("images/background.png");
 	background-position: center;
 	background-repeat: repeat;
 	background-size: 100% 100%;
@@ -126,6 +131,7 @@ a:focus {
 	background-color: #041119;
 	-webkit-box-shadow: inset 0 0 0 50px #041119;
     -webkit-text-fill-color: #3c8dbc;
+    border: 1px solid #000;
 }
 
 .form-control:focus {
@@ -166,7 +172,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     height: 100%;
     opacity: 0.7;
 	background-size: cover;
-    background-image: url(../images/free-gif-preloaders-psds-09.gif);
+    background-image: url(images/free-gif-preloaders-psds-09.gif);
     background-position: center;
 }
 
@@ -254,7 +260,7 @@ pre {
 
 .menu-panel{
     position: fixed;
-    background-image: url("../images/background.png");
+    background-image: url("images/background.png");
     box-shadow: 0 0 10px rgba(60,141,188,.5);
     background-color: rgba(60,141,188,.1);
 	top: 115px;
@@ -277,12 +283,20 @@ pre {
 	box-shadow: 0 0 10px rgba(60,141,188,.5);
     background-color: rgba(60,141,188,.1);
     border-bottom-right-radius: 25px;
-    background-image: url("../images/background.png");
+    background-image: url("images/background.png");
     z-index: 1000;
+    .menu-logo2 {
+		background-image: url("images/fhq_2018_admin.png");
+		background-size: 100% 100%;
+		background-position: center center;
+		z-index: 1001;
+		width: 100%;
+		height: 100%;
+	}
 }
 
 #page_name{
-	background-image: url("../images/background.png");
+	background-image: url("images/background.png");
 	box-shadow: 0 0 10px rgba(60,141,188,.5);
     background-color: rgba(60,141,188,.1);
 	position: fixed;
@@ -329,7 +343,7 @@ pre {
     margin-left: 40px;
     margin-top: -10px;
     text-align: center;
-    background-image: url("../images/background.png");
+    background-image: url("images/background.png");
     font-weight: bold;
 }
 

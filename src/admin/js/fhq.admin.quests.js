@@ -3,7 +3,7 @@ if(!fhq.pages) fhq.pages = [];
 
 fhq.pages['quests'] = function(){
 	window.fhq.changeLocationState({'quests':''});
-	fhq.hideLoader();
+	fhq.showLoader();
 	$('#page_name').html('Quests');
 	var el = $("#page_content");
 	el.html('Loading...')

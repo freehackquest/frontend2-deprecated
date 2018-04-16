@@ -4,6 +4,7 @@
 
 html/files/classbook/*.md
 node_modules/*
+dist/*
 package-lock.json
 src/admin/js/.fhq.admin.users.js.swp
 npm-debug.log

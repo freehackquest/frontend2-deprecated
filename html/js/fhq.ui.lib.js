@@ -591,6 +591,7 @@ fhq.ui.loadCreateNews = function(){
 	el.append('<div class="fhq0048">' + fhq.t("Message") + ':</div>');
 	el.append('<textarea id="create_news_text"></textarea><br><br>');
 	el.append('<div class="fhqbtn" onclick="fhq.ui.insertNews()">' + fhq.t("Create") + '</div>');
+
 	
 }
 
@@ -967,6 +968,8 @@ fhq.ui.loadPageNews = function(){
 		el.append('<h1>' + fhq.t('News') + '</h1>');
 		
 		el.append(fhq.ui.paginator(0, r.count, r.onpage, r.page));
+
+		
 
 		for(var i in r.data){
 			var ev = r.data[i];
@@ -3295,12 +3298,28 @@ fhq.ui.paginator = function(min,max,onpage,page) {
 			content += '<li class="page-item ' + (pagesInt[i] == page ? 'active' : '') + '"><div class="page-link" onclick="fhq.ui.paginatorClick(' + onpage + ',' + pagesInt[i] + ');">' + (pagesInt[i]+1) + '</div></li>';
 		}
 	}
+
+
+	content += "<div class='col-md-auto ml-auto input-group d1'>"
+	content += "<input type='text' class='form-control' placeholder='Найти...'><div class='input-group-addon'><button id='search' name='search' style='border: none; outline: none'><i class='fa fa-search'></i></button></div>"
+	content += "</div>"
 	content += "</ul></nav>";
 	
 	return content;
 }
 
+
 $(document).ready(function() {
 	fhq.ui.createCopyright();
 });
 
+$(document).on('click','#search',function(){
+
+  alert('You clicked on button!');
+
+});
+$(document).on('keypress','.form-control',function(e){
+    if(e.which == 13) {
+        alert('You pressed enter!');
+    }
+});

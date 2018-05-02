@@ -365,12 +365,6 @@ fhq.ws.quest_proposal = function(params){
 	return fhq.ws.send(params);
 }
 
-fhq.ws.quest_delete = function(params){
-	params = params || {};
-	params.cmd = 'quest_delete';
-	return fhq.ws.send(params);
-}
-
 fhq.ws.quest_update = function(params){
 	params = params || {};
 	params.cmd = 'quest_update';

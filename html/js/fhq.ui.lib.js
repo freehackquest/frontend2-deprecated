@@ -1291,16 +1291,6 @@ fhq.ui.loadUserProfile = function(userid) {
 				});
 			});
 		}
-
-
-		if(fhq.isAdmin()){
-			/*var c = '<div class="fhq0051">';
-			c += '<div class="fhqbtn" id="quest_edit">' + fhq.t('Edit') + '</div>';
-			c += '<div class="fhqbtn" id="quest_export">' + fhq.t('Export') + '</div>';
-			c += '<div class="fhqbtn" id="quest_report">' + fhq.t('Report an error') + '</div>';
-			c += '</div>'
-			el.append(c);*/
-		}
 		
 		fhq.ws.user_skills({userid: user.data.id}).done(function(r){
 			
@@ -2177,7 +2167,6 @@ fhq.ui.renderQuestAppendButtons = function(el, q){
 	if(fhq.isAdmin()){
 		$('#quest_btns').append(' '
 			+ '<div class="btn btn-info" questid="' + q.id + '" id="quest_edit">' + fhq.t('Edit') + '</div> '
-			+ '<div class="btn btn-info" questid="' + q.id + '" id="quest_export">' + fhq.t('Export') + '</div> '
 		)
 	}
 
@@ -2193,10 +2182,6 @@ fhq.ui.renderQuestAppendButtons = function(el, q){
 	
 	$('#quest_edit').unbind().bind('click', function(){
 		fhq.ui.loadEditQuestForm(q.id);
-	})
-
-	$('#quest_export').unbind().bind('click', function(){
-		fhqgui.exportQuest(q.id);
 	})
 }
 

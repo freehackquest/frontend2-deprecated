@@ -1296,7 +1296,6 @@ fhq.ui.loadUserProfile = function(userid) {
 		if(fhq.isAdmin()){
 			/*var c = '<div class="fhq0051">';
 			c += '<div class="fhqbtn" id="quest_edit">' + fhq.t('Edit') + '</div>';
-			c += '<div class="fhqbtn" id="quest_delete">' + fhq.t('Delete') + '</div>';
 			c += '<div class="fhqbtn" id="quest_export">' + fhq.t('Export') + '</div>';
 			c += '<div class="fhqbtn" id="quest_report">' + fhq.t('Report an error') + '</div>';
 			c += '</div>'
@@ -1715,20 +1714,6 @@ fhq.ui.proposalQuest = function() {
 		fhq.ui.showError(r.error);
 	});
 };
-
-
-fhq.ui.deleteQuest = function(id){
-	if (!confirm("Are you sure that wand remove this quest?"))
-		return;
-
-	var params = {};
-	params.questid = parseInt(id,10);
-	fhq.ws.quest_delete(params).done(function(r){
-		fhq.ui.loadQuestsBySubject(r.subject);
-	}).fail(function(r){
-		fhq.ui.showError(r.error);
-	});
-}
 
 fhq.ui.loadEditQuestForm = function(questid){
 	window.fhq.changeLocationState({'edit_quest':questid});
@@ -2193,7 +2178,6 @@ fhq.ui.renderQuestAppendButtons = function(el, q){
 		$('#quest_btns').append(' '
 			+ '<div class="btn btn-info" questid="' + q.id + '" id="quest_edit">' + fhq.t('Edit') + '</div> '
 			+ '<div class="btn btn-info" questid="' + q.id + '" id="quest_export">' + fhq.t('Export') + '</div> '
-			+ '<div class="btn btn-danger" questid="' + q.id + '" id="quest_delete">' + fhq.t('Delete') + '</div> '
 		)
 	}
 
@@ -2205,10 +2189,6 @@ fhq.ui.renderQuestAppendButtons = function(el, q){
 			+ 'Quest: ' + q.name + ', ID: #' + q.id + '\n'
 			+ 'Comment:\n'
 		);
-	});
-
-	$('#quest_delete').unbind().bind('click', function(){
-		fhq.ui.deleteQuest(q.id);
 	});
 	
 	$('#quest_edit').unbind().bind('click', function(){

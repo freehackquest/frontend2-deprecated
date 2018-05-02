@@ -168,8 +168,7 @@ fhq.ui.updateMenu = function(){
 	$('#btnmenu_proposal_quest').html(fhq.t('Proposal Quest'));
 	
 	$('#btnmenu_createnews').html(fhq.t('Create News'));
-	
-	$('#btnmenu_answerlist').html(fhq.t('Answer List'));
+
 	$('#btnmenu_serverinfo').html(fhq.t('Server Info'));
 	$('#btnmenu_serversettings').html(fhq.t('Server Settings'));
 	
@@ -362,7 +361,6 @@ fhq.ui.processParams = function() {
 	// admin api
 	fhq.ui.pageHandlers["create_news"] = fhq.ui.loadCreateNews;
 	fhq.ui.pageHandlers["server_info"] = fhq.ui.loadServerInfo;
-	fhq.ui.pageHandlers["answerlist"] = fhq.ui.loadAnswerList;	
 	fhq.ui.pageHandlers["edit_quest"] = fhq.ui.loadEditQuestForm;
 	fhq.ui.pageHandlers["chat"] = fhq.ui.loadChatPage;
 
@@ -701,60 +699,6 @@ fhq.ui.loadServerInfo = function(){
 	}).fail(function(r){
 		console.error(r);
 		el.append(r.error);
-	})
-}
-
-fhq.ui.loadAnswerList = function(){
-	fhq.ui.hideLoading();
-	var onpage = 8;
-	if(fhq.containsPageParam("onpage")){
-		onpage = parseInt(fhq.pageParams['onpage'], 10);
-	}
-
-	var page = 0;
-	if(fhq.containsPageParam("page")){
-		page = parseInt(fhq.pageParams['page'], 10);
-	}
-	
-	window.fhq.changeLocationState({'answerlist': '', 'onpage': onpage, 'page': page});
-	$("#content_page").html('<div class="fhq0057"></div>');
-	$('.fhq0057').append('<h1>' + fhq.t('Answer List') + '</h1>');
-	$('.fhq0057').append('<div class="fhq0063"></div>');
-	$('.fhq0057').append('<div class="fhq0058"></div>');
-	$('.fhq0058').append(fhq.ui.render([{
-		'c': 'fhq0059',
-		'r': [
-			{ 'c': 'fhq0061', 'r': fhq.t('Date Time')},
-			{ 'c': 'fhq0061', 'r': fhq.t('Quest')},
-			{ 'c': 'fhq0061', 'r': fhq.t('Answer')},
-			{ 'c': 'fhq0061', 'r': fhq.t('Passed')},
-			{ 'c': 'fhq0061', 'r': fhq.t('User')},
-		]
-	}]));
-
-	fhq.ws.answerlist({'onpage': onpage, 'page': page}).done(function(r){
-		$('.fhq0063').append(fhq.ui.paginator(0, r.count, r.onpage, r.page));
-		
-		for(var i in r.data){
-			var uqa = r.data[i];
-			$('.fhq0058').append(fhq.ui.render([{
-				'c': 'fhq0059' + (uqa.passed == 'Yes' ? ' fhq0062' : ''),
-				'r': [
-					{ 'c': 'fhq0061', 'r': uqa.dt},
-					{ 'c': 'fhq0061', 'r': uqa.quest.subject + ' / Quest ' + uqa.quest.id + '<br>' + uqa.quest.name + ' (+' + uqa.quest.score + ')' },
-					{ 'c': 'fhq0061', 'r': 'User: ' + uqa.user_answer + '<br> Quest: ' + uqa.quest_answer + '<br> Levenshtein: ' + uqa.levenshtein },
-					{ 'c': 'fhq0061', 'r': uqa.passed },
-					{ 'c': 'fhq0061', 'r': fhq.ui.makeUserIcon(uqa.user.id, uqa.user.logo, uqa.user.nick)},
-				]
-			}]));
-			
-			/*$('.fhq0058').append('<div class="fhq0059">'
-			+ i + ' => ' + r.data[i]
-			+ '</div>')*/
-		}
-	}).fail(function(r){
-		console.error(r);
-		$('.fhq0057').append(r.error);
 	})
 }
 

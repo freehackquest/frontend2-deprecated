@@ -293,12 +293,6 @@ fhq.ws.writeups = function(params){
 	return fhq.ws.send(params);
 }
 
-fhq.ws.answerlist = function(params){
-	params = params || {};
-	params.cmd = 'answerlist';
-	return fhq.ws.send(params);
-}
-
 fhq.ws.scoreboard = function(params){
 	params = params || {};
 	params.cmd = 'scoreboard';

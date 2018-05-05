@@ -3300,10 +3300,14 @@ fhq.ui.paginator = function(min,max,onpage,page) {
 	}
 
 
-	content += "<div class='col-md-auto ml-auto input-group d1'>"
-	content += "<input type='text' class='form-control' placeholder='Найти...'><div class='input-group-addon'><button id='search' name='search' style='border: none; outline: none'><i class='fa fa-search'></i></button></div>"
+	content += "<div class='col-md-auto ml-auto input-group custom-search-form'>"
+	content += "<input id='input_news_search' name='input_news_search' type='text' class='form-control' placeholder='Найти...'>"
+	content += "<span class='input-group-btn'>"
+	content += "<button id='button_news_search' name='button_news_search' class='btn btn-default btn-lg' style='border-color: #d9d9d9; outline: none; background: none;'><i class='fa fa-search'></i>"
+	content += "</button></span>"
 	content += "</div>"
 	content += "</ul></nav>";
+	
 	
 	return content;
 }
@@ -3313,12 +3317,12 @@ $(document).ready(function() {
 	fhq.ui.createCopyright();
 });
 
-$(document).on('click','#search',function(){
+$(document).on('click','#button_news_search',function(){
 
   alert('You clicked on button!');
 
 });
-$(document).on('keypress','.form-control',function(e){
+$(document).on('keypress','#input_news_search',function(e){
     if(e.which == 13) {
         alert('You pressed enter!');
     }

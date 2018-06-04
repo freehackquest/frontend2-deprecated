@@ -2265,6 +2265,31 @@ fhq.ui.renderQuestDescription = function(el, q){
 	);
 }
 
+fhq.ui.renderQuestStarRating = function(el, q){
+	var converter = new showdown.Converter();
+	el.append(''
+		+ '<div class="card">'
+		+ '		<div class="card-header">' + fhq.t('Rate Quest') + '</div>'
+		+ '		<div class="card-body">'
+		+ '	<div class="stars">'
+		+ '	  <form action="">'
+		+ '	    <input class="star star-5" id="star-5" type="radio" name="star"/>'
+		+ '	    <label class="star star-5" for="star-5"></label>'
+		+ '	    <input class="star star-4" id="star-4" type="radio" name="star"/>'
+		+ '	    <label class="star star-4" for="star-4"></label>'
+		+ '	    <input class="star star-3" id="star-3" type="radio" name="star"/>'
+		+ '	    <label class="star star-3" for="star-3"></label>'
+		+ '	    <input class="star star-2" id="star-2" type="radio" name="star"/>'
+		+ '	    <label class="star star-2" for="star-2"></label>'
+		+ '	    <input class="star star-1" id="star-1" type="radio" name="star"/>'
+		+ '	    <label class="star star-1" for="star-1"></label>'
+		+ '	  </form>'
+		+ '	</div>'
+		+ '		</div>'
+		+ '</div><br>'
+	);
+}
+
 fhq.ui.refreshHints = function(questid, hints){
 	var i = 1;
 	$('#quest_hints').html('');
@@ -2382,6 +2407,7 @@ fhq.ui.loadQuest = function(id){
 
 		fhq.ui.renderQuestAppendButtons(el, q);
 		fhq.ui.renderQuestDetails(el, q);
+		fhq.ui.renderQuestStarRating(el, q);
 		fhq.ui.renderQuestDescription(el, q);
 
 		if(fi.length > 0){

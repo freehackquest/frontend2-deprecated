@@ -712,5 +712,9 @@ fhq.localization = {
 	'Open Subjects':{
 		'en': 'Open Subjects',
 		'ru': 'Открыть все разделы'
+	},
+	'Rate Quest':{
+		'en': 'Rate Quest',
+		'ru': 'Оценить квест'
 	}
 };

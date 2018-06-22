@@ -2270,7 +2270,7 @@ fhq.ui.renderQuestStarRating = function(el, q){
 	el.append(''
 		+ '<div class="card">'
 		+ '		<div class="card-header">' + fhq.t('Rate Quest') + '</div>'
-		+ '		<div class="card-body">'
+		+ '		<div class="card-body" id="stars">'
 		+ '	<div class="stars">'
 		+ '	  <form action="">'
 		+ '	    <input class="star star-5" id="star-5" type="radio" name="star"/>'
@@ -2407,7 +2407,6 @@ fhq.ui.loadQuest = function(id){
 
 		fhq.ui.renderQuestAppendButtons(el, q);
 		fhq.ui.renderQuestDetails(el, q);
-		fhq.ui.renderQuestStarRating(el, q);
 		fhq.ui.renderQuestDescription(el, q);
 
 		if(fi.length > 0){
@@ -2441,6 +2440,8 @@ fhq.ui.loadQuest = function(id){
 					+ '		</div>'
 					+ '</div><br>'
 				);
+
+				fhq.ui.renderQuestStarRating(el, q);
 				
 				$('#newquestinfo_pass').unbind().bind('click', function(){
 					var answer = $('#quest_answer').val();
@@ -2468,6 +2469,9 @@ fhq.ui.loadQuest = function(id){
 				$('#quest_show_my_answers').unbind().bind('click', function(){
 					fhq.ui.loadMyAnswers(q.questid);
 				});
+
+
+
 			}else{
 				el.append( ''
 					+ '<div class="card">'

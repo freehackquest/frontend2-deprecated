@@ -1539,6 +1539,11 @@ span.input-group-btn:hover, span.input-group-btn:focus {
 div.stars {
   width: 270px;
   display: inline-block;
+  text-align: center;
+}
+
+div.card-body#stars{
+	text-align: center;
 }
 
 input.star { display: none; }

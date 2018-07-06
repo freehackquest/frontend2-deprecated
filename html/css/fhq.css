@@ -1501,3 +1501,37 @@ font.fhq_task {
 	height: 5px;
 }
 
+.pagination {
+	white-space: nowrap;
+}
+.pagination div.row {
+	width: 1200px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.pagination div.row .input-group {
+	padding: 0px;
+}
+
+.pagination .row li{
+	margin-top: 5px;
+}
+.pagination .row button{
+	border-color: none; 
+	outline: none; 
+	background: none;
+}
+span.input-group-btn {
+  	background-color: #FFFFFF;
+  	border-right: none;
+    border: 1px solid #CCCCCC;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+   
+}
+span.input-group-btn:hover, span.input-group-btn:focus {
+   border-color: rgba(82, 168, 236, 0.8);
+   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(82, 168, 236, 0.6);
+   outline: 0 none;
+}

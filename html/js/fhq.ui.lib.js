@@ -3147,6 +3147,17 @@ fhq.ui.paginatorClick = function(onpage, page){
 	fhq.changeLocationState(fhq.pageParams);
 	fhq.ui.processParams();
 }
+fhq.ui.paginatorFind = function(){
+	alert('You clicked on button!');
+}
+fhq.ui.paginatorfindEnter = function(e){
+	if(e == 13)
+	{
+		alert("You pressed on enter!");
+	}
+	
+}
+
 
 fhq.ui.paginator = function(min,max,onpage,page) {
 	if (max == 0) 
@@ -3194,17 +3205,29 @@ fhq.ui.paginator = function(min,max,onpage,page) {
 
 	var content = '';
 	content += '<nav><ul class="pagination">';
+	content += '<div class="row">'
 	content += '<li class="page-item disabled"> <div class="page-link" tabindex="-1">' + fhq.t('Found') + ': ' + (max-min) + '</div></li>'
+	
 	for (var i = 0; i < pagesInt.length; i++) {
 		if (pagesInt[i] == -1) {
-			content += " ... ";
+			content += "<li style='padding-left: 5px; padding-right: 5px;'>  . . .  </li>";
 		} else if (pagesInt[i] == page) {
 			content += '<li class="page-item active"><div class="page-link">' + (pagesInt[i]+1) + '</div></li>';
 		} else {
 			content += '<li class="page-item ' + (pagesInt[i] == page ? 'active' : '') + '"><div class="page-link" onclick="fhq.ui.paginatorClick(' + onpage + ',' + pagesInt[i] + ');">' + (pagesInt[i]+1) + '</div></li>';
 		}
 	}
-	content += "</ul></nav>";
+
+
+	content += "<li class='col-md-auto ml-auto input-group custom-search-form'>"
+	content += "<input type='text' class='form-control' onkeypress='fhq.ui.paginatorfindEnter(event.keyCode)' placeholder='Найти...' style='border-right-width: 0px;'>"
+	content += "<span class='input-group-btn'>"
+	content += "<button class='btn btn-default btn-lg' onclick='fhq.ui.paginatorFind()'><i class='fa fa-search'></i>"
+	content += "</button></span>"
+	content += "</li>"
+	content += "</ul>"
+	content += "</div>"
+	content += "</nav>";
 	
 	return content;
 }

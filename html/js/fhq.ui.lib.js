@@ -900,17 +900,33 @@ fhq.ui.loadPageNews = function(){
 	if(fhq.containsPageParam("page")){
 		page = parseInt(fhq.pageParams['page'], 10);
 	}
+
+	var search = '';
+	if(fhq.containsPageParam("search")){
+		search = fhq.pageParams['search'];
+	}
 	
 	var el = $("#content_page");
 	el.html('Loading...')
 	
-	window.fhq.changeLocationState({'news': '', 'onpage': onpage, 'page': page});
+	window.fhq.changeLocationState({'news': '', 'onpage': onpage, 'page': page, 'search': search});
 
-	fhq.ws.publiceventslist({'onpage': onpage, 'page': page}).done(function(r){
+	fhq.ws.publiceventslist({'onpage': onpage, 'page': page, 'search': search}).done(function(r){
 		el.html('');
 		el.append('<h1>' + fhq.t('News') + '</h1>');
 		
 		el.append(fhq.ui.paginator(0, r.count, r.onpage, r.page));
+
+		if(fhq.ui.paginator(0, r.count, r.onpage, r.page) == '')
+		{
+			el.append(''
+				+ '<div class="card">'
+				+ '	<div class="card-body">'
+				+ '     <p>Новостей не найдено!</p>'
+				+ '	</div>'
+				+ '</div><br>'
+			);
+		}
 
 		for(var i in r.data){
 			var ev = r.data[i];
@@ -3141,19 +3157,23 @@ fhq.ui.render = function(obj){
 	return res;
 }
 
-fhq.ui.paginatorClick = function(onpage, page){
+fhq.ui.paginatorClick = function(onpage, page, search){
 	fhq.pageParams['onpage'] = onpage;
 	fhq.pageParams['page'] = page;
+	fhq.pageParams['search'] = search;
 	fhq.changeLocationState(fhq.pageParams);
 	fhq.ui.processParams();
 }
-fhq.ui.paginatorFind = function(){
-	alert('You clicked on button!');
+fhq.ui.paginatorSearch = function(){
+	alert(search);
+	var search = $('#search').val();
+	fhq.ui.paginatorClick(5, 0, search);
 }
-fhq.ui.paginatorfindEnter = function(e){
+fhq.ui.paginatorSearchEnter = function(e, search){
 	if(e == 13)
 	{
-		alert("You pressed on enter!");
+		alert(search);
+		fhq.ui.paginatorClick(5, 0, search);
 	}
 	
 }
@@ -3220,9 +3240,9 @@ fhq.ui.paginator = function(min,max,onpage,page) {
 
 
 	content += "<li class='col-md-auto ml-auto input-group custom-search-form'>"
-	content += "<input type='text' class='form-control' onkeypress='fhq.ui.paginatorfindEnter(event.keyCode)' placeholder='Найти...' style='border-right-width: 0px;'>"
+	content += "<input type='text' class='form-control' name='search' id='search' onkeypress='fhq.ui.paginatorSearchEnter(event.keyCode, this.value)' placeholder='Найти...' style='border-right-width: 0px;'>"
 	content += "<span class='input-group-btn'>"
-	content += "<button class='btn btn-default btn-lg' onclick='fhq.ui.paginatorFind()'><i class='fa fa-search'></i>"
+	content += "<button class='btn btn-default btn-lg' onclick='fhq.ui.paginatorSearch()'><i class='fa fa-search'></i>"
 	content += "</button></span>"
 	content += "</li>"
 	content += "</ul>"

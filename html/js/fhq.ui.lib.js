@@ -3240,7 +3240,7 @@ fhq.ui.paginator = function(min,max,onpage,page) {
 
 
 	content += "<li class='col-md-auto ml-auto input-group custom-search-form'>"
-	content += "<input type='text' class='form-control' name='search' id='search' onkeypress='fhq.ui.paginatorSearchEnter(event.keyCode, this.value)' placeholder='Найти...' style='border-right-width: 0px;'>"
+	content += "<input type='text' class='form-control' name='search' id='search' autofocus onkeypress='fhq.ui.paginatorSearchEnter(event.keyCode, this.value)' placeholder='Найти...' style='border-right-width: 0px;'>"
 	content += "<span class='input-group-btn'>"
 	content += "<button class='btn btn-default btn-lg' onclick='fhq.ui.paginatorSearch()'><i class='fa fa-search'></i>"
 	content += "</button></span>"

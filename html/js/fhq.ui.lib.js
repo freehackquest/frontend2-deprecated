@@ -206,7 +206,13 @@ fhq.ui.updateMenu = function(){
 }
 
 fhq.ui.showNotification = function(type, section, message){
-    $.bootstrapGrowl("<strong>" + section + "</strong><br>" + message, { // options
+	function htmlEncode(value){
+		//create a in-memory div, set it's inner text(which jQuery automatically encodes)
+		//then grab the encoded contents back out.  The div never exists on the page.
+		return $('<div/>').text(value).html();
+	}
+
+    $.bootstrapGrowl("<strong>" + htmlEncode(section) + "</strong><br>" + htmlEncode(message), { // options
         type: type, // info, success, warning and danger
 		ele: "body", // parent container
 		offset: {
@@ -215,7 +221,7 @@ fhq.ui.showNotification = function(type, section, message){
 		},
 		align: "right", // right, left or center
 		width: 250,
-		delay: 4000,
+		delay: 10000,
 		allow_dismiss: true, // add a close button to the message
 		stackup_spacing: 10
 	});

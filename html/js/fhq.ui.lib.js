@@ -904,12 +904,13 @@ fhq.ui.loadPageNews = function(){
 	var search = '';
 	if(fhq.containsPageParam("search")){
 		search = fhq.pageParams['search'];
+
 	}
 	
 	var el = $("#content_page");
 	el.html('Loading...')
 	
-	window.fhq.changeLocationState({'news': '', 'onpage': onpage, 'page': page, 'search': search});
+	window.fhq.changeLocationState({'news': '', 'onpage': onpage, 'page': page, 'search': ''});
 
 	fhq.ws.publiceventslist({'onpage': onpage, 'page': page, 'search': search}).done(function(r){
 		el.html('');
@@ -917,12 +918,18 @@ fhq.ui.loadPageNews = function(){
 		
 		el.append(fhq.ui.paginator(0, r.count, r.onpage, r.page));
 
+		$('#search').val(search);
+
 		if(fhq.ui.paginator(0, r.count, r.onpage, r.page) == '')
 		{
+			el.append(fhq.ui.paginator(0, 1, 5, 0));
 			el.append(''
 				+ '<div class="card">'
-				+ '	<div class="card-body">'
-				+ '     <p>Новостей не найдено!</p>'
+				+ '	<div class="card-body card-left-img trivia">'
+				+ '     <p>По вашему запросу "'
+				+ search
+				+ '" новостей не найдено!</p>'
+				+ '<button class="btn btn-secondary" onclick="fhq.ui.loadPageNews()">Обратно к новостям</button> '
 				+ '	</div>'
 				+ '</div><br>'
 			);

@@ -205,6 +205,25 @@ fhq.ui.updateMenu = function(){
 	}
 }
 
+fhq.ui.showNotification = function(type, message){
+	$.bootstrapGrowl("<strong>" + type + "</strong><br>" + message, { // options
+		type: "info", // info, success, warning and danger
+		ele: "body", // parent container
+		offset: {
+			from: "top",
+			amount: 70
+		},
+		align: "right", // right, left or center
+		width: 250,
+		delay: 4000,
+		allow_dismiss: true, // add a close button to the message
+		stackup_spacing: 10
+	});
+	if(fhq.ui.chatSoundOn){
+		document.getElementById('income_msg_sound').play();
+	}
+}
+
 function FHQGuiLib(api) {
 	var self = this;
 	this.fhq = api;
@@ -247,6 +266,7 @@ function FHQGuiLib(api) {
 		return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 	
+	// deprecated
 	this.messageLastId = 0;
 	this.showedMessages = [];
 	

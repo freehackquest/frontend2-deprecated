@@ -25,6 +25,12 @@ fhq.ws.handleCommand = function(response){
 				delete fhq.ws.listeners[response.m];
 			},1);
 		}
+	}else if(response.cmd == "server"){
+		console.warn("App: " + response.app);
+		console.warn("Version: " + response.version);
+		console.warn("All: ", response);
+	}else if(response.cmd == "notify"){
+		fhq.ui.showNotification(response.type, response.message);
 	}else if(response.cmd == "chat"){
 		fhq.ws.handlerReceivedChatMessage(response);
 	}else{

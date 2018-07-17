@@ -7,3 +7,4 @@ node_modules/*
 dist/*
 src/admin/js/.fhq.admin.users.js.swp
 npm-debug.log
+html/public

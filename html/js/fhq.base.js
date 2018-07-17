@@ -72,8 +72,23 @@ fhq.t = function(message){
 	}
 	return message;
 }
+  
+fhq.escapeHtml = function (str) {
+	return String(str).replace(/[&<>"'`=\/]/g, function (s) {
+		return {
+			'&': '&amp;',
+			'<': '&lt;',
+			'>': '&gt;',
+			'"': '&quot;',
+			"'": '&#39;',
+			'/': '&#x2F;',
+			'`': '&#x60;',
+			'=': '&#x3D;'
+		}[s];
+	});
+}
 
-window.fhq.changeLocationState = function(newPageParams){
+fhq.changeLocationState = function(newPageParams){
 	var url = '';
 	var params = [];
 	console.log("changeLocationState");

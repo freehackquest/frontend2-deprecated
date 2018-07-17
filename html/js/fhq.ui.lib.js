@@ -205,9 +205,9 @@ fhq.ui.updateMenu = function(){
 	}
 }
 
-fhq.ui.showNotification = function(type, message){
-	$.bootstrapGrowl("<strong>" + type + "</strong><br>" + message, { // options
-		type: "info", // info, success, warning and danger
+fhq.ui.showNotification = function(type, section, message){
+    $.bootstrapGrowl("<strong>" + section + "</strong><br>" + message, { // options
+        type: type, // info, success, warning and danger
 		ele: "body", // parent container
 		offset: {
 			from: "top",
@@ -219,9 +219,9 @@ fhq.ui.showNotification = function(type, message){
 		allow_dismiss: true, // add a close button to the message
 		stackup_spacing: 10
 	});
-	if(fhq.ui.chatSoundOn){
-		document.getElementById('income_msg_sound').play();
-	}
+    if(fhq.ui.chatSoundOn){
+        // document.getElementById('income_msg_sound').play();
+    }
 }
 
 function FHQGuiLib(api) {

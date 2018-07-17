@@ -30,7 +30,7 @@ fhq.ws.handleCommand = function(response){
 		console.warn("Version: " + response.version);
 		console.warn("All: ", response);
 	}else if(response.cmd == "notify"){
-		fhq.ui.showNotification(response.type, response.message);
+        fhq.ui.showNotification(response.type, response.section, response.message);
 	}else if(response.cmd == "chat"){
 		fhq.ws.handlerReceivedChatMessage(response);
 	}else{

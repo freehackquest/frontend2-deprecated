@@ -1504,7 +1504,7 @@ font.fhq_task {
 .noDot > li {
 	list-style-type: none; /* Убираем маркеры */
 }
-.noDot > ul {
+.noDot {
 	margin-left: 0; /* Отступ слева в браузере IE и Opera */
 	padding-left: 0; /* Отступ слева в браузере Firefox, Safari, Chrome */
 }

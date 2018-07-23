@@ -1500,3 +1500,11 @@ font.fhq_task {
 	display: table-row;
 	height: 5px;
 }
+
+.noDot > li {
+	list-style-type: none; /* Убираем маркеры */
+}
+.noDot > ul {
+	margin-left: 0; /* Отступ слева в браузере IE и Opera */
+	padding-left: 0; /* Отступ слева в браузере Firefox, Safari, Chrome */
+}

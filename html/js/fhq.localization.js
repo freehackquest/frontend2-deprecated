@@ -131,7 +131,7 @@ fhq.localization = {
 	},
 	'Donate':{
 		'en': 'Donate',
-		'ru': 'пожертвования'
+		'ru': 'Пожертвования'
 	},
 	'Contacts':{
 		'en': 'Contacts',

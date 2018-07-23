@@ -712,5 +712,9 @@ fhq.localization = {
 	'Open Subjects':{
 		'en': 'Open Subjects',
 		'ru': 'Открыть все разделы'
+	},
+	'Server found nothing by your request':{
+		'en': 'Server found nothing by your request',
+		'ru': 'Сервер ничего не нашел по вашему запросу'
 	}
 };

@@ -9,7 +9,7 @@ window.fhq.ui.paginator = function(min,max,onpage,page,search) {
 	var search_form = ""
 		+ "<li class='col-md-auto ml-auto input-group custom-search-form'>"
 		+ "<input type='text' class='form-control' name='search' id='search_query' value='" + fhq.escapeHtml(search) + "' autofocus "
-		+ "  placeholder='Найти...' style='border-right-width: 0px;'>"
+		+ "  placeholder='" + fhq.t('Search') + "...'>"
 		+ "<span class='input-group-btn'>"
 		+ "<button class='btn btn-default btn-lg' id='search_apply'><i class='fa fa-search'></i>"
 		+ "</button></span>"
@@ -26,7 +26,7 @@ window.fhq.ui.paginator = function(min,max,onpage,page,search) {
 			+ '<div class="card">'
 			+ '	<div class="card-body card-left-img trivia not-found">'
 			+ ' 	<p>Good news, everyone!</p>'
-			+ '     <h5>' + fhq.t("Server found nothing by your request ") + ' <strong><i>"'
+			+ '     <h5>' + fhq.t("Server found nothing by your request") + ' <strong><i>"'
 			+ fhq.escapeHtml(search)
 			+ '" </i></strong></h5>'
 			+ '	</div>'

@@ -23,6 +23,10 @@
   color: grey;
 }
 
+.custom-search-form > .form-control {
+  border-right-width: 0px;
+}
+
 span.input-group-btn {
   	background-color: #FFFFFF;
   	border-right: none;

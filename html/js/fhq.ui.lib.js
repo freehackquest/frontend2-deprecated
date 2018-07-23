@@ -926,17 +926,24 @@ fhq.ui.loadPageNews = function(){
 	if(fhq.containsPageParam("page")){
 		page = parseInt(fhq.pageParams['page'], 10);
 	}
+
+	var search = '';
+	if(fhq.containsPageParam("search")){
+		search = fhq.pageParams['search'] || "";
+
+	}
 	
 	var el = $("#content_page");
 	el.html('Loading...')
 	
-	window.fhq.changeLocationState({'news': '', 'onpage': onpage, 'page': page});
+	window.fhq.changeLocationState({'news': '', 'onpage': onpage, 'page': page, 'search': search});
 
-	fhq.ws.publiceventslist({'onpage': onpage, 'page': page}).done(function(r){
+	fhq.ws.publiceventslist({'onpage': onpage, 'page': page, 'search': search}).done(function(r){
 		el.html('');
 		el.append('<h1>' + fhq.t('News') + '</h1>');
-		
-		el.append(fhq.ui.paginator(0, r.count, r.onpage, r.page));
+
+		el.append(fhq.ui.paginator(0, r.count, r.onpage, r.page, r.search));
+		fhq.ui.bindPaginator(r.search);
 
 		for(var i in r.data){
 			var ev = r.data[i];
@@ -3167,16 +3174,40 @@ fhq.ui.render = function(obj){
 	return res;
 }
 
-fhq.ui.paginatorClick = function(onpage, page){
-	fhq.pageParams['onpage'] = onpage;
-	fhq.pageParams['page'] = page;
-	fhq.changeLocationState(fhq.pageParams);
-	fhq.ui.processParams();
-}
+/*fhq.ui.paginator = function(min,max,onpage,page,search) {
+	
+	var content = ''
+		+ '<nav><ul class="pagination">';
 
-fhq.ui.paginator = function(min,max,onpage,page) {
-	if (max == 0) 
-		return "";
+	var search_form = ""
+		+ "<li class='col-md-auto ml-auto input-group custom-search-form'>"
+		+ "<input type='text' class='form-control' name='search' id='search_query' value='" + fhq.escapeHtml(search) + "' autofocus "
+		+ "  placeholder='Найти...' style='border-right-width: 0px;'>"
+		+ "<span class='input-group-btn'>"
+		+ "<button class='btn btn-default btn-lg' id='search_apply'><i class='fa fa-search'></i>"
+		+ "</button></span>"
+		+ "</li>";
+
+	if (max == 0) {
+		content += search_form;
+
+		content += ''
+			+ "</ul>"
+			+ "</nav>";
+		
+		content += ''
+			+ '<div class="card">'
+			+ '	<div class="card-body card-left-img trivia not-found">'
+			+ ' 	<p>Good news, everyone!</p>'
+			+ '     <h5>' + fhq.t("Server found nothing by your request ") + ' <strong><i>"'
+			+ fhq.escapeHtml(search)
+			+ '" </i></strong></h5>'
+			+ '	</div>'
+			+ '</div><br>';
+
+		return content;
+	}
+		
 
 	if (min == max || page > max || page < min )
 		return " Paging Error ";
@@ -3220,21 +3251,58 @@ fhq.ui.paginator = function(min,max,onpage,page) {
 
 	var content = '';
 	content += '<nav><ul class="pagination">';
+	content += '<div class="row">'
+
 	content += '<li class="page-item disabled"> <div class="page-link" tabindex="-1">' + fhq.t('Found') + ': ' + (max-min) + '</div></li>'
 	for (var i = 0; i < pagesInt.length; i++) {
 		if (pagesInt[i] == -1) {
-			content += " ... ";
+			content += "<li style='padding-left: 5px; padding-right: 5px;'>  . . .  </li>";
 		} else if (pagesInt[i] == page) {
 			content += '<li class="page-item active"><div class="page-link">' + (pagesInt[i]+1) + '</div></li>';
 		} else {
-			content += '<li class="page-item ' + (pagesInt[i] == page ? 'active' : '') + '"><div class="page-link" onclick="fhq.ui.paginatorClick(' + onpage + ',' + pagesInt[i] + ');">' + (pagesInt[i]+1) + '</div></li>';
+			var pi = pagesInt[i];
+			content += '<li class="page-item ' + (pi == page ? 'active' : '') + '">'
+								+'<div class="page-link" onpage="' + onpage + '" page="' + pi + '" search="' + fhq.escapeHtml(search) + '">' + (pi+1) + '</div></li>';
 		}
 	}
-	content += "</ul></nav>";
+
+	content += search_form
+		+ "</ul>"
+		+ "</div>"
+		+ "</nav>";
 	
 	return content;
 }
 
+fhq.ui.bindPaginator = function(search){
+	$('#search_query').val(search);
+	$('#search_query').focus();
+	$('#search_query').val('').val(search); // set carret to end of text
+	$('#search_query').unbind().bind('keypress', function(e){
+		var code = e.keyCode || e.which;
+		if(code == 13) {
+			$('#search_apply').click();	
+		}
+	});
+
+	$('#search_apply').unbind().bind('click', function(){
+		fhq.pageParams['onpage'] = 5; // TODO change this to global variable
+		fhq.pageParams['page'] = 0; // TODO change this to global variable
+		fhq.pageParams['search'] = $('#search_query').val();
+		fhq.changeLocationState(fhq.pageParams);
+		fhq.ui.processParams();
+	});
+
+	$('.page-link').unbind().bind('click',function(){
+		fhq.pageParams['onpage'] = parseInt($(this).attr('onpage'),10);
+		fhq.pageParams['page'] = parseInt($(this).attr('page'),10);
+		fhq.pageParams['search'] = $(this).attr('search');
+		fhq.changeLocationState(fhq.pageParams);
+		fhq.ui.processParams();
+	})
+
+}
+*/
 $(document).ready(function() {
 	fhq.ui.createCopyright();
 });

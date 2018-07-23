@@ -3148,11 +3148,10 @@ fhq.ui.render = function(obj){
 	return res;
 }
 
-fhq.ui.paginator = function(min,max,onpage,page,search) {
+/*fhq.ui.paginator = function(min,max,onpage,page,search) {
 	
 	var content = ''
 		+ '<nav><ul class="pagination">';
-		+ '<div class="row">';
 
 	var search_form = ""
 		+ "<li class='col-md-auto ml-auto input-group custom-search-form'>"
@@ -3168,15 +3167,15 @@ fhq.ui.paginator = function(min,max,onpage,page,search) {
 
 		content += ''
 			+ "</ul>"
-			+ "</div>"
 			+ "</nav>";
 		
 		content += ''
 			+ '<div class="card">'
-			+ '	<div class="card-body not-found">'
-			+ '     <h4>' + fhq.t("Server found nothing by your request ") + ' <strong><i>"'
+			+ '	<div class="card-body card-left-img trivia not-found">'
+			+ ' 	<p>Good news, everyone!</p>'
+			+ '     <h5>' + fhq.t("Server found nothing by your request ") + ' <strong><i>"'
 			+ fhq.escapeHtml(search)
-			+ '" </i></strong></h4>'
+			+ '" </i></strong></h5>'
 			+ '	</div>'
 			+ '</div><br>';
 
@@ -3277,7 +3276,7 @@ fhq.ui.bindPaginator = function(search){
 	})
 
 }
-
+*/
 $(document).ready(function() {
 	fhq.ui.createCopyright();
 });

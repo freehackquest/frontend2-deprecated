@@ -159,9 +159,9 @@ fhq.ws.updateUserProfileAsync = function(){
 	setTimeout(function(){
 		fhq.ws.user().done(function(r){
 			fhq.profile.bInitUserProfile == true;
-			fhq.profile.university = r.profile.university;
-			fhq.profile.country = r.profile.country;
-			fhq.profile.city = r.profile.city;
+			fhq.profile.university = r.data.university;
+			fhq.profile.country = r.data.country;
+			fhq.profile.city = r.data.city;
 			fhq.userinfo = {};
 			fhq.userinfo.id = r.data.id;
 			fhq.userinfo.nick = r.data.nick;

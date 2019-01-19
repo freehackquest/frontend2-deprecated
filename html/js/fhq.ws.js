@@ -12,6 +12,13 @@ window.fhq.ws.addListener = function(m, d){
 	fhq.ws.listeners[m] = d;
 }
 
+fhq.ws.updateServerVersion = function() {
+	var el = document.getElementById('server_version');
+	if (el && fhq.ws.serverName && fhq.ws.serverVersion) {
+		el.innerHTML = fhq.ws.serverName + ': ' + fhq.ws.serverVersion;
+	}
+}
+
 fhq.ws.handleCommand = function(response){
 	if(fhq.ws.listeners[response.m]){
 		if(response['error']){
@@ -26,9 +33,12 @@ fhq.ws.handleCommand = function(response){
 			},1);
 		}
 	}else if(response.cmd == "server"){
+		fhq.ws.serverName = response.app;
+		fhq.ws.serverVersion = response.version;
 		console.warn("App: " + response.app);
 		console.warn("Version: " + response.version);
 		console.warn("All: ", response);
+		fhq.ws.updateServerVersion();
 	}else if(response.cmd == "notify"){
         fhq.ui.showNotification(response.type, response.section, response.message);
 	}else if(response.cmd == "chat"){
@@ -44,13 +54,14 @@ window.fhq.ws.getWSState = function(){
 	return fhq.ws.WSState;
 }
 
-window.fhq.ws.setWSState = function(s){
+window.fhq.ws.setWSState = function(s) {
 	fhq.ws.WSState = s;
 	var el = document.getElementById('websocket_state');
-	if(el){
-		document.getElementById('websocket_state').innerHTML = s;
+	if (el) {
+		el.innerHTML = s;
 	}
 }
+
 window.fhq.ws.onconnect = function(){
 	
 };

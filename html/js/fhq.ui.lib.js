@@ -798,7 +798,7 @@ fhq.ui.loadAboutPage = function() {
 		+ '	<div class="card-body">'
 		+ 'The MIT License (MIT)<br>'
 		+ '<br>'
-		+ 'Copyright (c) 2012-2017 sea-kg<br>'
+		+ 'Copyright (c) 2011-2019 sea-kg<br>'
 		+ '<br>'
 		+ 'Permission is hereby granted, free of charge, to any person obtaining a copy of<br>'
 		+ 'this software and associated documentation files (the "Software"), to deal in<br>'
@@ -3128,12 +3128,14 @@ window.fhq.ui.createCopyright = function() {
 	$("body").append(''
 		+ '<div id="copyright">'
 		+ '	<center>'
-		+ '		<font face="Arial" size=2>Copyright © 2011-2017 sea-kg. | '
-		+ '		<a href="https://freehackquest.com/?about">About</a> | '
-		+ '		WS State: <font id="websocket_state">?</font>'
+		+ '		<font face="Arial" size=2>Copyright © 2011-2019 sea-kg. | '
+		+ '		<a href="?about">About</a> | '
+		+ '		ws-connect: <font id="websocket_state">?</font> | '
+		+ '		<font id="server_version">?</font>'
 		+ '	</center>'
 		+ '</div>'
 	);
+	fhq.ws.updateServerVersion();
 }
 
 fhq.ui.render = function(obj){

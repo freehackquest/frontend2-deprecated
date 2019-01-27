@@ -2341,7 +2341,7 @@ fhq.ui.loadQuest = function(id){
 
 		fhq.ui.renderQuestHints(el, hi, q);
 		
-		if(!q.completed){
+		if (!q.completed) {
 			if(fhq.isAuth()){
 				el.append( ''
 					+ '<div class="card">'
@@ -2392,28 +2392,26 @@ fhq.ui.loadQuest = function(id){
 				);
 			}
 		}
-		
-		var writeups = ''
-			+ '<div class="fhq0051">'
-			+ '		<div class="fhq0053 hide" id="quest_show_writeups">' + fhq.t('Write Up') + '</div>'
-			+ '		<div class="fhq0052" style="display: none;"></div>'
-			+ '</div>'
-		el.append(writeups);
+// <a id="quest_show_hints" href="javascript:void(0);">' + fhq.t('Hints') + ' (' + hi.length + ')</a>
+		var wrcount = q.writeups_count || 0;
+		wrcount = wrcount == 0 ? '' : '(' + wrcount + ')';
+
+		el.append(''
+			+ '<div class="card">'
+			+ '		<div class="card-header"><a id="quest_show_writeups" href="javascript:void(0);">' + fhq.t('Write Up') + ' ' + wrcount + '</a></div>'
+			+ '		<div class="card-body" id="quest_writeups"  style="display: none"></div>'
+			+ '</div><br>'
+		);
 
 		// fhq.ui.refreshHints(questid, q.hints, perm_edit);
-		$('#quest_show_writeups').unbind().bind('click', function(){
-			if($('.fhq0052').is(":visible")){
-				$('.fhq0052').hide();
-				$('#quest_show_writeups').removeClass('show');
-				$('#quest_show_writeups').addClass('hide');
-			}else{
-				$('.fhq0052').show();
-				$('#quest_show_writeups').removeClass('hide');
-				$('#quest_show_writeups').addClass('show');
+		$('#quest_show_writeups').unbind().bind('click', function() {
+			if ($('#quest_writeups').is(":visible")) {
+				$('#quest_writeups').hide();
+			} else {
+				$('#quest_writeups').show();
 				fhq.ui.loadWriteUps(questid);
 			}
 		});
-	
 		
 		el.append(''
 			+ '<div class="fhq0051">'
@@ -2425,7 +2423,7 @@ fhq.ui.loadQuest = function(id){
 			+ '</div>'
 		);
 
-		if(q.solved != 0){
+		if (q.solved != 0) {
 			$('#quest_show_statistics').unbind().bind('click', function(){
 				if($('#statistics_content').is(":visible")){
 					$('#statistics_content').hide();
@@ -2449,21 +2447,43 @@ fhq.ui.loadQuest = function(id){
 
 fhq.ui.loadWriteUps = function(questid){
 	fhq.ui.showLoading();
-	$('.fhq0052').html('...');
-	fhq.ws.writeups({questid: questid}).done(function(r){
-		if(r.data.length == 0){
-			$('.fhq0052').html(fhq.t('No solutions yet'));  // TODO propose by user
-		}else{
-			var writeup = r.data[0];
-			if(writeup.type == 'youtube_video'){
-				$('.fhq0052').html('<iframe width="560" height="315" src="' + writeup.link + '" frameborder="0" allowfullscreen></iframe>');
-			}else{
-				$('.fhq0052').html('TODO');
+	$('#quest_writeups').html('...');
+	fhq.ws.quests_writeups({questid: questid}).done(function(r){
+
+		$('#quest_writeups').html(''
+			+ '<input class="form-control" type="url" value="" placeholder="https://youtu.be/gJeOeTGI7T8" id="quests_writeups_proposal_link"><br>'
+			+ '<div class="btn btn-info" id="quests_writeups_proposal_send">' + fhq.t('Suggest a link') + '</div><hr>'
+		);
+		if (r.data.length == 0) {
+			$('#quest_writeups').append(
+				fhq.t('No solutions yet')
+			);
+		} else {
+			var writeups = r.data;
+			for (var i = 0; i < writeups.length; i++) {
+				var writeup = r.data[i];
+				if (writeup.type == 'youtube_video') {
+					$('#quest_writeups').append('<iframe width="560" height="315" src="' + writeup.link + '" frameborder="0" allowfullscreen></iframe><hr>');
+				}else{
+					$('#quest_writeups').append('TODO ' + writeup.type);
+				}
 			}
 		}
+		$('#quests_writeups_proposal_send').unbind().bind('click', function(){
+			var suggest_a_link = $('#quests_writeups_proposal_link').val();
+			fhq.ui.showLoading();
+			fhq.ws.quests_writeups_proposal({questid: questid, writeup_link: suggest_a_link}).done(function(r){
+				fhq.ui.hideLoading();
+
+			}).fail(function(err){
+				fhq.ui.hideLoading();
+				console.log(err);
+				fhq.ui.showError("Something wrong");
+			})
+		})
 		fhq.ui.hideLoading();
 	}).fail(function(r){
-		$('.fhq0052').html(r.error);
+		$('#quest_writeups').html(r.error);
 	})
 }
 

@@ -304,7 +304,7 @@ fhq.ws.hints = function(params){
 	return fhq.ws.send(params);
 }
 
-fhq.ws.writeups = function(params){
+fhq.ws.quests_writeups = function(params) {
 	params = params || {};
 	params.cmd = 'writeups';
 	return fhq.ws.send(params);
@@ -373,6 +373,12 @@ fhq.ws.game_info = function(data){
 fhq.ws.quest_proposal = function(params){
 	params = params || {};
 	params.cmd = 'quest_proposal';
+	return fhq.ws.send(params);
+}
+
+fhq.ws.quests_writeups_proposal = function(params){
+	params = params || {};
+	params.cmd = 'quests_writeups_proposal';
 	return fhq.ws.send(params);
 }
 

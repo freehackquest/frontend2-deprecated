@@ -709,8 +709,12 @@ fhq.localization = {
 		'en': 'You can',
 		'ru': 'Вы можете'
 	},
-	'Open Subjects':{
+	'Open Subjects': {
 		'en': 'Open Subjects',
 		'ru': 'Открыть все разделы'
-	}
+	},
+	'Suggest a link': {
+		'en': 'Suggest a link',
+		'ru': 'Предложить ссылку',
+	},
 };

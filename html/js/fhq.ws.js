@@ -304,9 +304,9 @@ fhq.ws.hints = function(params){
 	return fhq.ws.send(params);
 }
 
-fhq.ws.quests_writeups = function(params) {
+fhq.ws.quests_writeups_list = function(params) {
 	params = params || {};
-	params.cmd = 'writeups';
+	params.cmd = 'quests_writeups_list';
 	return fhq.ws.send(params);
 }
 

@@ -2448,7 +2448,7 @@ fhq.ui.loadQuest = function(id){
 fhq.ui.loadWriteUps = function(questid){
 	fhq.ui.showLoading();
 	$('#quest_writeups').html('...');
-	fhq.ws.quests_writeups({questid: questid}).done(function(r){
+	fhq.ws.quests_writeups_list({questid: questid}).done(function(r){
 
 		$('#quest_writeups').html(''
 			+ '<input class="form-control" type="url" value="" placeholder="https://youtu.be/gJeOeTGI7T8" id="quests_writeups_proposal_link"><br>'
@@ -2483,6 +2483,7 @@ fhq.ui.loadWriteUps = function(questid){
 		})
 		fhq.ui.hideLoading();
 	}).fail(function(r){
+		fhq.ui.hideLoading();
 		$('#quest_writeups').html(r.error);
 	})
 }

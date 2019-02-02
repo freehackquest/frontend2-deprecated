@@ -717,4 +717,8 @@ fhq.localization = {
 		'en': 'Suggest a link',
 		'ru': 'Предложить ссылку',
 	},
+	'For a suggest link please authorize: ': {
+		'en': 'For a suggest link please authorize: ',
+		'ru': 'Что бы предложить ссылку на решение пожалуйста авторизуйтесь: ',
+	}
 };

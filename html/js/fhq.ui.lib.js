@@ -2447,15 +2447,25 @@ fhq.ui.loadQuest = function(id){
 
 fhq.ui.loadWriteUps = function(questid){
 	fhq.ui.showLoading();
-	$('#quest_writeups').html('...');
+	var el = $('#quest_writeups');
+	el.html('...');
 	fhq.ws.quests_writeups_list({questid: questid}).done(function(r){
+		el.html('');
 
-		$('#quest_writeups').html(''
-			+ '<input class="form-control" type="url" value="" placeholder="https://youtu.be/gJeOeTGI7T8" id="quests_writeups_proposal_link"><br>'
-			+ '<div class="btn btn-info" id="quests_writeups_proposal_send">' + fhq.t('Suggest a link') + '</div><hr>'
-		);
+		if (!fhq.isAuth()) {
+			el.append(''
+				+ fhq.t('For a suggest link please authorize: ') + '<button class="btn btn-default" onclick="fhq.ui.showSignInForm();">Sign In</button>'
+				+ '<hr>'
+			);
+		} else {
+			el.append(''
+				+ '<input class="form-control" type="url" value="" placeholder="https://www.youtube.com/watch?v=gJeOeTGI7T8" id="quests_writeups_proposal_link"><br>'
+				+ '<div class="btn btn-info" id="quests_writeups_proposal_send">' + fhq.t('Suggest a link') + '</div><hr>'
+			);
+		}
+		
 		if (r.data.length == 0) {
-			$('#quest_writeups').append(
+			el.append(
 				fhq.t('No solutions yet')
 			);
 		} else {

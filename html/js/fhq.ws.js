@@ -304,9 +304,31 @@ fhq.ws.hints = function(params){
 	return fhq.ws.send(params);
 }
 
+// for all
 fhq.ws.quests_writeups_list = function(params) {
 	params = params || {};
 	params.cmd = 'quests_writeups_list';
+	return fhq.ws.send(params);
+}
+
+// only for authorized users
+fhq.ws.quests_writeups_proposal = function(params){
+	params = params || {};
+	params.cmd = 'quests_writeups_proposal';
+	return fhq.ws.send(params);
+}
+
+// TODO move to admin panel admin function
+fhq.ws.quests_writeups_update = function(params){
+	params = params || {};
+	params.cmd = 'quests_writeups_update';
+	return fhq.ws.send(params);
+}
+
+// TODO move to admin panel admin function
+fhq.ws.quests_writeups_delete = function(params){
+	params = params || {};
+	params.cmd = 'quests_writeups_delete';
 	return fhq.ws.send(params);
 }
 
@@ -373,12 +395,6 @@ fhq.ws.game_info = function(data){
 fhq.ws.quest_proposal = function(params){
 	params = params || {};
 	params.cmd = 'quest_proposal';
-	return fhq.ws.send(params);
-}
-
-fhq.ws.quests_writeups_proposal = function(params){
-	params = params || {};
-	params.cmd = 'quests_writeups_proposal';
 	return fhq.ws.send(params);
 }
 

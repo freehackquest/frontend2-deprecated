@@ -2445,6 +2445,39 @@ fhq.ui.loadQuest = function(id){
 	})
 }
 
+// TODO move to admin panel
+fhq.ui.questsWriteUpChangeApproveTo = function(writeupid, approve_new_val) {
+	fhq.ui.showLoading();
+	fhq.ws.quests_writeups_update({
+		writeupid: writeupid,
+		approve: approve_new_val
+	}).done(function(r){
+		fhq.ui.hideLoading();
+		fhq.ui.loadWriteUps(r.data.questid);
+	}).fail(function(err){
+		fhq.ui.hideLoading();
+		console.log(err);
+		fhq.ui.showError("Error: " + err.error);
+	})
+}
+
+// TODO move to admin panel
+fhq.ui.questsWriteUpDelete = function(questid, writeupid) {
+	fhq.ui.showLoading();
+	fhq.ws.quests_writeups_delete({
+		writeupid: writeupid,
+	}).done(function(r){
+		fhq.ui.hideLoading();
+		fhq.ui.loadWriteUps(questid);
+	}).fail(function(err){
+		fhq.ui.hideLoading();
+		console.log(err);
+		fhq.ui.showError("Error: " + err.error);
+	})
+}
+
+
+
 fhq.ui.loadWriteUps = function(questid){
 	fhq.ui.showLoading();
 	var el = $('#quest_writeups');
@@ -2472,11 +2505,51 @@ fhq.ui.loadWriteUps = function(questid){
 			var writeups = r.data;
 			for (var i = 0; i < writeups.length; i++) {
 				var writeup = r.data[i];
+				el.append('<strong>[writeup#' + writeup.writeupid + ']');
 				if (writeup.type == 'youtube_video') {
-					$('#quest_writeups').append('<iframe width="560" height="315" src="' + writeup.link + '" frameborder="0" allowfullscreen></iframe><hr>');
-				}else{
-					$('#quest_writeups').append('TODO ' + writeup.type);
+					if (writeup.userid != 0) {
+						el.append('<div class="alert alert-info">'
+							+ 'Write Up by user '
+							+ fhq.ui.makeUserIcon(writeup.userid, writeup.user_logo, writeup.user_nick)
+							+ ' at ' + writeup.dt
+							+ '</div>'
+						);
+					}
+
+					if (writeup.approve == 0) {
+						el.append('<div class="alert alert-warning">'
+							+ '<strong>Awaiting approval by admin</strong>'
+							+ '</div>'
+						);
+					}
+
+					// TODO move to admin panel
+					if (fhq.isAdmin()) {
+						var newapproveval = 0;
+						var newapproveval_btnname = 0;
+						if (writeup.approve == 0) {
+							newapproveval = 1;
+							newapproveval_btnname = 'Approve';
+						} else {
+							newapproveval = 0;
+							newapproveval_btnname = 'Withdraw approval';
+						}
+						el.append(''
+							+ ' <div class="alert alert-danger">'
+							+ ' Admin function: '
+							+ ' <button class="btn btn-danger" onclick="fhq.ui.questsWriteUpChangeApproveTo(' + writeup.writeupid + ', ' + newapproveval + ');">' + newapproveval_btnname + '</button> '
+							+ ' <button class="btn btn-danger" onclick="fhq.ui.questsWriteUpDelete(' + questid + ', ' + writeup.writeupid + ');">Remove</button> '
+							+ ' </div>');
+					}
+
+					el.append('<center>'
+						+ '<iframe width="560" height="315" src="' + writeup.link + '" frameborder="0" allowfullscreen></iframe>'
+						+ '<center>'
+						+ '<hr>');
+				} else {
+					el.append('TODO ' + writeup.type);
 				}
+				el.append('<hr>');
 			}
 		}
 		$('#quests_writeups_proposal_send').unbind().bind('click', function(){
@@ -2484,11 +2557,11 @@ fhq.ui.loadWriteUps = function(questid){
 			fhq.ui.showLoading();
 			fhq.ws.quests_writeups_proposal({questid: questid, writeup_link: suggest_a_link}).done(function(r){
 				fhq.ui.hideLoading();
-
+				fhq.ui.loadWriteUps(questid);
 			}).fail(function(err){
 				fhq.ui.hideLoading();
 				console.log(err);
-				fhq.ui.showError("Something wrong");
+				fhq.ui.showError("Error: " + err.error);
 			})
 		})
 		fhq.ui.hideLoading();

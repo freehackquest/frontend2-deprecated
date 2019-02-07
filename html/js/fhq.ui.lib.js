@@ -777,12 +777,6 @@ fhq.ui.loadAboutPage = function() {
 		+ '<div class="card">'
 		+ '	<div class="card-header">' + fhq.t('Contacts') + '</div>'
 		+ '	<div class="card-body">'
-		+ '			<p>Google+ Community: <a href="https://plus.google.com/communities/107112500285357136727">'
-		+ '					https://plus.google.com/communities/107112500285357136727'
-		+ '				</a></p>'
-		+ '			<p>Google+ Official Account: <a href="https://plus.google.com/+freehackquestkevactf" rel="publisher" target="_top" style="text-decoration:none;">'
-		+ '					https://plus.google.com/+freehackquestkevactf'
-		+ '				</a></p>'
 		+ '			<p>Twitter: '
 		+ '				<a href="https://twitter.com/freehackquest" class="twitter-follow-button" data-show-count="false">Follow @freehackquest</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?\'http\':\'https\';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+\'://platform.twitter.com/widgets.js\';fjs.parentNode.insertBefore(js,fjs);}}(document, \'script\', \'twitter-wjs\');</script>'
 		+ '			</p>'
@@ -823,30 +817,26 @@ fhq.ui.loadAboutPage = function() {
 		+ '<div class="card">'
 		+ '	<div class="card-header">' + fhq.t('Distribution') + '</div>'
 		+ '	<div class="card-body">'
-		+ '<h3>' + fhq.t('Virtual Machine') + '</h3>'
-		+ 'You can download <a href=\"http://dist.freehackquest.com/" target="_blank">virtual machine (ova)</a> and up in local network.<br>'
-		+ '<i>' + fhq.t('If you found old version please contact me by mrseakg@gmail.com for get newest version') + '</i><br>'
+		+ '<h3>' + fhq.t('Install fhq-server from repository') + '</h3>'
+		+ 'Ubuntu repo: <a href="https://launchpad.net/~freehackquest/+archive/ubuntu/fhq-server/+packages" target="_blank">https://launchpad.net/~freehackquest/+archive/ubuntu/fhq-server/+packages</a>'
+		+ '<pre>$ sudo add-apt-repository ppa:freehackquest/fhq-server<br>$ sudo apt-get update<br>$ sudo apt install fhq-server</pre>'
 		+ '<hr>'
-		+ '<h3>' + fhq.t('Deb package') + '</h3>'
-		+ 'Please select your architecture <a href="http://dist.freehackquest.com/backend/" target="_blank">Backend</a>'
+		+ '<h3>' + fhq.t('Install fhq-server from docker') + '</h3>'
+		+ '<p>Docker hub: <a href="https://hub.docker.com/r/freehackquest/fhq-server" target="_blank">https://hub.docker.com/r/freehackquest/fhq-server</a></p>'
+		+ '<p>Docker-compose example: <a href="https://github.com/freehackquest/fhq-server/blob/master/docker-compose.yml">docker-compose.yml</a></p>'
+		+ '<pre>$ docker pull freehackquest/fhq-server</pre>'
 		+ '<hr>'
 		+ '<h3>' + fhq.t('Source code') + '</h3>'
-		+ '<p>FrontEnd (Required backend): <a href="http://github.com/freehackquest/frontend" target="_blank">http://github.com/freehackquest/frontend</a></p>'
-		+ '<p>Backend: <a href="http://github.com/freehackquest/backend/" target="_blank">http://github.com/freehackquest/backend</a></p>'
+		+ '<p>frontend (Required fhq-server): <a href="http://github.com/freehackquest/frontend" target="_blank">http://github.com/freehackquest/frontend</a></p>'
+		+ '<p>fhq-web-admin (Required fhq-server): <a href="http://github.com/freehackquest/fhq-web-admin" target="_blank">http://github.com/freehackquest/fhq-web-admin</a></p>'
+		+ '<p>fhq-server: <a href="http://github.com/freehackquest/fhq-server/" target="_blank">http://github.com/freehackquest/fhq-server</a></p>'
+
 		+ '</div>'
 		+ '	</div>'
 		+ '</div><br>'
 		+ '<div class="card">'
 		+ '	<div class="card-header">' + fhq.t('Developers and designers') + '</div>'
-		+ '	<div class="card-body">'
-		+ '		<ul>'
-		+ '			<li>Evgenii Sopov</li>'
-		+ '			<li>Igor Polyakov</li>'
-		+ '			<li>Sergey Ushev</li>'
-		+ '			<li>Danil Dudkin</li>'
-		+ '			<li>Used bootstrap-4</li>'
-		+ '		<ul>'
-		+ '	</div>'
+		+ '	<div class="card-body" id="about_developers"></div>'
 		+ '</div><br>'
 		+ '<div class="card">'
 		+ '	<div class="card-header">' + fhq.t('Thanks for') + '</div>'
@@ -908,6 +898,18 @@ fhq.ui.loadPublicInfo = function() {
 
 		$('#statistics_playing_with_us').text(cities.join(", "));
 		$('#statistics_playing_with_us').append('<br><br><button class="btn btn-info" onclick="fhq.ui.loadMapPage();">' + fhq.t('On Map') + '</button>');
+
+		// fhq-server developers
+		var developers = [];
+		for (var k in r.developers){
+			developers.push(r.developers[k].name + ' (' + r.developers[k].email + ')');
+		}
+		// TODO frontend developers
+		// developers.push('Some (email)')
+		developers.push('Used bootstrap-4');
+
+		$('#about_developers').html('<p>' + developers.join("</p><p>") + '</p>')
+
 	}).fail(function(err){
 		console.error(err);
 		fhq.ui.hideLoading();

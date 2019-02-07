@@ -860,7 +860,7 @@ fhq.ui.loadAboutPage = function() {
 		+ '	<div class="card-header">' + fhq.t('Donate') + '</div>'
 		+ '	<div class="card-body">'
 		+ '		Thanks for the donate:'
-		+ '		<p>+98 pablo escobar, +147 shapeofbox, +98 shapeofbox, +95 kondorbrn</p>'
+		+ '		<p>+98 pablo escobar, +147 persifal, +98 persifal, +95 kondorbrn</p>'
 		+ '		<div id="donate-form"></div>'
 		+ '	</div>'
 		+ '</div><br>'
@@ -872,7 +872,6 @@ fhq.ui.loadAboutPage = function() {
 		$('#donate-form').html(result);
 	});
 }
-
 
 fhq.ui.loadPublicInfo = function() {
 	fhq.ui.showLoading();

@@ -859,6 +859,8 @@ fhq.ui.loadAboutPage = function() {
 		+ '<div class="card">'
 		+ '	<div class="card-header">' + fhq.t('Donate') + '</div>'
 		+ '	<div class="card-body">'
+		+ '		Thanks for the donate:'
+		+ '		<p>+98 pablo escobar, +147 shapeofbox, +98 shapeofbox, +95 kondorbrn</p>'
 		+ '		<div id="donate-form"></div>'
 		+ '	</div>'
 		+ '</div><br>'

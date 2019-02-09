@@ -80,6 +80,30 @@ fhq.ui.clickModalDialog_dialog = function() {
 	}
 }
 
+fhq.ui.emailWrongDomains = {};
+fhq.ui.emailWrongDomains['yndex.ru'] = {prop: ["yandex.ru"]}
+fhq.ui.emailWrongDomains['gmail.ru'] = {prop: ["gmail.com"]}
+fhq.ui.emailWrongDomains['gmial.com'] = {prop: ["gmail.com"]}
+
+fhq.ui.checkEmail = function(email) {
+	var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	var ret = {result: false, error: ""}
+	ret.result = re.test(String(email).toLowerCase());
+	if (!ret.result) {
+		ret.error = "Format email wrong";
+		return ret;
+	}
+	domain = email.split("@")[1];
+	domain = domain.toLowerCase();
+
+	if (fhq.ui.emailWrongDomains[domain]) {
+		var t = fhq.ui.emailWrongDomains[domain];
+		ret.result = false;
+		ret.error = fhq.t("Wrong domain, maybe you mean: ") + t.prop.join(",");
+	}
+	return ret;
+}
+
 /* Sign In */
 
 fhq.ui.showSignInForm = function() {
@@ -467,18 +491,15 @@ fhq.ui.loadRegistrationPage = function() {
 	$('#content_page').html('');
 	
 	$('#content_page').append(''
-		+ '	<div class="form-group row">'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ ' 	<div class="col-sm-4">'
-		+ '			<h1 class="text-center">Registration</h1>'
-		+ '		</div>'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ '	</div>'
+		+ '<div class="card">'
+		+ '  <div class="card-header">' + fhq.t('Registration') + '</div>'
+		+ '    <div class="card-body">'
 		+ '	<div class="form-group row">'
 		+ ' 	<div class="col-sm-4"></div>'
 		+ ' 	<div class="col-sm-4">'
 		+ '			<label for="registration_email" class="col-form-label">E-mail (required):</label>'
 		+ '			<input type="email" placeholder="your@email.com" class="form-control" value="" id="registration_email"/>'
+		+ '			<div class="alert alert-danger" style="display: none" id="registration_email_alert">' + fhq.t('Required field email') + '</div>'
 		+ '		</div>'
 		+ ' 	<div class="col-sm-4"></div>'
 		+ '	</div>'
@@ -503,7 +524,27 @@ fhq.ui.loadRegistrationPage = function() {
 		+ '		</div>'
 		+ ' 	<div class="col-sm-4"></div>'
 		+ '	</div>'
+		+ '  </div>'
+		+ '</div>'
 	);
+	function registrationChangedEmailField() {
+		var val = $('#registration_email').val();
+		if (val == "") {
+			$('#registration_email_alert').hide();
+			return;
+		}
+		var t = fhq.ui.checkEmail(val);
+		if (t.result) {
+			$('#registration_email_alert').hide();
+		} else {
+			$('#registration_email_alert').html(t.error);
+			$('#registration_email_alert').show();
+		}
+	}
+	$('#registration_email').unbind().bind('change', registrationChangedEmailField);
+	$('#registration_email').unbind().bind('keyup', registrationChangedEmailField);
+	// fhq.ui.checkEmail
+
 }
 
 fhq.ui.user_reset_password = function() {

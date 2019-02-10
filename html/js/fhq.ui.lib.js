@@ -1846,7 +1846,7 @@ fhq.ui.loadEditQuestForm = function(questid){
 		fhq.ui.hideLoading();
 		fhq.ws.games().done(function(rg){
 			for(var i in rg.data){
-				$('#editquest_gameid').append('<option value="' + rg.data[i]["id"] + '">' + rg.data[i]["title"] + '</option>');
+				$('#editquest_gameid').append('<option value="' + rg.data[i]["local_id"] + '">' + rg.data[i]["name"] + '</option>');
 			}
 			$('#editquest_gameid').val(r.quest.gameid);
 		})

@@ -152,7 +152,6 @@ fhq.ui.signin = function() {
 	var password = $("#signinPasswordInput").val();
 	
 	fhq.ws.login({email: email,password: password}).done(function(r){
-		$('.message_chat').remove();
 		fhq.ui.processParams();
 		$('#modalSignIn').modal('hide');
 		//window.location.reload();
@@ -163,7 +162,6 @@ fhq.ui.signin = function() {
 }
 
 fhq.ui.signout = function(){
-	$('.message_chat').remove();
 	fhq.token = "";
 	fhq.userinfo = null;
 	fhq.removeTokenFromCookie();
@@ -249,9 +247,6 @@ fhq.ui.showNotification = function(type, section, message){
 		allow_dismiss: true, // add a close button to the message
 		stackup_spacing: 10
 	});
-    if(fhq.ui.chatSoundOn){
-        // document.getElementById('income_msg_sound').play();
-    }
 }
 
 function FHQGuiLib(api) {
@@ -313,28 +308,12 @@ function FHQGuiLib(api) {
 		}
 	}
 
+	// depracated
 	fhq.handlerReceivedChatMessage = function(response) {
-		self.showChatMessage(response.message, response.user, response.dt);
-	}
-
-	this.showChatMessage = function(m,u,d){
-		self.messageLastId++;
-		var id = 'message' + self.messageLastId;
-		self.showedMessages.push(id);
-		m = $('<div/>').text(m).html();
-		u = $('<div/>').text(u).html();
-		d = $('<div/>').text(d).html();
-		var newel = $( '<div id="' + id + '" class="message_chat">' + m  + '<div class="message-chat-user">' + u + ' [' + new Date(Date.parse(d)) + ']</div>');
-		$( "body" ).append( newel );
-		newel.bind('click', function(){
-			$( "#" + id).remove();
-			self.showedMessages = jQuery.grep(self.showedMessages, function(value) { return value != id; });
-			self.updatePostionMessages();
-		});
-		setTimeout(function(){self.updatePostionMessages();}, 1000);
-		if(fhq.ui.chatSoundOn){
+		if (fhq.ui.chatSoundOn) {
 			document.getElementById('income_msg_sound').play();
 		}
+		fhq.ui.appendChatMessage(response);
 	}
 };
 
@@ -376,7 +355,7 @@ fhq.ui.makeUserIcon = function(userid, logo, nick, university) {
 	return '<div class="btn btn-default" onclick="fhq.ui.showUserInfo(' + userid + ')"> <img class="fhqmiddelinner" width=25px src="' + logo + '"/> ' + (university && university != "" ? '[' + university + '] ' : '') + nick + '</div>'
 }
 
-fhq.ui.chatSoundOn = true;
+fhq.ui.chatSoundOn = false;
 
 fhq.ui.pageHandlers = {};
 
@@ -416,7 +395,6 @@ fhq.ui.processParams = function() {
 
 	function renderPage(){
 		fhq.ui.updateMenu();
-		fhq.ui.initChatForm();
 		var processed = false;
 		for(var p in fhq.ui.pageHandlers){
 			if(fhq.containsPageParam(p)){
@@ -602,38 +580,81 @@ fhq.ui.loadResetPasswordPage = function() {
 
 
 fhq.ui.onwsclose = function(){
-	$('.message_chat').remove();
 	fhq.ui.showLoading();
 }
 
+fhq.ui.appendChatMessage = function (msg) {
+	var el = $('.chat-messages');
+	if (el.length > 0) {
+		el.append(''
+			+ '<div class="chat-message-container">'
+			+ '		<div class="chat-message">' + msg.message + '</div>'
+			+ '		<div class="chat-message-info">[' + msg.dt + '] ' + msg.user + '</div>'
+			+ '</div>'
+		);
+		el.scrollTop(el[0].scrollHeight - el.height());
+	}
+}
 
 fhq.ui.loadChatPage = function(){
 	fhq.changeLocationState({'chat':''});
-	fhq.ui.hideLoading();
+	
 	var el = $('#content_page');
-	el.html('<h1>' + fhq.t("Chat") + '</h1>');
-	
-	/*
-	$('#content_page').append('<div class="fhq0049"></div>')
-	var el = $('.fhq0046');
-	el.append();
-
-	el.append('<div class="fhq0048">' + fhq.t("Type") + ':</div>');
+	el.html('');
 	el.append(''
-		+ '<select class="fhq0047" id="create_news_type">'
-		+ '	<option value="info">' + fhq.t("Information") + '</option>'
-		+ '	<option value="users">' + fhq.t("Users") + '</option>'
-		+ '	<option value="games">' + fhq.t("Games") + '</option>'
-		+ '	<option value="quests">' + fhq.t("Quests") + '</option>'
-		+ '	<option value="warning">' + fhq.t("Warning") + '</option>'
-		+ '</select>');
-	
-	el.append('<div class="fhq0048">' + fhq.t("Message") + ':</div>');
-	el.append('<textarea id="create_news_text"></textarea><br><br>');
-	el.append('<div class="fhqbtn" onclick="fhq.ui.insertNews()">' + fhq.t("Create") + '</div>');*/
-	
-}
+		+ '<div class="card">'
+		+ '	<div class="card-header">' + fhq.t("Bugs") + '</div>'
+		+ '	<div class="card-body">'
+		+ ' 	If you found some problem or bug please use: <b>freehackquest@gmail.com</b><br>'
+		+ ' 	Or create issues: <a href="https://github.com/freehackquest/fhq-server/issues">GitHub fhq-server</a><br>'
+		+ ' 	Or create issues: <a href="https://github.com/freehackquest/frontend/issues">GitHub fhq-frontend</a><br>'
+		+ '	</div>'
+		+ '</div><br/>'
+	);
+	el.append(''
+		+ '<div class="card">'
+		+ '	<div class="card-header">' + fhq.t("Chat") + '</div>'
+		+ '	<div class="card-body">'
+		+ '		<div id="chat_messages" class="chat-messages"></div>'
+		+ '		<div class="form-group text-left">'
+		+ '			<label for="send_message" class="col-form-label">Message:</label>'
+		+ '			<input type="text" placeholder="Type a message..." class="form-control" value="" id="send_chat_message"/>'
+		+ '		</div>'
+		+ '	</div>'
+		+ '	</div>'
+		+ '</div><br>'
+	);
 
+	fhq.ws.chat_latest_messages().done(function(r){
+		console.log(r);
+		for (var i in r.data) {
+			fhq.ui.appendChatMessage(r.data[i]);
+		}
+		fhq.ui.hideLoading();
+	}).fail(function(err){
+		fhq.ui.hideLoading();
+		console.error(err);
+		fhq.ui.showError(err.error);
+	})
+
+	$('#send_chat_message').unbind().bind('keyup', function(event) {
+		if (event.which == 13) {
+			var msg = $('#send_chat_message').val();
+			console.log("msg: ", msg);
+			if (msg.length > 0) {
+				$('#send_chat_message').attr({"readonly": ""});
+				fhq.ws.chat_send_message({type: 'chat', message: msg}).done(function(r) {
+					$('#send_chat_message').val("");
+					$('#send_chat_message').removeAttr("readonly");
+				}).fail(function(err){
+					console.error(err);
+					fhq.ui.showError("");
+					$('#send_chat_message').removeAttr("readonly");
+				})
+			}
+		}
+	})
+}
 
 fhq.ui.loadCreateNews = function(){
 	fhq.changeLocationState({'create_news':''});
@@ -2719,47 +2740,6 @@ fhq.ui.feedbackDialogSend = function(){
 		alert(r.error);
 		fhq.ui.hideLoading();
 	})
-}
-
-fhq.ui.initChatForm = function(){
-	
-	$("#sendchatmessage_submit").unbind().bind('click', function(){
-		var text = $('#sendchatmessage_text').val();
-		if(text.trim() == ""){
-			return;
-		}
-		$('#sendchatmessage_text').val('');
-		fhq.ws.sendChatMessage({type: 'chat', message: text}); // async
-	});
-	
-	$('#sendchatmessage_text').unbind().bind('keydown', function(event){
-		if ( event.which == 13 ) {
-			event.preventDefault();
-			var text = $('#sendchatmessage_text').val();
-			if(text.trim() == ""){
-				return;
-			}
-			$('#sendchatmessage_text').val('');
-			fhq.ws.sendChatMessage({type: 'chat', message: text}); // async
-		}
-	});
-	
-	
-	$('#sendchatmessage_trigger').unbind().bind('click', function(event){
-		if($('#sendchatmessage_trigger').hasClass('hide')){
-			$('#sendchatmessage_trigger').removeClass('hide');
-			$('.message_chat').show();
-			$('.sendchatmessage-form').css({'width': '300px'});
-			$('#sendchatmessage_text').show();
-			$('#sendchatmessage_submit').show();
-		}else{
-			$('#sendchatmessage_trigger').addClass('hide');
-			$('.sendchatmessage-form').css({'width': '30px'});
-			$('.message_chat').hide();
-			$('#sendchatmessage_text').hide();
-			$('#sendchatmessage_submit').hide();
-		}
-	});
 }
 
 

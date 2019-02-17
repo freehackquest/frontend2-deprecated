@@ -145,9 +145,15 @@ window.fhq.ws.getmap = function(data){
 	return fhq.ws.send(data);
 }
 
-window.fhq.ws.sendChatMessage = function(params){
+window.fhq.ws.chat_send_message = function(params){
 	params = params || {};
-	params.cmd = 'sendchatmessage';
+	params.cmd = 'chat_send_message';
+	return fhq.ws.send(params);
+}
+
+window.fhq.ws.chat_latest_messages= function(params){
+	params = params || {};
+	params.cmd = 'chat_latest_messages';
 	return fhq.ws.send(params);
 }
 

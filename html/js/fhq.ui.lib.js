@@ -1716,7 +1716,7 @@ fhq.ui.loadProposalQuestForm = function(){
 	window.simplemde = new SimpleMDE({ element: document.getElementById("newquest_text") });
 	fhq.ws.games().done(function(r){
 		for(var i in r.data){
-			$('#newquest_gameid').append('<option value="' + r.data[i]["id"] + '">' + r.data[i]["title"] + '</option>');
+			$('#newquest_gameid').append('<option value="' + r.data[i]["local_id"] + '">' + r.data[i]["name"] + '</option>');
 		}
 		fhq.ui.hideLoading();
 	});

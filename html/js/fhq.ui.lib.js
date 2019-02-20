@@ -617,7 +617,7 @@ fhq.ui.loadChatPage = function(){
 		+ '	<div class="card-body">'
 		+ '		<div id="chat_messages" class="chat-messages"></div>'
 		+ '		<div class="form-group text-left">'
-		+ '			<label for="send_message" class="col-form-label">Message:</label>'
+		+ '			<label for="send_message" class="col-form-label">' + fhq.t('Message') + ':</label>'
 		+ '			<input type="text" placeholder="Type a message..." class="form-control" value="" id="send_chat_message"/>'
 		+ '		</div>'
 		+ '	</div>'
@@ -627,7 +627,7 @@ fhq.ui.loadChatPage = function(){
 
 	fhq.ws.chat_latest_messages().done(function(r){
 		console.log(r);
-		for (var i in r.data) {
+		for (var i = r.data.length -1; i >= 0; i--) {
 			fhq.ui.appendChatMessage(r.data[i]);
 		}
 		fhq.ui.hideLoading();

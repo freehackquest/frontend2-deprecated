@@ -890,7 +890,6 @@ fhq.ui.loadAboutPage = function() {
 		+ '<hr>'
 		+ '<h3>' + fhq.t('Source code') + '</h3>'
 		+ '<p>frontend (Required fhq-server): <a href="http://github.com/freehackquest/frontend" target="_blank">http://github.com/freehackquest/frontend</a></p>'
-		+ '<p>fhq-web-admin (Required fhq-server): <a href="http://github.com/freehackquest/fhq-web-admin" target="_blank">http://github.com/freehackquest/fhq-web-admin</a></p>'
 		+ '<p>fhq-server: <a href="http://github.com/freehackquest/fhq-server/" target="_blank">http://github.com/freehackquest/fhq-server</a></p>'
 
 		+ '</div>'

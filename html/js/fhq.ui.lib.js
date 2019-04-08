@@ -2041,7 +2041,25 @@ fhq.ui.loadQuestsBySubject = function(subject, cq){
 	params.subject = subject;
 	fhq.ws.quests(params).done(function(r){
 		el.html('');
+		// TODO sorting
+		var questsData = r.data;
+		var questsLen = questsData.length;
+		var bSorted = false;
+		while (!bSorted) {
+			bSorted = true;
+			for (var i = 0; i < questsLen-1; i++) {
+				var q1 = questsData[i];
+				var q2 = questsData[i+1];
+				// console.log(q1, q2);
+				if (q2.dt_passed === "" && q1.dt_passed !== "") {
+					questsData[i] = q2;
+					questsData[i+1] = q1;
+					bSorted = false;
+				}
+			}
+		}
 		
+
 		for(var i in r.data){
 			var q = r.data[i];
 			el.append(''

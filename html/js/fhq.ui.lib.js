@@ -2143,7 +2143,7 @@ fhq.ui.refreshHints = function(questid, hints){
 }
 
 fhq.ui.renderQuestHints = function(el, hi, q){
-	if(hi.length > 0 || fhq.isAdmin()){
+	if (hi.length > 0) {
 		el.append(''
 			+ '<div class="card">'
 			+ '		<div class="card-header"><a id="quest_show_hints" href="javascript:void(0);">' + fhq.t('Hints') + ' (' + hi.length + ')</a></div>'
@@ -2160,6 +2160,41 @@ fhq.ui.renderQuestHints = function(el, hi, q){
 			}
 		});
 	}
+}
+
+fhq.ui.updateMyAnswers = function(questid){
+	fhq.ws.quests_answers({questid: questid}).done(function(response){
+		var h = '';
+		for (var i = 0; i < response.data.length; ++i) {
+			var a = response.data[i];
+			h += '<div class="fhq_task_tryanswer">[' + a.datetime_try + ', levenshtein: ' + a.levenshtein + '] ' + a.answer_try + '</div>';
+		}
+		$('#quest_my_answers').html(h);
+	}).fail(function(err){
+		$('#quest_my_answers').html('<div class="alert alert-danger">' + err.error + '</div>');
+		console.error(err);
+	})
+}
+
+fhq.ui.renderMyAnswers = function(el, questid){
+	el.append(''
+		+ '<div class="card">'
+		+ '		<div class="card-header"><a id="quest_show_my_answers2" href="javascript:void(0);">' + fhq.t('My Answers') + '</a></div>'
+		+ '		<div class="card-body" id="quest_my_answers"  style="display: none">'
+		+ '		</div>'
+		+ '</div><br>'
+	);
+	// fhq.ui.refreshHints(q.id, hi);
+	$('#quest_show_my_answers2').unbind().bind('click', function(){
+		if($('#quest_my_answers').is(":visible")){
+			$('#quest_my_answers').hide();
+			$('#quest_my_answers').html('');
+		}else{
+			$('#quest_my_answers').show();
+			$('#quest_my_answers').html('loading...');
+			fhq.ui.updateMyAnswers(questid);
+		}
+	});
 }
 
 fhq.ui.loadQuest = function(id){
@@ -2236,23 +2271,15 @@ fhq.ui.loadQuest = function(id){
 						fhq.ui.hideLoading();
 						$('#quest_pass_error').html(r.error);
 						$('#quest_pass_error').show();
-						/*if(fhq.ui.isShowMyAnswers()){
+						/*if (fhq.ui.isShowMyAnswers()) {
 							fhq.ui.updateMyAnswers(q.questid);
 						}*/
 					});
 				});
 				
-				el.append(
-					'<div class="fhq0051">'
-					+ '<div class="fhq0053 hide" id="quest_show_my_answers">' + fhq.t('My Answers') + '</div>'
-					+ '<pre id="newquestinfo_user_answers" style="display: none;"></pre>'
-					+ '</div>'
-				);
-				
-				$('#quest_show_my_answers').unbind().bind('click', function(){
-					fhq.ui.loadMyAnswers(q.questid);
-				});
-			}else{
+				fhq.ui.renderMyAnswers(el, q.questid);
+
+			} else {
 				el.append( ''
 					+ '<div class="card">'
 					+ '		<div class="card-header">' + fhq.t('Answer') + '</div>'
@@ -2441,36 +2468,6 @@ fhq.ui.loadWriteUps = function(questid){
 		fhq.ui.hideLoading();
 		$('#quest_writeups').html(r.error);
 	})
-}
-
-fhq.ui.updateMyAnswers = function(questid){
-	fhq.statistics.myanswers(questid).done(function(response){
-		var h = '';
-		for (var i = 0; i < response.data.length; ++i) {
-			var a = response.data[i];
-			h += '<div class="fhq_task_tryanswer">[' + a.datetime_try + ', levenshtein: ' + a.levenshtein + '] ' + a.answer_try + '</div>';
-		}
-		$('#newquestinfo_user_answers').html(h);
-	});
-}
-
-window.fhq.ui.isShowMyAnswers = function(){
-	return $('#newquestinfo_user_answers').is(":visible");
-}
-
-window.fhq.ui.loadMyAnswers = function(questid){
-	if(fhq.ui.isShowMyAnswers()){
-		$('#newquestinfo_user_answers').hide();
-		$('#quest_show_my_answers').removeClass('show');
-		$('#quest_show_my_answers').addClass('hide');
-				
-	}else{
-		$('#newquestinfo_user_answers').show();
-		$('#quest_show_my_answers').removeClass('hide');
-		$('#quest_show_my_answers').addClass('show');
-		$('#newquestinfo_user_answers').html('Loading...');
-		fhq.ui.updateMyAnswers(questid);
-	}
 }
 
 window.fhq.ui.updateQuestStatistics = function(questid){

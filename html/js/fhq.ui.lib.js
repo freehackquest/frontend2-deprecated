@@ -2296,61 +2296,12 @@ fhq.ui.refreshHints = function(questid, hints){
 			+ '		<div class="input-group col-md-12">'
 			+ '			<span class="input-group-addon">Hint ' + i + ':</span>'
 			+ '			<input type="email" class="form-control" id="hint' + i + '" readonly value="">'
-			+ '			<span class="input-group-btn ' + (fhq.isAdmin() ? '' : 'hide') + '">'
-			+ '				<button class="btn btn-danger deletehint" hintid="' + hint.id + ' type="button">' + fhq.t('Delete') + '</button>'
-			+ '			</span>'
 			+ '		</div>'
 			+ '</div><br>'
 		);
 		$('#hint' + i).val(hint.text);
-	
 		i++;
 	}
-	
-	if(fhq.isAdmin()){
-		$('#quest_hints').append(''
-			+ '<div class="form-row">'
-			+ '		<div class="input-group col-md-12">'
-			+ '			<span class="input-group-addon">Hint ' + i + ':</span>'
-			+ '			<input type="email" class="form-control" id="quest_addhinttext" value="">'
-			+ '			<span class="input-group-btn">'
-			+ '				<button class="btn btn-danger" id="quest_addhint" type="button">' + fhq.t('Add') + '</button>'
-			+ '			</span>'
-			+ '		</div>'
-			+ '</div><br>'
-		);
-	}
-
-	$('.deletehint').unbind().bind('click', function(e){
-		var hintid = parseInt($(this).attr('hintid'),10);
-		console.log('hintid: ' + hintid);
-		fhq.ws.deletehint({"hintid": hintid}).done(function(){
-			fhq.ws.hints({"questid": questid}).done(function(response){
-				console.log(response.data);
-				fhq.ui.refreshHints(questid, response.data, true);
-			}).fail(function(){
-				alert("Problem with get hints from ws");
-			});
-		}).fail(function(){
-			console.error("Problem with delete hint");
-		});
-	
-		// fhq.ui.deleteHint(hintid, questid);
-	});
-
-	$('#quest_addhint').unbind().bind('click', function(){
-		var val = $('#quest_addhinttext').val();
-		fhq.ws.addhint({questid: questid, hint: val}).done(function(){
-			$('#quest_addhinttext').val('');
-			fhq.ws.hints({"questid": questid}).done(function(response){
-				fhq.ui.refreshHints(questid, response.data, true);
-			}).fail(function(){
-				alert("Problem with get hints from ws");
-			});
-		}).fail(function(){
-			console.error("Problem with add hint");
-		});
-	});
 }
 
 fhq.ui.renderQuestHints = function(el, hi, q){
@@ -2523,7 +2474,8 @@ fhq.ui.loadQuest = function(id){
 		fhq.ui.hideLoading();
 	}).fail(function(r){
 		console.error(r);
-		el.html(r.responseJSON.error.message);
+		fhq.ui.hideLoading();
+		el.html(r.error);
 	})
 }
 

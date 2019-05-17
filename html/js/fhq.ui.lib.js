@@ -390,7 +390,6 @@ fhq.ui.processParams = function() {
 	// admin api
 	fhq.ui.pageHandlers["create_news"] = fhq.ui.loadCreateNews;
 	fhq.ui.pageHandlers["server_info"] = fhq.ui.loadServerInfo;
-	fhq.ui.pageHandlers["edit_quest"] = fhq.ui.loadEditQuestForm;
 	fhq.ui.pageHandlers["chat"] = fhq.ui.loadChatPage;
 
 	function renderPage(){
@@ -1746,158 +1745,6 @@ fhq.ui.proposalQuest = function() {
 	});
 };
 
-fhq.ui.loadEditQuestForm = function(questid){
-	window.fhq.changeLocationState({'edit_quest':questid});
-	fhq.ui.showLoading();
-	var el = $('#content_page');
-	el.html(''
-		+ '<div class="card">'
-		+ '		<div class="card-header">' + fhq.t('Edit Quest') + ' #' + questid + '</div>'
-		+ '		<div class="card-body">'
-		+ '			<div class="form-group row">'
-		+ '				<label for="editquest_gameid" class="col-sm-2 col-form-label">' + fhq.t('Game') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<select class="form-control" id="editquest_gameid"></select>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="editquest_name" class="col-sm-2 col-form-label">' + fhq.t('Name') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" value="" id="editquest_name">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="editquest_text" class="col-sm-2 col-form-label">' + fhq.t('Text') + ' (Use markdown format)</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<textarea type="text" class="form-control" style="height: 150px" value="" id="editquest_text"></textarea>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="editquest_score" class="col-sm-2 col-form-label">' + fhq.t('Score') + ' (+)</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="number" class="form-control" id="editquest_score">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="editquest_subject" class="col-sm-2 col-form-label">' + fhq.t('Subject') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<select class="form-control" value="" id="editquest_subject">'
-		+ '						<option value="trivia">Trivia</option>'
-		+ '						<option value="hashes">Hashes</option>'
-		+ '						<option value="stego">Stego</option>'
-		+ '						<option value="reverse">Reverse</option>'
-		+ '						<option value="recon">Recon</option>'
-		+ '						<option value="crypto">Crypto</option>'
-		+ '						<option value="forensics">Forensics</option>'
-		+ '						<option value="network">Network</option>'
-		+ '						<option value="web">Web</option>'
-		+ '						<option value="ppc">PPC</option>'
-		+ '						<option value="admin">Admin</option>'
-		+ '						<option value="enjoy">Enjoy</option>'
-		+ '						<option value="unknown">Unknown</option>'
-		+ '					</select>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="editquest_answer" class="col-sm-2 col-form-label">' + fhq.t('Answer') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" id="editquest_answer" value="">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="editquest_answerformat" class="col-sm-2 col-form-label">' + fhq.t('Answer format') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" id="editquest_answerformat" value="">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="editquest_author" class="col-sm-2 col-form-label">' + fhq.t('Author') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" value="" id="editquest_author">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="editquest_copyright" class="col-sm-2 col-form-label">' + fhq.t('Copyright') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" value="" id="editquest_copyright">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="editquest_state" class="col-sm-2 col-form-label">' + fhq.t('State') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<select class="form-control" value="" id="editquest_state">'
-		+ '						<option value="open">Open</option>'
-		+ '						<option value="closed">Closed</option>'
-		+ '						<option value="broken">Broken</option>'
-		+ '					</select>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="editquest_description_state" class="col-sm-2 col-form-label">' + fhq.t('Description State') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<textarea type="text" class="form-control" style="height: 150px" value="" id="editquest_description_state"></textarea>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label class="col-sm-2 col-form-label"></label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<div class="btn btn-danger" onclick="fhq.ui.updateQuest(' + questid + ');">Update</div>'
-		+ '					<div class="btn btn-danger" onclick="fhq.ui.loadQuest(' + questid + ');">Cancel</div>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '		</div>'
-		+ '</div>'
-	);
-	
-	fhq.ws.quest({'questid': parseInt(questid)}).done(function(r){
-		// if admin
-		$('#editquest_name').val(r.quest.name);
-		$('#editquest_state').val(r.quest.state);
-		$('#editquest_score').val(r.quest.score);
-		$('#editquest_description_state').val(r.quest.description_state);
-		$('#editquest_state').val(r.quest.state);
-		$('#editquest_copyright').val(r.quest.copyright);
-		$('#editquest_subject').val(r.quest.subject);
-		$('#editquest_answer').val(r.quest.answer);
-		$('#editquest_answerformat').val(r.quest.answer_format);
-		$('#editquest_text').val(r.quest.text);
-		$('#editquest_description_state').val(r.quest.description_state);
-		$('#editquest_author').val(r.quest.author);
-		fhq.ui.hideLoading();
-		fhq.ws.games().done(function(rg){
-			for(var i in rg.data){
-				$('#editquest_gameid').append('<option value="' + rg.data[i]["local_id"] + '">' + rg.data[i]["name"] + '</option>');
-			}
-			$('#editquest_gameid').val(r.quest.gameid);
-		})
-	}).fail(function(r){
-		fhq.ui.hideLoading();
-		console.error(r);
-	});
-}
-
-fhq.ui.updateQuest = function(questid) {
-	var params = {};
-	params['questid'] = parseInt(questid,10);
-	params["gameid"] = parseInt($("#editquest_gameid").val(),10);
-	params["name"] = $("#editquest_name").val();
-	params["text"] = $("#editquest_text").val();
-	params["score"] = parseInt($("#editquest_score").val(),10);
-	params["subject"] = $("#editquest_subject").val();
-	params["copyright"] = $("#editquest_copyright").val();
-	params["answer"] = $("#editquest_answer").val();
-	params["answer_format"] = $("#editquest_answerformat").val();
-	params["author"] = $("#editquest_author").val();
-	params["state"] = $("#editquest_state").val();
-	params["description_state"] = $("#editquest_description_state").val();
-
-	fhq.ws.quest_update(params).done(function(r){
-		fhq.ui.loadQuest(questid);
-	}).fail(function(r){
-		fhq.ui.showError(r.error);
-	});
-};
-
 fhq.ui.importQuest = function() {
 	var files = document.getElementById('importquest_zip').files;
 	if (files.length == 0) {
@@ -2223,11 +2070,6 @@ fhq.ui.renderQuestAppendButtons = function(el, q){
 		+ '		</div>'
 		+ '</div><br>'
 	);
-	if(fhq.isAdmin()){
-		$('#quest_btns').append(' '
-			+ '<div class="btn btn-info" questid="' + q.id + '" id="quest_edit">' + fhq.t('Edit') + '</div> '
-		)
-	}
 
 	$('#quest_report').unbind().bind('click', function(){
 		fhq.ui.showFeedbackDialog(
@@ -2238,10 +2080,6 @@ fhq.ui.renderQuestAppendButtons = function(el, q){
 			+ 'Comment:\n'
 		);
 	});
-	
-	$('#quest_edit').unbind().bind('click', function(){
-		fhq.ui.loadEditQuestForm(q.id);
-	})
 }
 
 fhq.ui.renderQuestDetails = function(el, q){

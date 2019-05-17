@@ -2197,6 +2197,54 @@ fhq.ui.renderMyAnswers = function(el, questid){
 	});
 }
 
+
+fhq.ui.renderWriteUps = function(el, q){
+	var wrcount = q.writeups_count || 0;
+	wrcount = wrcount == 0 ? '' : '(' + wrcount + ')';
+
+	el.append(''
+		+ '<div class="card">'
+		+ '		<div class="card-header"><a id="quest_show_writeups" href="javascript:void(0);">' + fhq.t('Write Up') + ' ' + wrcount + '</a></div>'
+		+ '		<div class="card-body" id="quest_writeups"  style="display: none"></div>'
+		+ '</div><br>'
+	);
+
+	// fhq.ui.refreshHints(questid, q.hints, perm_edit);
+	$('#quest_show_writeups').unbind().bind('click', function() {
+		if ($('#quest_writeups').is(":visible")) {
+			$('#quest_writeups').hide();
+		} else {
+			$('#quest_writeups').show();
+			fhq.ui.loadWriteUps(q.id);
+		}
+	});
+}
+
+fhq.ui.renderQuestStatistics = function(el, q){
+	el.append(''
+		+ '<div class="card">'
+		+ '<div class="card-header">'
+		+ '   <a id="quest_show_statistics" href="javascript:void(0);">' + fhq.t('Statistics') + '</a>'
+		+ '</div>'
+		+ '	<div class="card-body" id="statistics_content" style="display: none;">'
+		+ '    <table><tr><td valign=top><canvas id="quest_chart" width="300" height="300"></canvas></td>'
+		+ '     <td valign=top id="quest_stat_users"></td></tr></table>'
+		+ '	</div>'
+		+ '</div>'
+	);
+
+	if (q.solved != 0) {
+		$('#quest_show_statistics').unbind().bind('click', function(){
+			if($('#statistics_content').is(":visible")){
+				$('#statistics_content').hide();
+			}else{
+				$('#statistics_content').show();
+				fhq.ui.updateQuestStatistics(q.id);
+			}
+		});
+	}
+}
+
 fhq.ui.loadQuest = function(id){
 	fhq.ui.showLoading();
 	$('#content_page').html('<div class="fhq0009" style="text-align: left"></div>')
@@ -2290,52 +2338,9 @@ fhq.ui.loadQuest = function(id){
 				);
 			}
 		}
-// <a id="quest_show_hints" href="javascript:void(0);">' + fhq.t('Hints') + ' (' + hi.length + ')</a>
-		var wrcount = q.writeups_count || 0;
-		wrcount = wrcount == 0 ? '' : '(' + wrcount + ')';
 
-		el.append(''
-			+ '<div class="card">'
-			+ '		<div class="card-header"><a id="quest_show_writeups" href="javascript:void(0);">' + fhq.t('Write Up') + ' ' + wrcount + '</a></div>'
-			+ '		<div class="card-body" id="quest_writeups"  style="display: none"></div>'
-			+ '</div><br>'
-		);
-
-		// fhq.ui.refreshHints(questid, q.hints, perm_edit);
-		$('#quest_show_writeups').unbind().bind('click', function() {
-			if ($('#quest_writeups').is(":visible")) {
-				$('#quest_writeups').hide();
-			} else {
-				$('#quest_writeups').show();
-				fhq.ui.loadWriteUps(questid);
-			}
-		});
-		
-		el.append(''
-			+ '<div class="fhq0051">'
-			+ '<div class="fhq0053 hide" id="quest_show_statistics">' + fhq.t('Statistics') + '</div>'
-			+ '	<div id="statistics_content" style="display: none;">'
-			+ ' <table><tr><td valign=top><canvas id="quest_chart" width="300" height="300"></canvas></td>'
-			+ ' <td valign=top id="quest_stat_users"></td></tr></table>'
-			+ '	</div>'
-			+ '</div>'
-		);
-
-		if (q.solved != 0) {
-			$('#quest_show_statistics').unbind().bind('click', function(){
-				if($('#statistics_content').is(":visible")){
-					$('#statistics_content').hide();
-					$('#quest_show_statistics').removeClass('show');
-					$('#quest_show_statistics').addClass('hide');
-				}else{
-					$('#statistics_content').show();
-					$('#quest_show_statistics').removeClass('hide');
-					$('#quest_show_statistics').addClass('show');
-					fhq.ui.updateQuestStatistics(q.id);
-				}
-			});
-		}
-		el.append('<div class="fhq0115"></div>');
+		fhq.ui.renderWriteUps(el, q)
+		fhq.ui.renderQuestStatistics(el, q);
 		fhq.ui.hideLoading();
 	}).fail(function(r){
 		console.error(r);

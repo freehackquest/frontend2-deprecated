@@ -1134,44 +1134,6 @@ font.fhq_task {
     text-align: center;
 }
 
-.fhq0051 {
-	text-align: left;
-	margin-top: 10px;
-	background-color: #eee;
-    color: #000;
-    padding: 10px;
-    border: 01px solid #999;
-}
-
-.fhq0052 {
-}
-
-.fhq0053{
-	font: 12pt/10pt Arial;
-	font-size: 20px;
-	line-height: 25px;
-	border-bottom: 1px dashed #3e3e3e;
-	margin-top: 15px;
-	margin-bottom: 15px;
-}
-
-.fhq0053.show{
-	background-image: url(../images/hide_20x20.png);
-	background-repeat: no-repeat;
-	cursor: pointer;
-	padding-left: 25px;
-	background-position: 0px 5px;
-}
-
-.fhq0053.hide{
-	display: block;
-	background-image: url(../images/show_20x20.png);
-	background-repeat: no-repeat;
-	cursor: pointer;
-	padding-left: 25px;
-	background-position: 0px 5px;
-}
-
 .fhq0057{
 	width: 80%;
 }

@@ -2524,17 +2524,26 @@ window.fhq.ui.updateQuestStatistics = function(questid){
 }
 
 fhq.ui.showFeedbackDialog = function(type, title, text){
-	fhq.ui.showModalDialog(fhq.ui.templates.feedback_form(title));
+	$('#modalInfoTitle').html(title);
+	var f = fhq.ui.templates.feedback_form(title);
+	$('#modalInfoBody').html(f.content);
+	$('#modalInfoButtons').html(''
+		+ '<div class="btn btn-danger" onclick="fhq.ui.feedbackDialogSend();">' + fhq.t('Send') + '</div>'
+		+ '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>');
+	$('#modalInfo').modal('show');
+
+	// fhq.ui.showModalDialog(fhq.ui.templates.feedback_form(title));
 	$('#feedback-type').val(type);
-	if(fhq.userinfo){
+	if (fhq.userinfo) {
 		$('#feedback-from').attr({'readonly': ''});
 		$('#feedback-from').val(fhq.userinfo.email);
 	}
-	$('#feedback-text').val(text);
+	$('#feedback-text').attr('prefix', text)
+	$('#feedback-text').val('');
 }
 
 fhq.ui.feedbackDialogSend = function(){
-	var text = $('#feedback-text').val();
+	var text = $('#feedback-text').attr('prefix') + $('#feedback-text').val();
 	var from = $('#feedback-from').val();
 	var type = $('#feedback-type').val();
 	var params = {};

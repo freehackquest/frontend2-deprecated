@@ -388,7 +388,6 @@ fhq.ui.processParams = function() {
 	
 	// admin api
 	fhq.ui.pageHandlers["create_news"] = fhq.ui.loadCreateNews;
-	fhq.ui.pageHandlers["server_info"] = fhq.ui.loadServerInfo;
 	fhq.ui.pageHandlers["chat"] = fhq.ui.loadChatPage;
 
 	function renderPage(){

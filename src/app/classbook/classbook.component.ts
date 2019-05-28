@@ -64,11 +64,9 @@ export class ClassbookComponent implements OnInit {
       this.articleParents.push(el);
     });
     this.articleParents.reverse();
-    const curr_el = {
-      'classbookid': r.data.classbookid,
-      'name': r.data.name,
-    }
-
+    let curr_el : any = {}
+    curr_el['classbookid'] = r.data.classbookid;
+    curr_el['name'] = r.data.name;
     this.articleParents.push(curr_el);
     this.loadChilds();
   }

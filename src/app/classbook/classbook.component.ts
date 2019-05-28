@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Directive, Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { SpinnerService } from '../spinner.service';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import * as marked from 'marked';
 
 declare var fhq: any;
 
@@ -8,33 +11,115 @@ declare var fhq: any;
   templateUrl: './classbook.component.html',
   styleUrls: ['./classbook.component.css']
 })
-
+@Directive({
+  selector: '[appMarked]'
+})
 export class ClassbookComponent implements OnInit {
-  constructor(private _spinnerService: SpinnerService) {
-    
+  errorMessage: String = null;
+  classbookId: Number = -1;
+  articleName: String = '';
+  articleContent: String = '';
+  articleParents: Array<String> = [];
+  articleChilds: Array<String> = [];
+
+  constructor(
+    private _spinnerService: SpinnerService,
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _cdr: ChangeDetectorRef,
+    private _zone: NgZone,
+  ) {
+      /*setTimeout(() => {
+        console.log(this.errorMessage);
+      }, 1000);*/
   }
 
   ngOnInit() {
+    console.log("ngOnInit");
+    this._route.params.subscribe( (params) => this.loadData(params));
+  }
+
+  loadData(params: any) {
+    // console.log(params['id']);
+    if (!params['id']) {
+      this._router.navigate(['/classbook', 1]);
+      return;
+    }
+    this.classbookId = parseInt(params['id'], 10);
     const _data = {
-      'parentid': 1
+      'classbookid': this.classbookId
     }
     this._spinnerService.show();
-    fhq.ws.classbook_list(_data)
+    fhq.ws.classbook_info(_data)
     .done((r: any) => this.successResponse(r))
     .fail((err: any) => this.errorResponse(err));
   }
 
   successResponse(r: any) {
-    this._spinnerService.hide();
-    console.log(r);
-    r.data.array.forEach(el => {
-      
+    // console.log(r);
+    this.articleName = `#${this.classbookId} ${r.data.name}`;
+    this.articleContent = marked(r.data.content);
+    this.articleParents = []
+    r.data.parents.forEach((el: any) => {
+      this.articleParents.push(el);
     });
+    this.articleParents.reverse();
+    const curr_el = {
+      'classbookid': r.data.classbookid,
+      'name': r.data.name,
+    }
+
+    this.articleParents.push(curr_el);
+    this.loadChilds();
   }
 
   errorResponse(err: any) {
     this._spinnerService.hide();
+    if (err.code == 404) {
+      this.errorMessage = 'Not found article #' + this.classbookId;
+    } else {
+      this.errorMessage = err.error;
+    }
+    this._cdr.detectChanges();
     console.error(err);
   }
 
+  loadChilds() {
+    const _data = {
+      'parentid': this.classbookId
+    }
+    fhq.ws.classbook_list(_data)
+    .done((r: any) => this.successChildsResponse(r))
+    .fail((err: any) => this.errorChildsResponse(err))
+  }
+
+  successChildsResponse(r: any) {
+    this._spinnerService.hide();
+    this.articleChilds = []
+    r.data.forEach((el: any) => {
+      this.articleChilds.push(el);
+    });
+    this._cdr.detectChanges();
+  }
+
+  errorChildsResponse(err: any) {
+    this._spinnerService.hide();
+    if (err.code == 404) {
+      this.errorMessage = 'Not found childs for #' + this.classbookId;
+    } else {
+      this.errorMessage = err.error;
+    }
+    this._cdr.detectChanges();
+    console.error(err);
+  }
+
+  openArticle(id: number) {
+    // reset
+    this.errorMessage = null;
+    this.articleName = '';
+    this.articleContent = '';
+    this.articleParents = [];
+    this.articleChilds = [];
+    this._zone.run(() => this._router.navigate(['/classbook', id])).then();
+  }
 }

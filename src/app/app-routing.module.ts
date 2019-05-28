@@ -6,22 +6,26 @@ import { LanguagesComponent } from './languages/languages.component';
 
 const routes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
-  // { path: 'hero/:id',      component: HeroDetailComponent },
   {
     path: 'languages',
     component: LanguagesComponent,
     data: { title: 'Change Language' }
-  },
-  {
+  }, {
     path: 'classbook',
-    component: ClassbookComponent,
-    data: { title: 'Classbook' }
+    component: ClassbookComponent
+  }, {
+    path: 'classbook/:id',
+    component: ClassbookComponent
   },
   /*{ path: '',
     redirectTo: '/heroes',
     pathMatch: 'full'
   },*/
-  { path: '**', component: PageNotFoundComponent }
+  {
+    path: '**',
+    component: PageNotFoundComponent
+  }
+  
 ];
 
 @NgModule({

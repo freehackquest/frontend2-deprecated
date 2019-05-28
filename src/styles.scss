@@ -1,0 +1,29 @@
+
+.fhq-content {
+    margin-top: 85px;
+    margin-bottom: 50px;
+    height: auto;
+}
+
+.fhq-page-loader {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+}
+
+.fhq-page-loader-tbl {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.fhq-page-loader-cell {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}

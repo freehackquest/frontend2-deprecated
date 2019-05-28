@@ -4,7 +4,7 @@ git checkout package-lock.json
 git pull -p
 npm install
 npm run build
-if [ $1 -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "Build failed"
     exit
 else

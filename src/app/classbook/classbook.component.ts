@@ -27,6 +27,9 @@ export class ClassbookComponent implements OnInit {
   successResponse(r: any) {
     this._spinnerService.hide();
     console.log(r);
+    r.data.array.forEach(el => {
+      
+    });
   }
 
   errorResponse(err: any) {

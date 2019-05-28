@@ -111,4 +111,44 @@ In April 2018: Uploaded backend (fhq-server) to ppa launchpad ubuntu.
 
 Development continues...
 
+## Angular Versions
+
+```
+$ ng --version
+
+     _                      _                 ____ _     ___
+    / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
+   / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
+  / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
+ /_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
+                |___/
+    
+
+Angular CLI: 7.3.9
+Node: 9.11.2
+OS: linux x64
+Angular: 7.2.15
+... animations, common, compiler, compiler-cli, core, forms
+... language-service, platform-browser, platform-browser-dynamic
+... router
+
+Package                           Version
+-----------------------------------------------------------
+@angular-devkit/architect         0.13.9
+@angular-devkit/build-angular     0.13.9
+@angular-devkit/build-optimizer   0.13.9
+@angular-devkit/build-webpack     0.13.9
+@angular-devkit/core              7.3.9
+@angular-devkit/schematics        7.3.9
+@angular/cdk                      7.3.7
+@angular/cli                      7.3.9
+@angular/material                 7.3.7
+@ngtools/webpack                  7.3.9
+@schematics/angular               7.3.9
+@schematics/update                0.13.9
+rxjs                              6.3.3
+typescript                        3.2.4
+webpack                           4.29.0
+```
+
 

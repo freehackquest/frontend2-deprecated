@@ -38,26 +38,6 @@ const l10nConfig: L10nConfig = {
     }
 };
 
-const appRoutes: Routes = [
-  // { path: 'crisis-center', component: CrisisListComponent },
-  // { path: 'hero/:id',      component: HeroDetailComponent },
-  {
-    path: 'languages',
-    component: LanguagesComponent,
-    data: { title: 'Change Language' }
-  },
-  {
-    path: 'classbook',
-    component: ClassbookComponent,
-    data: { title: 'Classbook' }
-  },
-  /*{ path: '',
-    redirectTo: '/heroes',
-    pathMatch: 'full'
-  },*/
-  { path: '**', component: PageNotFoundComponent }
-];
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,17 +53,15 @@ const appRoutes: Routes = [
     NgbModule,
     HttpClientModule,
     TranslationModule.forRoot(l10nConfig),
-    RouterModule.forRoot(
-      appRoutes
-    ), 
+    AppRoutingModule,
     OverlayModule,
   ],
   providers: [{provide: APP_BASE_HREF, useValue: '/new/'}],
   bootstrap: [AppComponent],
   entryComponents: [SpinnerComponent],
 })
-export class AppModule {
 
+export class AppModule {
   constructor(public l10nLoader: L10nLoader) {
     this.l10nLoader.load();
   }

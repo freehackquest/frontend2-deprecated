@@ -191,7 +191,6 @@ fhq.ui.updateMenu = function(){
 	
 	$('#btnmenu_createnews').html(fhq.t('Create News'));
 
-	$('#btnmenu_serverinfo').html(fhq.t('Server Info'));
 	$('#btnmenu_serversettings').html(fhq.t('Server Settings'));
 	
 	$('#btnmenu_signin').html(fhq.t('Sign-in'));
@@ -708,85 +707,6 @@ fhq.ui.formatUptime = function(t){
 	t = (t - t_hours) / 24;
 	var t_days = t;
 	return t_days + " day(s) " + t_hours + " h " + t_min + " m " + t_sec + " s";
-}
-
-fhq.ui.loadServerInfo = function(){
-	fhq.changeLocationState({'server_info':''});
-	fhq.ui.hideLoading();
-	var el = $("#content_page");
-	el.html('Loading...');
-	
-	
-	fhq.ws.server_info().done(function(r){
-		el.html('');
-		el.append('<h1>Server info</h1>');
-		el.append(''
-			+ '<div class="card">'
-			+ '	<div class="card-header">Server uptime</div>'
-			+ '	<div class="card-body">'
-			+ ' 	<p>Server started: ' + r.data.server_started + '</p>'
-			+ ' 	<p>Server uptime: ' + fhq.ui.formatUptime(r.data.server_uptime_sec) + ' sec</p>'
-			+ '	</div>'
-			+ '</div><br>'
-		);
-
-		el.append(''
-			+ '<div class="card">'
-			+ '	<div class="card-header">Requests statistics</div>'
-			+ '	<div class="card-body">'
-			+ '		<table class="table table-striped">'
-			+ '			<thead>'
-			+ '				<tr>'
-			+ '					<th>Handler</th>'
-			+ '					<th>Counter</th>'
-			+ '				</tr>'
-			+ '			</thead>'
-			+ '			<tbody id="request_statistics"></tbody>'
-			+ '		</table>'
-			+ '	</div>'
-			+ '</div><br>'
-		);
-		
-		var rs = r.data.request_statistics;
-
-		for(var i in rs){
-			$('#request_statistics').append(''
-				+ '	<tr>'
-				+ '		<td>' + i + '</td>'
-				+ '		<td>' + rs[i] + '</td>'
-				+ '	</tr>'
-			);
-		}
-		
-		el.append(''
-			+ '<div class="card">'
-			+ '	<div class="card-header">Last log messages</div>'
-			+ '	<div class="card-body">'
-			+ '		<table class="table table-striped">'
-			+ '			<thead>'
-			+ '				<tr>'
-			+ '					<th>Message</th>'
-			+ '				</tr>'
-			+ '			</thead>'
-			+ '			<tbody id="last_log_messages"></tbody>'
-			+ '		</table>'
-			+ '	</div>'
-			+ '</div><br>'
-		);
-		
-		msgs = r.data.last_log_messages;
-		for(var i in msgs){
-			$('#last_log_messages').append(''
-				+ '	<tr>'
-				+ '		<td>' + msgs[i] + '</td>'
-				+ '	</tr>'
-			);
-		}
-		
-	}).fail(function(r){
-		console.error(r);
-		el.append(r.error);
-	})
 }
 
 fhq.ui.loadAboutPage = function() {

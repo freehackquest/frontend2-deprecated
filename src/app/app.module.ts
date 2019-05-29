@@ -15,6 +15,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ClassbookComponent } from './classbook/classbook.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { ServerApiComponent } from './server-api/server-api.component';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -44,7 +45,8 @@ const l10nConfig: L10nConfig = {
     LanguagesComponent,
     PageNotFoundComponent,
     ClassbookComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    ServerApiComponent
   ],
   imports: [
     BrowserModule,

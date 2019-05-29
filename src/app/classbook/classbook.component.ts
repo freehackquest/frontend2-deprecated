@@ -19,8 +19,8 @@ export class ClassbookComponent implements OnInit {
   classbookId: Number = -1;
   articleName: String = '';
   articleContent: String = '';
-  articleParents: Array<String> = [];
-  articleChilds: Array<String> = [];
+  articleParents: Array<any> = [];
+  articleChilds: Array<any> = [];
 
   constructor(
     private _spinnerService: SpinnerService,
@@ -29,9 +29,7 @@ export class ClassbookComponent implements OnInit {
     private _cdr: ChangeDetectorRef,
     private _zone: NgZone,
   ) {
-      /*setTimeout(() => {
-        console.log(this.errorMessage);
-      }, 1000);*/
+      // nothing
   }
 
   ngOnInit() {

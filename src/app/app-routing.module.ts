@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ClassbookComponent } from './classbook/classbook.component';
 import { LanguagesComponent } from './languages/languages.component';
+import { ServerApiComponent } from './server-api/server-api.component';
 
 const routes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
@@ -16,7 +17,10 @@ const routes: Routes = [
   }, {
     path: 'classbook/:id',
     component: ClassbookComponent
-  },
+  }, {
+    path: 'server-api',
+    component: ServerApiComponent
+  }, 
   /*{ path: '',
     redirectTo: '/heroes',
     pathMatch: 'full'

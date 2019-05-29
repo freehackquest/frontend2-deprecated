@@ -363,7 +363,6 @@ fhq.ui.processParams = function() {
 	
 	fhq.ui.pageHandlers["quests"] = fhq.ui.loadStatSubjectsQuests;
 	fhq.ui.pageHandlers["user"] = fhq.ui.loadUserProfile;
-	fhq.ui.pageHandlers["classbook"] = fhq.ui.loadClassbook;
 	fhq.ui.pageHandlers["about"] = fhq.ui.loadAboutPage;
 	fhq.ui.pageHandlers["registration"] = fhq.ui.loadRegistrationPage;
 	fhq.ui.pageHandlers["user_reset_password"] = fhq.ui.loadResetPasswordPage;
@@ -379,7 +378,6 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["tools"] = fhq.ui.loadTools;
 	fhq.ui.pageHandlers["tool"] = fhq.ui.loadTool;
 	fhq.ui.pageHandlers["feedback"] = fhq.ui.loadFeedback;
-	fhq.ui.pageHandlers["api"] = fhq.ui.loadApiPage;
 	fhq.ui.pageHandlers["proposal_quest"] = fhq.ui.loadProposalQuestForm;
 	
 	// admin api
@@ -1011,78 +1009,6 @@ fhq.ui.loadScoreboard = function(){
 		}
 		fhq.ui.hideLoading();
 	});
-}
-
-fhq.ui.loadApiPage = function() {
-	window.fhq.changeLocationState({'api':''});
-	var el = $('#content_page');
-	
-	el.html('<h1>FreeHackQuest API</h1>Loading...');
-	fhq.ws.server_api().done(function(r){
-		el.html('<h1>FreeHackQuest API (version: ' + r.version + ')</h1>');
-		fhq.ui.hideLoading();
-		
-		// <div class="card">  <div class="card-body">    <h4 class="card-title">Admin</h4>    <h6 class="card-subtitle mb-2 text-muted">(10 quests)</h6>    <p class="card-text">Администрирование</p>	   <button subject="admin" type="button" class="open-subject btn btn-default">Открыть</button>	   <button subject="admin" type="button" class="best-subject-users btn btn-default">Best users</button>  </div></div>
-		
-		el.append(''
-			+ '<div class="card">'
-			+ '	<div class="card-header">Connection</div>'
-			+ '	<div class="card-body">'
-			+ '		Connection string: ws://' + fhq.ws.hostname + ':' + fhq.ws.port + '/ <br> '
-			+ '		Or if enabled ssl: wss://' + fhq.ws.hostname + ':' + r.ssl_port + '/ - with ssl</p>'
-			+ '		<p>For example: <br><code>var socket = new WebSocket("wss://freehackquest.com:' + r.ssl_port + '/");</code></p>'
-			+ '	</div>'
-			+ '</div><br>'
-			+ '<div class="card">'
-			+ '	<div class="card-header">Start communication with server</div>'
-			+ '	<div class="card-body">'
-			+ '		<p>Fisrt command must be login or token if you have api token'
-			+ '		<p>For example: <br><code>socket.send(JSON.stringify({cmd: "login", "m": "m100", email: "email", password: "password"}))</code>'
-			+ '	</div>'
-			+ '</div><br>'
-			+ '<div class="card">'
-			+ '	<div class="card-header">' + fhq.t('Implementation') + '</div>'
-			+ '	<div class="card-body">'
-			+ '		<p>You can find this:</p>'
-			+ '		<p>Config: <a href="https://freehackquest.com/js/fhq.ws.js" target="_blank">https://freehackquest.com/js/fhq.ws.config.js</a></p>'
-			+ '		<p>Wrapper by api: <a href="https://freehackquest.com/js/fhq.ws.js" target="_blank">https://freehackquest.com/js/fhq.ws.js</a></p>'
-			+ '	</div>'
-			+ '</div><br>'
-		);
-
-		for(var i in r.data){
-			var h = r.data[i];
-			
-			var ins = '';
-			if(h.inputs.length != 0){
-				ins += '<p>' + fhq.t('Input\'s parameters') + ':</p><ul>';
-				for(var i1 in h.inputs){
-					var inp = h.inputs[i1];
-					ins += '<li><strong>' + inp.type + '</strong> "' + inp.name + '" (' + inp.restrict + ') - <i>' + inp.description + '</i></li>'
-				}
-				ins += '</ul>';
-			}
-			
-			el.append(''
-				+ '<div class="card">'
-				+ '	<div class="card-header">' + h.cmd + '</div>'
-				+ '	<div class="card-body">'
-				+ '		<h4 class="card-title"><code>cmd: ' + h.cmd + '</code></h4>'
-				+ '		<p class="card-text">' + h.description + ' </p>'
-				+ '		<p>' + fhq.t('Access') + ':</p><ul>'
-				+ '			<li>' + fhq.t('Unauthorized') + ': ' + (h.access_unauthorized ? 'allow': 'deny') + '</li>'
-				+ '			<li>' + fhq.t('User') + ': ' + (h.access_user ? 'allow': 'deny') + '</li>'
-				+ '			<li>' + fhq.t('Admin') + ': ' + (h.access_admin ? 'allow': 'deny') + '</li>'
-				+ '		</ul>'
-				+ ins
-				+ '	</div>'
-				+ '</div><br>'
-			);
-		}
-	}).fail(function(r){
-		fhq.ui.hideLoading();
-		console.error(r);
-	})
 }
 
 fhq.ui.loadUserProfile = function(userid) {
@@ -2473,123 +2399,6 @@ fhq.ui.feedbackDialogSend = function(){
 		alert(r.error);
 		fhq.ui.hideLoading();
 	})
-}
-
-
-/* classbook */
-
-fhq.ui.renderClassbookPath = function(data){
-	if(data){
-		var parents = data.parents;
-		$('#classbook_path').html('');
-		for(var i in parents){
-			$('#classbook_path').append(''
-				+ '<div class="btn btn-link" onclick="fhq.ui.loadClassbook(' + parents[i].classbookid + ')">' + parents[i].name + '</div>'
-				+ '<i class="fa fa-arrow-right" aria-hidden="true"></i>');	
-		}
-		$('#classbook_path').append('<div class="btn btn-link" onclick="fhq.ui.loadClassbook(' + data.classbookid + ')">' + data.name + '</div>');
-	}else{
-		$('#classbook_path').html('<div class="btn btn-link" onclick="fhq.ui.loadClassbook(0)">Root</div>');
-	}
-}
-
-fhq.ui.renderClassbookItems = function(classbookid, lang){
-	var data = {};
-	data.parentid = classbookid;
-	data.search = '';
-	$('#classbook_items').html('');
-	fhq.ws.classbook_list(data).done(function(r){
-		fhq.ui.hideLoading();
-		for(var i in r.data){
-			var item = r.data[i];
-			$('#classbook_items').append('<li class="list-group-item classbook-item" onclick="fhq.ui.loadClassbook(' + item.classbookid + ')">' + item.name + '</li>');
-		}
-	}).fail(function(err){
-		fhq.ui.hideLoading();
-		console.error(err);
-		$('#classbook_items').html(err.error);
-	})
-}
-
-fhq.ui.loadClassbook = function(classbookid){
-	fhq.ui.showLoading();
-	var classbookid_ = 0;
-	if(classbookid){
-		classbookid = classbookid || classbookid_;	
-	} else if(fhq.containsPageParam("classbook")){
-		classbookid_ = parseInt(fhq.pageParams['classbook'],10);
-		classbookid_ = classbookid_ || 0;
-	}
-	classbookid = parseInt(classbookid, 10);
-	
-	var lang = fhq.lang();
-	if(fhq.containsPageParam("lang")){
-		var lang_ = fhq.pageParams['lang'];
-		if(fhq.mainLangs[lang_]){
-			lang = lang_;
-		}
-	}
-	
-	fhq.changeLocationState({'classbook':classbookid, 'lang': lang});
-	
-	var el = $('#content_page');
-	el.html('');
-	el.html('<h1>' + fhq.t('Classbook') + '</h1>'
-		+ '<div class="row">'
-		+ '		<div class="col-12" id="classbook_path">'
-		+ '			<div class="btn btn-default" onclick="fhq.ui.loadClassbook(0)">Root</div>'
-		+ '		</div>'
-		+ '</div><br>'
-		+ '<div class="row">'
-		+ '		<div class="col-3">'
-		+ '			<ul class="list-group" id="classbook_items">'
-		+ '			</ul>'
-		+ '		</div>'
-		+ '		<div class="col-9" id="classbook_content">'
-		+ '			Loading...'
-		+ '		</div>'
-		+ '</div>'
-	);
-
-	fhq.ui.renderClassbookItems(classbookid, lang);
-
-	var data2 = {};
-	data2.classbookid = classbookid;
-	data2.lang = lang;
-
-	if(classbookid != 0){
-		fhq.ws.classbook_info(data2).done(function(r){
-			fhq.ui.hideLoading();
-			console.log(r);
-			fhq.ui.renderClassbookPath(r.data);
-			$('#classbook_content').html('');
-			
-			var tab_langs = '<ul class="nav nav-tabs">';
-			for(var i in fhq.mainLangs){
-				if(i == lang){
-					tab_langs += ' <li class="nav-item"> <div class="nav-link active">' + fhq.mainLangs[i] + '</div></li>'
-				}else{
-					tab_langs += ' <li class="nav-item"> <a class="nav-link" href="?classbook=' + classbookid + '&lang=' + i + '">' + fhq.mainLangs[i] + '</a></li>'
-				}
-			}
-			tab_langs += '</ul><br>';
-			
-			$('#classbook_content').append(tab_langs);
-			
-			$('#classbook_content').append('<h1>' + r.data.name + '</h1>');
-			var converter = new showdown.Converter();
-			$('#classbook_content').append(converter.makeHtml(r.data.content));
-			
-		}).fail(function(err){
-			fhq.ui.hideLoading();
-			console.error(err);
-			$('#classbook_content').html(err.error);
-		})
-	}else{
-		fhq.ui.renderClassbookPath();
-		
-		$('#classbook_content').html('Welcome');
-	}
 }
 
 window.fhq.ui.templates = window.fhq.ui.templates || {};

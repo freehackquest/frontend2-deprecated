@@ -54,11 +54,7 @@ export class ServerApiComponent implements OnInit {
 
   errorResponse(err: any) {
     this._spinnerService.hide();
-    if (err.code == 404) {
-      this.errorMessage = 'Not found article #' + this.classbookId;
-    } else {
-      this.errorMessage = err.error;
-    }
+    this.errorMessage = err.error;
     this._cdr.detectChanges();
     console.error(err);
   }

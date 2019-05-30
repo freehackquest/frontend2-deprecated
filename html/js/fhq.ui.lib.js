@@ -370,7 +370,6 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["game_create"] = fhq.ui.loadFormCreateGame;
 	fhq.ui.pageHandlers["game_edit"] = fhq.ui.loadPageEditGame;
 	fhq.ui.pageHandlers["scoreboard"] = fhq.ui.loadScoreboard;
-	fhq.ui.pageHandlers["map"] = fhq.ui.loadMapPage;
 	fhq.ui.pageHandlers["news"] = fhq.ui.loadPageNews;
 	fhq.ui.pageHandlers["quest"] = fhq.ui.loadQuest;
 	fhq.ui.pageHandlers["subject"] = fhq.ui.loadQuestsBySubject;
@@ -871,7 +870,7 @@ fhq.ui.loadPublicInfo = function() {
 		}
 
 		$('#statistics_playing_with_us').text(cities.join(", "));
-		$('#statistics_playing_with_us').append('<br><br><button class="btn btn-info" onclick="fhq.ui.loadMapPage();">' + fhq.t('On Map') + '</button>');
+		$('#statistics_playing_with_us').append('<br><br><a class="btn btn-info" href="./new/map-activity/">' + fhq.t('On Map') + '</a>');
 
 		// fhq-server developers
 		var developers = [];
@@ -1766,65 +1765,6 @@ fhq.ui.loadQuestsBySubject = function(subject, cq){
 			fhq.ui.loadQuest($(this).attr('questid'));
 		});
 		fhq.ui.hideLoading();
-	}).fail(function(r){
-		fhq.ui.hideLoading();
-		console.error(r)
-		el.html('Failed');
-	});
-}
-
-fhq.ui.map = null;
-fhq.ui.map_from_server = null;
-fhq.ui.map_markers = [];
-fhq.ui.map_init = function() {
-	console.log("fhq.ui.map_init begin");
-	fhq.ui.map_markers = [];
-	
-	var fhq_main_server = new google.maps.LatLng(50.7374, 7.09821);
-
-	fhq.ui.map = new google.maps.Map(document.getElementById('map'), {
-		center: fhq_main_server,
-		zoom: 3
-	});
-		
-	for(var i = 0; i < fhq.ui.map_from_server.data.length; i++){
-		var t = fhq.ui.map_from_server.data[i];
-		for(var y = 0; y < t.count; y++){
-			fhq.ui.map_markers.push(new google.maps.Marker({
-				position: new google.maps.LatLng(t.lat, t.lng),
-				map: fhq.ui.map
-			}));
-		}
-	}
-
-	fhq.ui.map_markers.push(new google.maps.Marker({
-		position: fhq_main_server,
-		map: fhq.ui.map,
-		label: 'fhq'
-	}));
-	var markerCluster = new MarkerClusterer(fhq.ui.map, fhq.ui.map_markers, 
-		{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-}
-
-fhq.ui.loadMapPage = function(subject){
-	fhq.ui.showLoading();
-	fhq.changeLocationState({'map':''});
-	var el = $('#content_page');
-
-	el.html('Loading...');
-
-	fhq.ws.getmap().done(function(r){
-		fhq.ui.hideLoading();
-		fhq.ui.map_from_server = r;
-		r.map_key
-		
-		el.html('<h1>' + fhq.t('Map') + '</h1><div id="map"></div>');
-		if($('#google_map_api').length == 0){
-			$('head').append('<script id="google_map_api" src="https://maps.googleapis.com/maps/api/js?key=' + r.google_map_api_key + '&callback=fhq.ui.map_init" async defer></script>');
-		}else{
-			fhq.ui.map_init();
-		}
-
 	}).fail(function(r){
 		fhq.ui.hideLoading();
 		console.error(r)

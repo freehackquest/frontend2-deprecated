@@ -4,6 +4,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ClassbookComponent } from './classbook/classbook.component';
 import { LanguagesComponent } from './languages/languages.component';
 import { ServerApiComponent } from './server-api/server-api.component';
+import { MapActivityComponent } from './map-activity/map-activity.component';
 
 const routes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
@@ -20,6 +21,9 @@ const routes: Routes = [
   }, {
     path: 'server-api',
     component: ServerApiComponent
+  }, {
+    path: 'map-activity',
+    component: MapActivityComponent
   }, 
   /*{ path: '',
     redirectTo: '/heroes',

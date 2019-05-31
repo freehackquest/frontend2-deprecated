@@ -17,6 +17,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ServerApiComponent } from './server-api/server-api.component';
 import { MapActivityComponent } from './map-activity/map-activity.component';
+import { NewsComponent } from './news/news.component';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -48,7 +49,8 @@ const l10nConfig: L10nConfig = {
     ClassbookComponent,
     SpinnerComponent,
     ServerApiComponent,
-    MapActivityComponent
+    MapActivityComponent,
+    NewsComponent
   ],
   imports: [
     BrowserModule,

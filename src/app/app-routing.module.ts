@@ -5,6 +5,7 @@ import { ClassbookComponent } from './classbook/classbook.component';
 import { LanguagesComponent } from './languages/languages.component';
 import { ServerApiComponent } from './server-api/server-api.component';
 import { MapActivityComponent } from './map-activity/map-activity.component';
+import { NewsComponent } from './news/news.component';
 
 const routes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
@@ -24,6 +25,12 @@ const routes: Routes = [
   }, {
     path: 'map-activity',
     component: MapActivityComponent
+  }, {
+    path: 'news',
+    component: NewsComponent
+  }, {
+    path: 'news/:id',
+    component: NewsComponent
   }, 
   /*{ path: '',
     redirectTo: '/heroes',

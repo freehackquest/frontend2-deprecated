@@ -31,19 +31,6 @@ export class MapActivityComponent implements OnInit {
   }
 
   ngOnInit() {
-    /*this.map = new ol.Map({
-      target: 'map',
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM()
-        })
-      ],
-      view: new ol.View({
-        center: ol.proj.fromLonLat([0, 0]),
-        zoom: 1
-      })
-    });*/
-
     const _data = {}
     this._spinnerService.show();
     fhq.ws.getmap(_data)
@@ -81,7 +68,7 @@ export class MapActivityComponent implements OnInit {
     var styleCache = {};
     var clusters = new VectorLayer({
       source: clusterSource,
-      style: function(feature) {
+      style: function(feature: any) {
         var size = feature.get('features').length;
         var style = styleCache[size];
         if (!style) {
@@ -125,21 +112,7 @@ export class MapActivityComponent implements OnInit {
 
     // if need chnage distance
     // clusterSource.setDistance(parseInt(distance.value, 10));
-    
-    /*
-    this.apiVersion = r.version;
-    if (r.server_ws_port) {
-      this.serverWsPort = r.server_ws_port;
-    }
-    if (r.server_wss_port > 0) {
-      this.serverWssPort = r.server_wss_port;
-    }
-
-    this.apisList = []
-    r.data.forEach((el: any) => {
-      this.apisList.push(el);
-    });
-    this._cdr.detectChanges();*/
+    this._cdr.detectChanges();
   }
 
   errorResponse(err: any) {

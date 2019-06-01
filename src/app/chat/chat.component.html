@@ -1,0 +1,26 @@
+<h1 l10nTranslate>chatPage</h1>
+<!-- 
+<div class="card">
+  <div class="card-header">Bugs</div>
+  <div class="card-body">
+    If you found some problem or bug please send mail to: <b>freehackquest@gmail.com</b><br>
+    Or create issues: <a href="https://github.com/freehackquest/fhq-server/issues">GitHub fhq-server</a>
+    <br> 	Or create issues: <a href="https://github.com/freehackquest/frontend/issues">GitHub fhq-frontend</a><br>
+  </div>
+</div>
+-->
+
+<div id="chat_messages" class="chat-messages"></div>
+
+<form class="form">
+  <div class="form-group text-left">
+    <label class="col-form-label" for="send_message" l10nTranslate>yourMessage</label>
+    <input 
+      class="form-control mr-sm-2" 
+      type="text" 
+      id="send_message"
+      [formControl]="chatMessageControl"
+      [value]="chatMessageValue"
+    >
+  </div>
+</form>

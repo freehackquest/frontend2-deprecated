@@ -6,6 +6,7 @@ import { LanguagesComponent } from './languages/languages.component';
 import { ServerApiComponent } from './server-api/server-api.component';
 import { MapActivityComponent } from './map-activity/map-activity.component';
 import { NewsComponent } from './news/news.component';
+import { ChatComponent } from './chat/chat.component';
 
 const routes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
@@ -31,6 +32,9 @@ const routes: Routes = [
   }, {
     path: 'news/:id',
     component: NewsComponent
+  },  {
+    path: 'chat',
+    component: ChatComponent
   }, 
   /*{ path: '',
     redirectTo: '/heroes',

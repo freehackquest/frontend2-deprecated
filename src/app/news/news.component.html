@@ -14,15 +14,11 @@
 
 <br>
 
-<ngb-pagination [collectionSize]="countPages">
-  <ng-template ngbPaginationFirst>First</ng-template>
-  <ng-template ngbPaginationLast>Last</ng-template>
-  <ng-template ngbPaginationPrevious>Prev</ng-template>
-  <ng-template ngbPaginationNext>Next</ng-template>
-  <ng-template ngbPaginationEllipsis>...</ng-template>
-  <ng-template ngbPaginationNumber let-page>{{ page }}</ng-template>
-</ngb-pagination>
-
+<div>
+    <button class="btn btn-link" [disabled]="currentPage==0" (click)="prevPage()">Prev</button>
+    <div class="d-inline-block">{{ currentPage+1 }} of {{ countPages }} pages </div>
+    <button class="btn btn-link" [disabled]="currentPage>=countPages" (click)="nextPage()">Next</button>
+</div>
 
 <table class="table">
     <tbody>
@@ -32,7 +28,7 @@
         </td>
         <td>
           <small>{{ n.dt }} (UTC)</small><br>
-          <strong>{{ n.message }} </strong>
+          <strong>{{ n.message }}</strong>
         </td>
       </tr>
     </tbody>

@@ -24,7 +24,7 @@ export class NewsComponent implements OnInit {
 
   countPages = 50;
   currentPage = 0;
-  onPage = 10;
+  onPage = 7;
   errorMessage: string = null;
   dataList: Array<any> = [];
 
@@ -55,9 +55,20 @@ export class NewsComponent implements OnInit {
       .debounceTime(1000)
       .subscribe((newValue) => {
         this.searchValue = newValue
+        this.currentPage = 0;
         console.log(newValue);
         this.loadData();
       });
+  }
+  
+  prevPage() {
+    this.currentPage--;
+    this.loadData();
+  }
+
+  nextPage() {
+    this.currentPage++;
+    this.loadData();
   }
 
   loadData() {
@@ -76,9 +87,12 @@ export class NewsComponent implements OnInit {
   successResponse(r: any) {
     console.log(r);
     this._spinnerService.hide();
-    
+    this.countPages = Math.ceil(parseInt(r.count, 10) / this.onPage);
+
     this.dataList = []
     r.data.forEach((el: any) => {
+      el['html_message'] = el.message;
+      el['html_message'] = el['html_message'].replace(/\[user#(\d+)\]/g, '<a href="/user/$1">[user#$1]</a>')
       this.dataList.push(el);
     });
     this._cdr.detectChanges();

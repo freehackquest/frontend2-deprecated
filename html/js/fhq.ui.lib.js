@@ -370,7 +370,6 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["game_create"] = fhq.ui.loadFormCreateGame;
 	fhq.ui.pageHandlers["game_edit"] = fhq.ui.loadPageEditGame;
 	fhq.ui.pageHandlers["scoreboard"] = fhq.ui.loadScoreboard;
-	fhq.ui.pageHandlers["news"] = fhq.ui.loadPageNews;
 	fhq.ui.pageHandlers["quest"] = fhq.ui.loadQuest;
 	fhq.ui.pageHandlers["subject"] = fhq.ui.loadQuestsBySubject;
 	fhq.ui.pageHandlers["feedback_add"] = fhq.ui.loadFeedbackAdd;
@@ -888,55 +887,6 @@ fhq.ui.loadPublicInfo = function() {
 		fhq.ui.hideLoading();
 	});
 };
-	
-
-fhq.ui.loadPageNews = function(){
-	fhq.ui.showLoading();
-	var onpage = 5;
-	if(fhq.containsPageParam("onpage")){
-		onpage = parseInt(fhq.pageParams['onpage'], 10);
-	}
-
-	var page = 0;
-	if(fhq.containsPageParam("page")){
-		page = parseInt(fhq.pageParams['page'], 10);
-	}
-
-	var search = '';
-	if(fhq.containsPageParam("search")){
-		search = fhq.pageParams['search'] || "";
-
-	}
-	
-	var el = $("#content_page");
-	el.html('Loading...')
-	
-	window.fhq.changeLocationState({'news': '', 'onpage': onpage, 'page': page, 'search': search});
-
-	fhq.ws.publiceventslist({'onpage': onpage, 'page': page, 'search': search}).done(function(r){
-		el.html('');
-		el.append('<h1>' + fhq.t('News') + '</h1>');
-
-		el.append(fhq.ui.paginator(0, r.count, r.onpage, r.page, r.search));
-		fhq.ui.bindPaginator(r.search);
-
-		for(var i in r.data){
-			var ev = r.data[i];
-			el.append(''
-				+ '<div class="card">'
-				+ '	<div class="card-body events-left-img events-' + ev.type + '">'
-				+ '     <p>[' + ev.dt + ']</p>'
-				+ ev.message
-				+ '	</div>'
-				+ '</div><br>'
-			);
-		}
-		fhq.ui.hideLoading();
-	}).fail(function(r){
-		console.error(r);
-		$('.fhq0057').append(r.error);
-	})
-}
 
 fhq.ui.deleteNews = function(id){
 	fhq.ui.closeModalDialog();

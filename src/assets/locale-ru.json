@@ -9,7 +9,7 @@
     "classbook": "Учебник",
     "menuMore": "Еще...",
     "mapActivity": "Карта",
-    "chatPage": "Общение",
+    "chatPage": "Чат",
     "gamesListPage": "Игры",
     "feedbackAdd": "Написать отзыв",
     "proposalQuest": "Предложить квест",
@@ -18,5 +18,6 @@
     "pageNotFound": "Страница не найдена",
     "tryOpenPage": "Попробуйте открыть старницу",
     "yourMessage": "Your message:",
+    "menuAccount": "Account",
     "": ""
 }

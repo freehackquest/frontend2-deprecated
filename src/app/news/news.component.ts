@@ -79,7 +79,7 @@ export class NewsComponent implements OnInit {
       "search": this.searchValue,
     }
     this._spinnerService.show();
-    fhq.ws.publiceventslist(_data)
+    fhq.publiceventslist(_data)
       .done((r: any) => this.successResponse(r))
       .fail((err: any) => this.errorResponse(err));
   }

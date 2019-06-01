@@ -49,7 +49,7 @@ export class ClassbookComponent implements OnInit {
     }
     this._spinnerService.show();
     if (this.classbookId != 0) {
-      fhq.ws.classbook_info(_data)
+      fhq.classbook_info(_data)
       .done((r: any) => this.successResponse(r))
       .fail((err: any) => this.errorResponse(err));
     } else {
@@ -89,7 +89,7 @@ export class ClassbookComponent implements OnInit {
     const _data = {
       'parentid': this.classbookId
     }
-    fhq.ws.classbook_list(_data)
+    fhq.classbook_list(_data)
     .done((r: any) => this.successChildsResponse(r))
     .fail((err: any) => this.errorChildsResponse(err))
   }

@@ -33,7 +33,7 @@ export class MapActivityComponent implements OnInit {
   ngOnInit() {
     const _data = {}
     this._spinnerService.show();
-    fhq.ws.getmap(_data)
+    fhq.getmap(_data)
     .done((r: any) => this.successResponse(r))
     .fail((err: any) => this.errorResponse(err));
   }

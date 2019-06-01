@@ -29,7 +29,7 @@ export class ServerApiComponent implements OnInit {
   ngOnInit() {
     const _data = {}
     this._spinnerService.show();
-    fhq.ws.server_api(_data)
+    fhq.server_api(_data)
     .done((r: any) => this.successResponse(r))
     .fail((err: any) => this.errorResponse(err));
   }

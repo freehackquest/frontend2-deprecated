@@ -1,5 +1,15 @@
 <h1 l10nTranslate>news</h1>
 
+<!-- Search form  -->
+<div class="md-form">
+  <input type="search"
+    [(ngModel)]="searchText"
+    (keyup)="goSearch($event.target.value)"
+    placeholder="Search text">
+</div>
+
+<br>
+
 <ngb-pagination [collectionSize]="countPages">
   <ng-template ngbPaginationFirst>First</ng-template>
   <ng-template ngbPaginationLast>Last</ng-template>

@@ -48,9 +48,14 @@ export class ClassbookComponent implements OnInit {
       'classbookid': this.classbookId
     }
     this._spinnerService.show();
-    fhq.ws.classbook_info(_data)
-    .done((r: any) => this.successResponse(r))
-    .fail((err: any) => this.errorResponse(err));
+    if (this.classbookId != 0) {
+      fhq.ws.classbook_info(_data)
+      .done((r: any) => this.successResponse(r))
+      .fail((err: any) => this.errorResponse(err));
+    } else {
+      this.articleName = "Root";
+      this.loadChilds();
+    }
   }
 
   successResponse(r: any) {

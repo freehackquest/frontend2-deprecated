@@ -18,6 +18,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { ServerApiComponent } from './server-api/server-api.component';
 import { MapActivityComponent } from './map-activity/map-activity.component';
 import { NewsComponent } from './news/news.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -61,6 +62,8 @@ const l10nConfig: L10nConfig = {
     TranslationModule.forRoot(l10nConfig),
     AppRoutingModule,
     OverlayModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [{provide: APP_BASE_HREF, useValue: '/new/'}],
   bootstrap: [AppComponent],

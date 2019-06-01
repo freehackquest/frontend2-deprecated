@@ -3,7 +3,11 @@ import { FormControl } from '@angular/forms';
 import { SpinnerService } from '../spinner.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-
+import { Observable }  from 'rxjs/Observable';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/throttleTime';
+import 'rxjs/add/observable/fromEvent';
+import { Subscription } from 'rxjs';
 
 declare var fhq: any;
 
@@ -14,13 +18,15 @@ declare var fhq: any;
 })
 export class NewsComponent implements OnInit {
   @Output() loading = new EventEmitter<boolean>();
+  searchValue: String = '';
+  private searchControl = new FormControl('');
+  formCtrlSub: Subscription;
+
   countPages = 50;
   currentPage = 0;
   onPage = 10;
   errorMessage: string = null;
   dataList: Array<any> = [];
-  searchField: FormControl; 
-  @ViewChild('searchText') searchText: ElementRef;
 
   constructor(
     private _spinnerService: SpinnerService,
@@ -30,46 +36,36 @@ export class NewsComponent implements OnInit {
     private _el: ElementRef,
   ) { }
 
+  onSearchBoxValueChange() {
+    this.currentPage = 1;
+}
+
   ngOnInit() {
-    this._route.params.subscribe( (params) => this.loadData(params));
+    this._route.params.subscribe( (params) => {
+      if (!params['id']) {
+        this._router.navigate(['/news', 0]);
+        return;
+      }
+      this.currentPage = parseInt(params['id'], 10);
+      this.loadData();
+    });
 
-    /*fromEvent(this._el.nativeElement, 'keyup').pipe(
-      map((e: any) => e.target.value), // extract the value of the input
-      filter(text => text.length > 1), // filter out if empty
-      debounceTime(500), // only once every 500ms
-      // tap(() => this.loading.emit(true)), // enable loading
-      //map((query: string) => this.youtube.search(query)), // search
-      switchAll()) // produces values only from the most recent inner sequence ignoring previous streams
-      .subscribe(  // act on the return of the search
-        _results => {
-          // this.loading.emit(false);
-          // this.results.emit(_results);
-        },
-        err => {
-          // console.log(err);
-          // this.loading.emit(false);
-        },
-        () => {
-          // this.loading.emit(false);
-        }
-      );*/
+    // debounce keystroke events
+    this.formCtrlSub = this.searchControl.valueChanges
+      .debounceTime(1000)
+      .subscribe((newValue) => {
+        this.searchValue = newValue
+        console.log(newValue);
+        this.loadData();
+      });
   }
 
-  goSearch(val: String) {
-    console.log(val);
-  }
-
-  loadData(params) {
-    // console.log(params['id']);
-    if (!params['id']) {
-      this._router.navigate(['/news', 0]);
-      return;
-    }
-    this.currentPage = parseInt(params['id'], 10);
-
+  loadData() {
+    // this.searchTaskControl.value
     const _data = {
       "page": this.currentPage,
-      "onpage": this.onPage
+      "onpage": this.onPage,
+      "search": this.searchValue,
     }
     this._spinnerService.show();
     fhq.ws.publiceventslist(_data)

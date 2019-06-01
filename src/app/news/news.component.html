@@ -1,12 +1,16 @@
 <h1 l10nTranslate>news</h1>
 
-<!-- Search form  -->
-<div class="md-form">
-  <input type="search"
-    [(ngModel)]="searchText"
-    (keyup)="goSearch($event.target.value)"
-    placeholder="Search text">
-</div>
+<form class="form-inline waves-light" mdbWavesEffect>
+  <div class="md-form mt-0">
+    <input 
+      class="form-control mr-sm-2" 
+      type="text" 
+      placeholder="Search"
+      [formControl]="searchControl"
+      [value]="searchValue"
+    >
+  </div>
+</form>
 
 <br>
 

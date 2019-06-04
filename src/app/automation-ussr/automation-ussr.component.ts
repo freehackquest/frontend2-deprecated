@@ -47,7 +47,7 @@ export class AutomationUssrComponent implements OnInit {
     token = encodeURIComponent(token);
     let flag = this.afFlag.nativeElement.value;
     flag = encodeURIComponent(flag);
-    token = "LgugYouIgP";
+    // token = "LgugYouIgP";
 
     this._http.get("https://freehackquest.com/automation-ussr/api/v1/flag/?token=" + token + "&flag=" + flag).subscribe(
       (data: any) => {

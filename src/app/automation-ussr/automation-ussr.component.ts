@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-automation-ussr',

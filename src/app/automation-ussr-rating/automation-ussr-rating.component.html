@@ -1,3 +1,29 @@
-<p>
-  automation-ussr-rating works!
-</p>
+<div class="automation-ussr-image"></div>
+<br/><br/><br/><br/><br/>
+<h1 l10nTranslate>automationUssr</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Звание</th>
+      <th>Рейтинг</th>
+      <th>Имя</th>
+      <th>Аттака</th>
+      <th>Штраф</th>
+      <th>Попытки</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let r of ratingList">
+      <td>
+        <img width=50px src="assets/img/{{ findPogon(r.score).img }}">
+        {{ findPogon(r.score).title }}
+      </td>
+      <td>{{ r.score }}</td>
+      <td>{{ r.name }}</td>
+      <td>{{ r.attack }}</td>
+      <td style="background-color: #f8d7da;">{{ r.shtraf }}</td>
+      <td>{{ r.tries }}</td>
+    </tr>
+  </tbody>
+</table>

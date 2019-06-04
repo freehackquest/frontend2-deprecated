@@ -21,6 +21,8 @@ import { NewsComponent } from './news/news.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatComponent } from './chat/chat.component';
 import { AutomationUssrComponent } from './automation-ussr/automation-ussr.component';
+import { AutomationUssrPresentationComponent } from './automation-ussr-presentation/automation-ussr-presentation.component';
+import { AutomationUssrRatingComponent } from './automation-ussr-rating/automation-ussr-rating.component';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -55,7 +57,9 @@ const l10nConfig: L10nConfig = {
     MapActivityComponent,
     NewsComponent,
     ChatComponent,
-    AutomationUssrComponent
+    AutomationUssrComponent,
+    AutomationUssrPresentationComponent,
+    AutomationUssrRatingComponent
   ],
   imports: [
     BrowserModule,

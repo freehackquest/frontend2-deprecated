@@ -20,6 +20,7 @@ import { MapActivityComponent } from './map-activity/map-activity.component';
 import { NewsComponent } from './news/news.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatComponent } from './chat/chat.component';
+import { AutomationUssrComponent } from './automation-ussr/automation-ussr.component';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -53,7 +54,8 @@ const l10nConfig: L10nConfig = {
     ServerApiComponent,
     MapActivityComponent,
     NewsComponent,
-    ChatComponent
+    ChatComponent,
+    AutomationUssrComponent
   ],
   imports: [
     BrowserModule,

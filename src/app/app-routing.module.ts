@@ -7,6 +7,7 @@ import { ServerApiComponent } from './server-api/server-api.component';
 import { MapActivityComponent } from './map-activity/map-activity.component';
 import { NewsComponent } from './news/news.component';
 import { ChatComponent } from './chat/chat.component';
+import { AutomationUssrComponent } from './automation-ussr/automation-ussr.component';
 
 const routes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
@@ -35,6 +36,9 @@ const routes: Routes = [
   },  {
     path: 'chat',
     component: ChatComponent
+  },  {
+    path: 'automation-ussr',
+    component: AutomationUssrComponent
   }, 
   /*{ path: '',
     redirectTo: '/heroes',

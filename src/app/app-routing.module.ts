@@ -10,6 +10,9 @@ import { ChatComponent } from './chat/chat.component';
 import { AutomationUssrComponent } from './automation-ussr/automation-ussr.component';
 import { AutomationUssrPresentationComponent } from './automation-ussr-presentation/automation-ussr-presentation.component';
 import { AutomationUssrRatingComponent } from './automation-ussr-rating/automation-ussr-rating.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { DonateComponent } from './donate/donate.component';
 
 const routes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
@@ -47,6 +50,15 @@ const routes: Routes = [
   }, {
     path: 'automation-ussr-rating',
     component: AutomationUssrRatingComponent
+  }, {
+    path: 'registration',
+    component: RegistrationComponent
+  }, {
+    path: 'reset-password',
+    component: ResetPasswordComponent
+  }, {
+    path: 'donate',
+    component: DonateComponent
   },
 
   /*{ path: '',

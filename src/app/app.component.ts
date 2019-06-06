@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { LocaleService, TranslationService, Language } from 'angular-l10n';
+import { Component, OnInit, Inject, ChangeDetectorRef} from '@angular/core';
+import { LocaleService, TranslationService } from 'angular-l10n';
 import { DOCUMENT } from '@angular/platform-browser';
 
 declare var fhq: any;
@@ -10,26 +10,38 @@ declare var fhq: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
-  title: string = 'FreeHackQuest';
   serverHost: string = 'some';
   currentProtocol: string = 'http:';
   userdata: any = {};
+  loggined: boolean = false;
 
   constructor(
     public locale: LocaleService,
-    public translation: TranslationService,
+    public _translation: TranslationService,
     @Inject(DOCUMENT) private document: Document,
+    private _cdr: ChangeDetectorRef,
   ) {
     this.serverHost = document.location.hostname;
     this.currentProtocol = document.location.protocol;
   }
 
-  updateUserData(data) {
+  updateUserData(data: any) {
+    console.log("updateUserData: ", data);
+    this.loggined = data.nick != undefined;
     this.userdata = data;
+    this._cdr.detectChanges();
   }
 
   ngOnInit(): void {
+    
+    // baseUrl = 'ws://freehackquest.com/api-ws/';
+    // baseUrl = 'ws://localhost/api-ws/';
+    fhq.bind('disconnected', () => this.connectToFhq() );
+    fhq.bind('userdata', (data: any) => this.updateUserData(data));
+    this.connectToFhq();
+  }
+
+  connectToFhq() {
     let baseUrl = 'ws://' + this.serverHost + ':1234/api-ws/';
     if (this.currentProtocol == "https:") {
       baseUrl = 'wss://' + this.serverHost + ':4613/api-wss/';
@@ -38,9 +50,10 @@ export class AppComponent implements OnInit {
     if (this.serverHost == 'freehackquest.com') {
       baseUrl = 'wss://freehackquest.com/api-wss/';
     }
-    // baseUrl = 'ws://freehackquest.com/api-ws/';
-    // baseUrl = 'ws://localhost/api-ws/';
-    fhq.bind('userdata', (data) => this.updateUserData(data));
     fhq.init({'baseUrl': baseUrl});
+  }
+
+  userSignout() {
+    fhq.deinit();
   }
 }

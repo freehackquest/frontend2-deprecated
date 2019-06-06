@@ -23,6 +23,9 @@ import { ChatComponent } from './chat/chat.component';
 import { AutomationUssrComponent } from './automation-ussr/automation-ussr.component';
 import { AutomationUssrPresentationComponent } from './automation-ussr-presentation/automation-ussr-presentation.component';
 import { AutomationUssrRatingComponent } from './automation-ussr-rating/automation-ussr-rating.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { DonateComponent } from './donate/donate.component';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -59,7 +62,10 @@ const l10nConfig: L10nConfig = {
     ChatComponent,
     AutomationUssrComponent,
     AutomationUssrPresentationComponent,
-    AutomationUssrRatingComponent
+    AutomationUssrRatingComponent,
+    RegistrationComponent,
+    ResetPasswordComponent,
+    DonateComponent
   ],
   imports: [
     BrowserModule,

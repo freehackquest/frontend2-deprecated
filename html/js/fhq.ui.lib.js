@@ -80,30 +80,6 @@ fhq.ui.clickModalDialog_dialog = function() {
 	}
 }
 
-fhq.ui.emailWrongDomains = {};
-fhq.ui.emailWrongDomains['yndex.ru'] = {prop: ["yandex.ru"]}
-fhq.ui.emailWrongDomains['gmail.ru'] = {prop: ["gmail.com"]}
-fhq.ui.emailWrongDomains['gmial.com'] = {prop: ["gmail.com"]}
-
-fhq.ui.checkEmail = function(email) {
-	var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-	var ret = {result: false, error: ""}
-	ret.result = re.test(String(email).toLowerCase());
-	if (!ret.result) {
-		ret.error = "Format email wrong";
-		return ret;
-	}
-	domain = email.split("@")[1];
-	domain = domain.toLowerCase();
-
-	if (fhq.ui.emailWrongDomains[domain]) {
-		var t = fhq.ui.emailWrongDomains[domain];
-		ret.result = false;
-		ret.error = fhq.t("Wrong domain, maybe you mean: ") + t.prop.join(",");
-	}
-	return ret;
-}
-
 /* Sign In */
 
 fhq.ui.showSignInForm = function() {
@@ -354,7 +330,6 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["quests"] = fhq.ui.loadStatSubjectsQuests;
 	fhq.ui.pageHandlers["user"] = fhq.ui.loadUserProfile;
 	fhq.ui.pageHandlers["about"] = fhq.ui.loadAboutPage;
-	fhq.ui.pageHandlers["registration"] = fhq.ui.loadRegistrationPage;
 	fhq.ui.pageHandlers["user_reset_password"] = fhq.ui.loadResetPasswordPage;
 	fhq.ui.pageHandlers["games"] = fhq.ui.loadPageGames;
 	fhq.ui.pageHandlers["game_create"] = fhq.ui.loadFormCreateGame;
@@ -414,93 +389,6 @@ fhq.ui.processParamsOnReady = function(){
 	}else{
 		fhq.ui.processParams();
 	}
-}
-
-/* Registration */
-
-fhq.ui.registry = function() {
-	$('#registration_error').html('');
-	var data = {};
-	data.email = $('#registration_email').val();
-	data.university = $('#registration_university').val();
-	fhq.ui.showLoading();
-	fhq.ws.registration(data).done(function(r){
-		console.log(r);
-		
-		$('#signup-email').val('');
-		$('#signup-captcha').val('');
-		$('#signup-info-message').html('');
-		$('#signup-error-message').html('');
-		fhq.ui.hideLoading();
-		$('#content_page').html('Please check your mailbox (also look in spam)');
-	}).fail(function(r){
-		console.error(r);
-		$('#registration_error').html(fhq.t(r.error));
-		fhq.ui.hideLoading();
-	})
-		
-}
-
-fhq.ui.loadRegistrationPage = function() {
-	fhq.ui.hideLoading();
-	fhq.changeLocationState({'registration':''});
-	$('#content_page').html('');
-	
-	$('#content_page').append(''
-		+ '<div class="card">'
-		+ '  <div class="card-header">' + fhq.t('Registration') + '</div>'
-		+ '    <div class="card-body">'
-		+ '	<div class="form-group row">'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ ' 	<div class="col-sm-4">'
-		+ '			<label for="registration_email" class="col-form-label">E-mail (required):</label>'
-		+ '			<input type="email" placeholder="your@email.com" class="form-control" value="" id="registration_email"/>'
-		+ '			<div class="alert alert-danger" style="display: none" id="registration_email_alert">' + fhq.t('Required field email') + '</div>'
-		+ '		</div>'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ '	</div>'
-		+ '	<div class="form-group row">'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ ' 	<div class="col-sm-4">'
-		+ '			<label for="registration_university" class="col-form-label">University:</label>'
-		+ '			<input type="text" placeholder="university" class="form-control" value="" id="registration_university"/>'
-		+ '		</div>'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ '	</div>'
-		+ '	<div class="form-group row">'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ ' 	<div class="col-sm-4 text-center">'
-		+ '			<div class="btn btn-success" onclick="fhq.ui.registry();">Registry</div>'
-		+ '		</div>'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ '	</div>'
-		+ '	<div class="form-group row">'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ ' 	<div class="col-sm-4 text-center" id="registration_error">'
-		+ '		</div>'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ '	</div>'
-		+ '  </div>'
-		+ '</div>'
-	);
-	function registrationChangedEmailField() {
-		var val = $('#registration_email').val();
-		if (val == "") {
-			$('#registration_email_alert').hide();
-			return;
-		}
-		var t = fhq.ui.checkEmail(val);
-		if (t.result) {
-			$('#registration_email_alert').hide();
-		} else {
-			$('#registration_email_alert').html(t.error);
-			$('#registration_email_alert').show();
-		}
-	}
-	$('#registration_email').unbind().bind('change', registrationChangedEmailField);
-	$('#registration_email').unbind().bind('keyup', registrationChangedEmailField);
-	// fhq.ui.checkEmail
-
 }
 
 fhq.ui.user_reset_password = function() {
@@ -633,6 +521,7 @@ fhq.ui.loadAboutPage = function() {
 		+ '	<div class="card-header">' + fhq.t('About') + '</div>'
 		+ '	<div class="card-body">'
 		+ '		<strong>FreeHackQuest</strong> - ' + fhq.t('This is an open source platform for competitions in computer security.')
+		+ '		<hr><a href="new/donate">Donate</a>'
 		+ '	</div>'
 		+ '</div><br>'
 		+ '<div class="card">'
@@ -743,21 +632,9 @@ fhq.ui.loadAboutPage = function() {
 		+ '		<ul>'
 		+ '	</div>'
 		+ '</div><br>'
-		+ '<div class="card">'
-		+ '	<div class="card-header">' + fhq.t('Donate') + '</div>'
-		+ '	<div class="card-body">'
-		+ '		Thanks for the donate:'
-		+ '		<p>+98 pablo escobar, +147 persifal, +98 persifal, +95 kondorbrn</p>'
-		+ '		<div id="donate-form"></div>'
-		+ '	</div>'
-		+ '</div><br>'
 	);
 	fhq.ui.hideLoading();
 	fhq.ui.loadPublicInfo();
-	
-	$.get('donate.html', function(result){
-		$('#donate-form').html(result);
-	});
 }
 
 fhq.ui.loadPublicInfo = function() {

@@ -45,5 +45,12 @@
     "automationUssr_scoreboard": "Рейтинг",
     "automationUssr_presentation": "Презентация",
     "send": "Отправить",
+    "resetPassword": "Забыли пароль?",
+    "signin": "Вход",
+    "registrationEmail": "Электронная почта (обязательный):",
+    "registrationUniversity": "Университет (опционально):",
+    "registrationGo": "Зарегистрироваться",
+    "wrongDomainMaybeMeen": "Wrong domain, maybe you mean: ",
     "": ""
+
 }

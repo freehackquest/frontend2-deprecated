@@ -12,15 +12,19 @@ export class LanguagesComponent implements OnInit {
 
   title: string = 'FreeHackQuest';
   
-  constructor(public locale: LocaleService, public translation: TranslationService) { }
+  constructor(
+    public _locale: LocaleService,
+    public _translation: TranslationService
+  ) { }
 
   ngOnInit() {
-    this.translation.translationChanged().subscribe(
-      () => { this.title = this.translation.translate('title'); }
-  );
+    this._translation.translationChanged().subscribe(
+      () => {
+        this.title = this._translation.translate('title');
+    });
   }
 
   selectLanguage(language: string): void {
-    this.locale.setCurrentLanguage(language);
+    this._locale.setCurrentLanguage(language);
   }
 }

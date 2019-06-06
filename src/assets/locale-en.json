@@ -45,5 +45,10 @@
     "automationUssr_scoreboard": "Scoreboard",
     "automationUssr_presentation": "Presentation",
     "send": "Send",
+    "resetPassword": "Forgot password?",
+    "signin": "Sing In",
+    "registrationEmail": "E-mail (required):",
+    "registrationUniversity": "University (optional):",
+    "registrationGo": "Registry",
     "": ""
 }

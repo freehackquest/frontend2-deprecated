@@ -10,17 +10,34 @@
 </div>
 -->
 
-<div id="chat_messages" class="chat-messages"></div>
-
-<form class="form">
-  <div class="form-group text-left">
-    <label class="col-form-label" for="send_message" l10nTranslate>yourMessage</label>
-    <input 
-      class="form-control mr-sm-2" 
-      type="text" 
-      id="send_message"
-      [formControl]="chatMessageControl"
-      [value]="chatMessageValue"
-    >
+<div #chatMessages class="chat-messages">
+  <div *ngFor="let d of dataReverseList">
+    <table width="100%">
+      <tr>
+        <td>
+            <strong>{{ d.user }}</strong>
+        </td>
+        <td class="text-right">
+          <small>{{ d.dt }}</small>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-left" colspan="2">
+            {{ d.message }}
+            <hr/>
+        </td>
+      </tr>
+    </table>
   </div>
-</form>
+</div>
+<br/>
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1" l10nTranslate>yourMessage</span>
+  </div>
+  <input type="text" class="form-control" (keyup.enter)="sendMessage()" #yourMessage value="">
+  <div class="input-group-append">
+    <button class="btn btn-primary" (click)="sendMessage()" type="button" l10nTranslate>send</button>
+  </div>
+</div>

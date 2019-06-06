@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ChangeDetectorRef} from '@angular/core';
-import { LocaleService, TranslationService } from 'angular-l10n';
+import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import { DOCUMENT } from '@angular/platform-browser';
 
 declare var fhq: any;
@@ -14,9 +14,10 @@ export class AppComponent implements OnInit {
   currentProtocol: string = 'http:';
   userdata: any = {};
   loggined: boolean = false;
+  menuLangIcon: string = '';
 
   constructor(
-    public locale: LocaleService,
+    public _locale: LocaleService,
     public _translation: TranslationService,
     @Inject(DOCUMENT) private document: Document,
     private _cdr: ChangeDetectorRef,
@@ -33,7 +34,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    this.updateLanguage();
+    console.log("lang: ", this._locale.getCurrentLanguage());
     // baseUrl = 'ws://freehackquest.com/api-ws/';
     // baseUrl = 'ws://localhost/api-ws/';
     fhq.bind('disconnected', () => this.connectToFhq() );
@@ -55,5 +57,16 @@ export class AppComponent implements OnInit {
 
   userSignout() {
     fhq.deinit();
+  }
+
+  selectLanguage(language: string): void {
+    this._locale.setCurrentLanguage(language);
+    this.updateLanguage();
+  }
+
+  updateLanguage() {
+    const l = this._locale.getCurrentLanguage();
+    this.menuLangIcon = "assets/img/lang_" + l + ".png";
+    this._cdr.detectChanges();
   }
 }

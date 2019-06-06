@@ -9,7 +9,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {APP_BASE_HREF} from '@angular/common';
 
 import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType, LogLevel } from 'angular-l10n';
-import { LanguagesComponent } from './languages/languages.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ClassbookComponent } from './classbook/classbook.component';
@@ -52,7 +51,6 @@ const l10nConfig: L10nConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-    LanguagesComponent,
     PageNotFoundComponent,
     ClassbookComponent,
     SpinnerComponent,

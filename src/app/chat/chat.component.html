@@ -11,14 +11,14 @@
 -->
 
 <div #chatMessages class="chat-messages">
-  <div *ngFor="let d of dataReverseList">
+  <div *ngFor="let d of dataList">
     <table width="100%">
       <tr>
         <td>
             <strong>{{ d.user }}</strong>
         </td>
         <td class="text-right">
-          <small>{{ d.dt }}</small>
+          <small>{{ d.dt }} (UTC)</small>
         </td>
       </tr>
       <tr>

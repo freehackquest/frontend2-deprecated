@@ -306,14 +306,6 @@ function FHQGuiLib(api) {
 			});
 		}
 	}
-
-	// depracated
-	fhq.handlerReceivedChatMessage = function(response) {
-		if (fhq.ui.chatSoundOn) {
-			document.getElementById('income_msg_sound').play();
-		}
-		fhq.ui.appendChatMessage(response);
-	}
 };
 
 fhq.ui.showUserInfo = function(userid) {
@@ -354,8 +346,6 @@ fhq.ui.makeUserIcon = function(userid, logo, nick, university) {
 	return '<div class="btn btn-default" onclick="fhq.ui.showUserInfo(' + userid + ')"> <img class="fhqmiddelinner" width=25px src="' + logo + '"/> ' + (university && university != "" ? '[' + university + '] ' : '') + nick + '</div>'
 }
 
-fhq.ui.chatSoundOn = false;
-
 fhq.ui.pageHandlers = {};
 
 fhq.ui.processParams = function() {
@@ -380,7 +370,6 @@ fhq.ui.processParams = function() {
 	
 	// admin api
 	fhq.ui.pageHandlers["create_news"] = fhq.ui.loadCreateNews;
-	fhq.ui.pageHandlers["chat"] = fhq.ui.loadChatPage;
 
 	function renderPage(){
 		fhq.ui.updateMenu();
@@ -570,79 +559,6 @@ fhq.ui.loadResetPasswordPage = function() {
 
 fhq.ui.onwsclose = function(){
 	fhq.ui.showLoading();
-}
-
-fhq.ui.appendChatMessage = function (msg) {
-	var el = $('.chat-messages');
-	if (el.length > 0) {
-		el.append(''
-			+ '<div class="chat-message-container">'
-			+ '		<div class="chat-message">' + msg.message + '</div>'
-			+ '		<div class="chat-message-info">[' + msg.dt + '] ' + msg.user + '</div>'
-			+ '</div>'
-		);
-		el.scrollTop(el[0].scrollHeight - el.height());
-	}
-}
-
-fhq.ui.loadChatPage = function(){
-	fhq.changeLocationState({'chat':''});
-	
-	var el = $('#content_page');
-	el.html('');
-	el.append(''
-		+ '<div class="card">'
-		+ '	<div class="card-header">' + fhq.t("Bugs") + '</div>'
-		+ '	<div class="card-body">'
-		+ ' 	If you found some problem or bug please use: <b>freehackquest@gmail.com</b><br>'
-		+ ' 	Or create issues: <a href="https://github.com/freehackquest/fhq-server/issues">GitHub fhq-server</a><br>'
-		+ ' 	Or create issues: <a href="https://github.com/freehackquest/frontend/issues">GitHub fhq-frontend</a><br>'
-		+ '	</div>'
-		+ '</div><br/>'
-	);
-	el.append(''
-		+ '<div class="card">'
-		+ '	<div class="card-header">' + fhq.t("Chat") + '</div>'
-		+ '	<div class="card-body">'
-		+ '		<div id="chat_messages" class="chat-messages"></div>'
-		+ '		<div class="form-group text-left">'
-		+ '			<label for="send_message" class="col-form-label">' + fhq.t('Message') + ':</label>'
-		+ '			<input type="text" placeholder="Type a message..." class="form-control" value="" id="send_chat_message"/>'
-		+ '		</div>'
-		+ '	</div>'
-		+ '	</div>'
-		+ '</div><br>'
-	);
-
-	fhq.ws.chat_latest_messages().done(function(r){
-		console.log(r);
-		for (var i = r.data.length -1; i >= 0; i--) {
-			fhq.ui.appendChatMessage(r.data[i]);
-		}
-		fhq.ui.hideLoading();
-	}).fail(function(err){
-		fhq.ui.hideLoading();
-		console.error(err);
-		fhq.ui.showError(err.error);
-	})
-
-	$('#send_chat_message').unbind().bind('keyup', function(event) {
-		if (event.which == 13) {
-			var msg = $('#send_chat_message').val();
-			console.log("msg: ", msg);
-			if (msg.length > 0) {
-				$('#send_chat_message').attr({"readonly": ""});
-				fhq.ws.chat_send_message({type: 'chat', message: msg}).done(function(r) {
-					$('#send_chat_message').val("");
-					$('#send_chat_message').removeAttr("readonly");
-				}).fail(function(err){
-					console.error(err);
-					fhq.ui.showError("");
-					$('#send_chat_message').removeAttr("readonly");
-				})
-			}
-		}
-	})
 }
 
 fhq.ui.loadCreateNews = function(){

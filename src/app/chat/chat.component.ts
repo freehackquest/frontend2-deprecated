@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { SpinnerService } from '../spinner.service';
 
 declare var fhq: any;
@@ -8,9 +8,8 @@ declare var fhq: any;
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
   dataList: Array<any> = [];
-  dataReverseList: Array<any> = [];
   errorMessage: string = null;
   @ViewChild('yourMessage') yourMessage : ElementRef;
   @ViewChild('chatMessages') private chatMessages: ElementRef;
@@ -22,6 +21,12 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
+    fhq.bind('chat', (m: any) => this.incomeChatMessage(m));
+  }
+
+  ngOnDestroy() {
+    console.log('ChatComponent:OnDestroy');
+    fhq.unbind('chat'); // will be all unibinded
   }
 
   loadData() {
@@ -51,11 +56,10 @@ export class ChatComponent implements OnInit {
     console.log(r);
     this._spinnerService.hide();
     this.dataList = []
-    this.dataReverseList = [];
     r.data.forEach((el: any) => {
       this.dataList.push(el);
     });
-    this.dataReverseList = this.dataList.reverse();
+    this.dataList.reverse();
     this._cdr.detectChanges();
     this.chatScrollToBottom();
   }
@@ -72,5 +76,9 @@ export class ChatComponent implements OnInit {
     this._cdr.detectChanges();
     console.error(err);
   }
-
+  incomeChatMessage(m: any) {
+    this.dataList.push(m);
+    this._cdr.detectChanges();
+    this.chatScrollToBottom();
+  }
 }

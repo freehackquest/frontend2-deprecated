@@ -51,5 +51,7 @@
     "registrationUniversity": "University (optional):",
     "registrationGo": "Registry",
     "usefulLinks": "Useful Links",
+    "resetPasswordGo": "Reset Password",
+    "resetPasswordEmail": "E-mail",
     "": ""
 }

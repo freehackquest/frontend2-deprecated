@@ -95,7 +95,7 @@ fhq.ui.showSignInForm = function() {
 	$('#modalSignIn_cansel').html(fhq.t('Close'));
 	$('#signinErrorMessage').hide();
 	$('#signinForgotPassword').unbind().bind('click', function(){
-		fhq.ui.loadResetPasswordPage();
+		window.location = './new/reset-password';
 		$('#modalSignIn').modal('hide');
 	})
 
@@ -330,7 +330,6 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["quests"] = fhq.ui.loadStatSubjectsQuests;
 	fhq.ui.pageHandlers["user"] = fhq.ui.loadUserProfile;
 	fhq.ui.pageHandlers["about"] = fhq.ui.loadAboutPage;
-	fhq.ui.pageHandlers["user_reset_password"] = fhq.ui.loadResetPasswordPage;
 	fhq.ui.pageHandlers["games"] = fhq.ui.loadPageGames;
 	fhq.ui.pageHandlers["game_create"] = fhq.ui.loadFormCreateGame;
 	fhq.ui.pageHandlers["game_edit"] = fhq.ui.loadPageEditGame;
@@ -390,60 +389,6 @@ fhq.ui.processParamsOnReady = function(){
 		fhq.ui.processParams();
 	}
 }
-
-fhq.ui.user_reset_password = function() {
-	$('#user_reset_password_error').html('');
-	var data = {};
-	data.email = $('#user_reset_password_email').val();
-	fhq.ui.showLoading();
-	fhq.ws.user_reset_password(data).done(function(r){
-		fhq.ui.hideLoading();
-		$('#content_page').html('Please check your mailbox (also look in spam)');
-	}).fail(function(r){
-		console.error(r);
-		$('#user_reset_password_error').html(fhq.t(r.error));
-		fhq.ui.hideLoading();
-	})
-		
-}
-
-fhq.ui.loadResetPasswordPage = function() {
-	fhq.ui.hideLoading();
-	fhq.changeLocationState({'user_reset_password':''});
-	$('#content_page').html('');
-	
-	$('#content_page').append(''
-		+ '	<div class="form-group row">'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ ' 	<div class="col-sm-4">'
-		+ '			<h1 class="text-center">' + fhq.t('Reset password') + '</h1>'
-		+ '		</div>'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ '	</div>'
-		+ '	<div class="form-group row">'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ ' 	<div class="col-sm-4">'
-		+ '			<label for="user_reset_password_email" class="col-form-label">E-mail (required):</label>'
-		+ '			<input type="email" placeholder="your@email.com" class="form-control" value="" id="user_reset_password_email"/>'
-		+ '		</div>'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ '	</div>'
-		+ '	<div class="form-group row">'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ ' 	<div class="col-sm-4 text-center">'
-		+ '			<div class="btn btn-success" onclick="fhq.ui.user_reset_password();">' + fhq.t('Reset') + '</div>'
-		+ '		</div>'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ '	</div>'
-		+ '	<div class="form-group row">'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ ' 	<div class="col-sm-4 text-center" id="user_reset_password_error">'
-		+ '		</div>'
-		+ ' 	<div class="col-sm-4"></div>'
-		+ '	</div>'
-	);
-}
-
 
 fhq.ui.onwsclose = function(){
 	fhq.ui.showLoading();

@@ -12,6 +12,7 @@ import { AutomationUssrRatingComponent } from './automation-ussr-rating/automati
 import { RegistrationComponent } from './registration/registration.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DonateComponent } from './donate/donate.component';
+import { UsefulLinksComponent } from './useful-links/useful-links.component';
 
 const routes: Routes = [{
     path: 'classbook',
@@ -52,6 +53,9 @@ const routes: Routes = [{
   }, {
     path: 'donate',
     component: DonateComponent
+  }, {
+    path: 'useful-links',
+    component: UsefulLinksComponent
   }, {
     path: '**',
     component: PageNotFoundComponent

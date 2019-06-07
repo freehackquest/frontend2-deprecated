@@ -25,6 +25,7 @@ import { AutomationUssrRatingComponent } from './automation-ussr-rating/automati
 import { RegistrationComponent } from './registration/registration.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DonateComponent } from './donate/donate.component';
+import { UsefulLinksComponent } from './useful-links/useful-links.component';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -63,7 +64,8 @@ const l10nConfig: L10nConfig = {
     AutomationUssrRatingComponent,
     RegistrationComponent,
     ResetPasswordComponent,
-    DonateComponent
+    DonateComponent,
+    UsefulLinksComponent
   ],
   imports: [
     BrowserModule,

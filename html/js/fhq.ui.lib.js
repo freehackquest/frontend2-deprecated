@@ -158,7 +158,7 @@ fhq.ui.updateMenu = function(){
 	$('#btnmenu_chat').html(fhq.t('Chat'));
 	$('#btnmenu_games').html(fhq.t('Games'));
 	$('#btnmenu_tools').html(fhq.t('Tools'));
-	$('#btnmenu_classbook').html(fhq.t('Classbook'));
+	$('#btnmenu_knowledge_base').html(fhq.t('Knowledge Base'));
 	$('#btnmenu_apidocs').html(fhq.t('FreeHackQuest API'));
 	
 	// users/unauth menu

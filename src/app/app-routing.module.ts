@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ClassbookComponent } from './classbook/classbook.component';
 import { ServerApiComponent } from './server-api/server-api.component';
 import { MapActivityComponent } from './map-activity/map-activity.component';
 import { NewsComponent } from './news/news.component';
@@ -16,13 +15,14 @@ import { UsefulLinksComponent } from './useful-links/useful-links.component';
 import { GamesComponent } from './games/games.component';
 import { NewFeedbackComponent } from './new-feedback/new-feedback.component';
 import { ConfidencialComponent } from './confidencial/confidencial.component';
+import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base.component';
 
 const routes: Routes = [{
-    path: 'classbook',
-    component: ClassbookComponent
+    path: 'knowledge-base',
+    component: KnowledgeBaseComponent
   }, {
-    path: 'classbook/:id',
-    component: ClassbookComponent
+    path: 'knowledge-base/:id',
+    component: KnowledgeBaseComponent
   }, {
     path: 'server-api',
     component: ServerApiComponent

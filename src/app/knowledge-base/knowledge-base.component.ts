@@ -7,14 +7,15 @@ import * as marked from 'marked';
 declare var fhq: any;
 
 @Component({
-  selector: 'app-classbook',
-  templateUrl: './classbook.component.html',
-  styleUrls: ['./classbook.component.css']
+  selector: 'app-knowledge-base',
+  templateUrl: './knowledge-base.component.html',
+  styleUrls: ['./knowledge-base.component.css']
 })
 @Directive({
   selector: '[appMarked]'
 })
-export class ClassbookComponent implements OnInit {
+export class KnowledgeBaseComponent implements OnInit {
+
   errorMessage: String = null;
   classbookId: Number = -1;
   articleName: String = '';
@@ -31,7 +32,7 @@ export class ClassbookComponent implements OnInit {
   ) {
       // nothing
   }
-
+  
   ngOnInit() {
     console.log("ngOnInit");
     this._route.params.subscribe( (params) => this.loadData(params));
@@ -40,7 +41,7 @@ export class ClassbookComponent implements OnInit {
   loadData(params: any) {
     // console.log(params['id']);
     if (!params['id']) {
-      this._router.navigate(['/classbook', 1]);
+      this._router.navigate(['/knowledge-base', 0]);
       return;
     }
     this.classbookId = parseInt(params['id'], 10);
@@ -121,6 +122,7 @@ export class ClassbookComponent implements OnInit {
     this.articleContent = '';
     this.articleParents = [];
     this.articleChilds = [];
-    this._zone.run(() => this._router.navigate(['/classbook', id])).then();
+    this._zone.run(() => this._router.navigate(['/knowledge-base', id])).then();
   }
+
 }

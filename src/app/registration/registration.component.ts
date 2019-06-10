@@ -36,14 +36,15 @@ export class RegistrationComponent implements OnInit {
       this._cdr.detectChanges();
       return;
     }
-    
-    const university = this.registrationUniversity.nativeElement.value.toLowerCase().trim();
     const r = this._emailValidator.checkEmail(email);
     if (!r.result) {
       this.errorMessage = r.error;
       this._cdr.detectChanges();
       return;
     }
+    
+    const university = this.registrationUniversity.nativeElement.value.toLowerCase().trim();
+    
     this._spinnerService.show();
     fhq.registration({
       "email": email,

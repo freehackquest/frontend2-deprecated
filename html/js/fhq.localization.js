@@ -13,9 +13,9 @@ fhq.localization = {
 		'en': 'Tools',
 		'ru': 'Инструменты'
 	},
-	'Classbook' : {
-		'en': 'Classbook',
-		'ru': 'Учебник'
+	'Knowledge Base' : {
+		'en': 'Knowledge Base',
+		'ru': 'База Знаний'
 	},
 	'Archive' : {
 		'en': 'Archive',

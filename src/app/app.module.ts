@@ -11,7 +11,6 @@ import {APP_BASE_HREF} from '@angular/common';
 import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType, LogLevel } from 'angular-l10n';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ClassbookComponent } from './classbook/classbook.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ServerApiComponent } from './server-api/server-api.component';
@@ -29,6 +28,7 @@ import { UsefulLinksComponent } from './useful-links/useful-links.component';
 import { GamesComponent } from './games/games.component';
 import { NewFeedbackComponent } from './new-feedback/new-feedback.component';
 import { ConfidencialComponent } from './confidencial/confidencial.component';
+import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base.component';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -56,7 +56,6 @@ const l10nConfig: L10nConfig = {
   declarations: [
     AppComponent,
     PageNotFoundComponent,
-    ClassbookComponent,
     SpinnerComponent,
     ServerApiComponent,
     MapActivityComponent,
@@ -71,7 +70,8 @@ const l10nConfig: L10nConfig = {
     UsefulLinksComponent,
     GamesComponent,
     NewFeedbackComponent,
-    ConfidencialComponent
+    ConfidencialComponent,
+    KnowledgeBaseComponent
   ],
   imports: [
     BrowserModule,

@@ -27,6 +27,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { DonateComponent } from './donate/donate.component';
 import { UsefulLinksComponent } from './useful-links/useful-links.component';
 import { GamesComponent } from './games/games.component';
+import { NewFeedbackComponent } from './new-feedback/new-feedback.component';
+import { ConfidencialComponent } from './confidencial/confidencial.component';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -67,7 +69,9 @@ const l10nConfig: L10nConfig = {
     ResetPasswordComponent,
     DonateComponent,
     UsefulLinksComponent,
-    GamesComponent
+    GamesComponent,
+    NewFeedbackComponent,
+    ConfidencialComponent
   ],
   imports: [
     BrowserModule,

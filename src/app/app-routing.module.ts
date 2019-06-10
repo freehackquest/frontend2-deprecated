@@ -14,6 +14,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { DonateComponent } from './donate/donate.component';
 import { UsefulLinksComponent } from './useful-links/useful-links.component';
 import { GamesComponent } from './games/games.component';
+import { NewFeedbackComponent } from './new-feedback/new-feedback.component';
+import { ConfidencialComponent } from './confidencial/confidencial.component';
 
 const routes: Routes = [{
     path: 'classbook',
@@ -63,6 +65,12 @@ const routes: Routes = [{
   }, {
     path: 'games/:id',
     component: GamesComponent
+  }, {
+    path: 'confidencial',
+    component: ConfidencialComponent
+  }, {
+    path: 'new-feedback',
+    component: NewFeedbackComponent
   }, {
     path: '**',
     component: PageNotFoundComponent

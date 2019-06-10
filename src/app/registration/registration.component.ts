@@ -70,6 +70,7 @@ export class RegistrationComponent implements OnInit {
     emailWrongDomains['yndex.ru'] = {prop: ["yandex.ru"]};
     emailWrongDomains['gmail.ru'] = {prop: ["gmail.com"]};
     emailWrongDomains['gmial.com'] = {prop: ["gmail.com"]};
+    emailWrongDomains['gmal.com'] = {prop: ["gmail.com"]};
 
     const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     let ret = {result: false, error: ""}

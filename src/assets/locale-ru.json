@@ -54,6 +54,9 @@
     "resetPasswordGo": "Восстановить пароль",
     "resetPasswordEmail": "Электронная почта",
     "knowledgeBase": "База знаний",
+    "emailAddress": "Электронная почта",
+    "password": "Пароль",
+    "close": "Закрыть",
     "": ""
 
 }

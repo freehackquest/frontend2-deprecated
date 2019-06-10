@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {APP_BASE_HREF} from '@angular/common';
 
 import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType, LogLevel } from 'angular-l10n';
@@ -29,6 +29,7 @@ import { GamesComponent } from './games/games.component';
 import { NewFeedbackComponent } from './new-feedback/new-feedback.component';
 import { ConfidencialComponent } from './confidencial/confidencial.component';
 import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base.component';
+import { ModalDialogSignInComponent } from './modal-dialog-sign-in/modal-dialog-sign-in.component';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -71,7 +72,8 @@ const l10nConfig: L10nConfig = {
     GamesComponent,
     NewFeedbackComponent,
     ConfidencialComponent,
-    KnowledgeBaseComponent
+    KnowledgeBaseComponent,
+    ModalDialogSignInComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +89,10 @@ const l10nConfig: L10nConfig = {
   ],
   providers: [{provide: APP_BASE_HREF, useValue: '/new/'}],
   bootstrap: [AppComponent],
-  entryComponents: [SpinnerComponent],
+  entryComponents: [
+    SpinnerComponent,
+    ModalDialogSignInComponent
+  ],
 })
 
 export class AppModule {

@@ -53,5 +53,8 @@
     "resetPasswordGo": "Reset Password",
     "resetPasswordEmail": "E-mail",
     "knowledgeBase": "knowledgeBase",
+    "emailAddress": "E-mail address",
+    "password": "Password",
+    "close": "Close",
     "": ""
 }

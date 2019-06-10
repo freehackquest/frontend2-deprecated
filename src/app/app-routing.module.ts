@@ -13,6 +13,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DonateComponent } from './donate/donate.component';
 import { UsefulLinksComponent } from './useful-links/useful-links.component';
+import { GamesComponent } from './games/games.component';
 
 const routes: Routes = [{
     path: 'classbook',
@@ -57,10 +58,15 @@ const routes: Routes = [{
     path: 'useful-links',
     component: UsefulLinksComponent
   }, {
+    path: 'games',
+    component: GamesComponent
+  }, {
+    path: 'games/:id',
+    component: GamesComponent
+  }, {
     path: '**',
     component: PageNotFoundComponent
   }
-  
 ];
 
 @NgModule({

@@ -330,7 +330,6 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["quests"] = fhq.ui.loadStatSubjectsQuests;
 	fhq.ui.pageHandlers["user"] = fhq.ui.loadUserProfile;
 	fhq.ui.pageHandlers["about"] = fhq.ui.loadAboutPage;
-	fhq.ui.pageHandlers["games"] = fhq.ui.loadPageGames;
 	fhq.ui.pageHandlers["game_create"] = fhq.ui.loadFormCreateGame;
 	fhq.ui.pageHandlers["game_edit"] = fhq.ui.loadPageEditGame;
 	fhq.ui.pageHandlers["scoreboard"] = fhq.ui.loadScoreboard;
@@ -970,40 +969,6 @@ fhq.ui.confirmDialog = function(msg, onclick_yes){
 		'buttons' : '<div class="fhqbtn" onclick="' + onclick_yes + '">' + fhq.t('Yes') + '</div>'
 	});
 }
-
-
-fhq.ui.loadPageGames = function() {
-	fhq.ui.showLoading();
-	window.fhq.changeLocationState({'games':''});
-	var el = $('#content_page');
-	
-	el.html('');
-	fhq.ws.games().done(function(r){
-		console.log(r);
-		for (var k in r.data) {
-			if (r.data.hasOwnProperty(k)) {
-				var game = r.data[k];
-				el.append(''
-					+ '<div class="card">'
-					+ '		<div class="card-body card-left-img admin" style="background-image: url(' + game.logo + ')">'
-					+ '			<h4 class="card-title">' + game.name +' (' + fhq.t('Maximum score') + ': ' + game.maxscore + ')</h4>'
-					+ '			<h6 class="card-subtitle mb-2 text-muted">' + game.type_game + ', ' + new Date(game.date_start + "Z") + ' - ' + new Date(game.date_stop + "Z") + '</h6>'
-					+ '			<h6 class="card-subtitle mb-2 text-muted">' + fhq.t('Organizators') + ': ' + game.organizators + '</h6>'
-					+ '			<p class="card-text">' + game.description + '</p>'
-					+ '		</div>'
-					+ '</div><br>'
-				);
-			}
-		}
-		
-		fhq.ui.hideLoading();
-	}).fail(function(r){
-		console.error(r);
-		$('#content_page').html('fail');
-		fhq.ui.hideLoading();
-	});
-}
-
 
 fhq.ui.loadFeedback = function() {
 	fhq.ui.showLoading();

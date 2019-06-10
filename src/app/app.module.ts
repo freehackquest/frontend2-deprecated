@@ -26,6 +26,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DonateComponent } from './donate/donate.component';
 import { UsefulLinksComponent } from './useful-links/useful-links.component';
+import { GamesComponent } from './games/games.component';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -65,7 +66,8 @@ const l10nConfig: L10nConfig = {
     RegistrationComponent,
     ResetPasswordComponent,
     DonateComponent,
-    UsefulLinksComponent
+    UsefulLinksComponent,
+    GamesComponent
   ],
   imports: [
     BrowserModule,

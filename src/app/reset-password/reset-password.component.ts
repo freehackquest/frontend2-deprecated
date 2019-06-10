@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
-import { LocaleService, TranslationService, Language } from 'angular-l10n';
+import { TranslationService } from 'angular-l10n';
 import { SpinnerService } from '../spinner.service';
+import { EmailValidatorService } from '../email-validator.service';
 
 declare var fhq: any;
 
@@ -17,7 +18,8 @@ export class ResetPasswordComponent implements OnInit {
   constructor(
     public _translation: TranslationService,
     private _spinnerService: SpinnerService,
-    private _cdr: ChangeDetectorRef,
+		private _cdr: ChangeDetectorRef,
+		private _emailValidator: EmailValidatorService,
   ) { }
 
   ngOnInit() {
@@ -32,7 +34,14 @@ export class ResetPasswordComponent implements OnInit {
       this.errorMessage = 'E-mail required';
       this._cdr.detectChanges();
       return;
-    }
+		}
+		const r = this._emailValidator.checkEmail(email);
+    if (!r.result) {
+      this.errorMessage = r.error;
+      this._cdr.detectChanges();
+      return;
+		}
+		
     this._spinnerService.show();
     fhq.user_reset_password({
       "email": email,

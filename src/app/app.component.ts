@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject, ChangeDetectorRef, Input } from '@angular/core';
 import { LocaleService, TranslationService, Language } from 'angular-l10n';
-import { DOCUMENT } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDialogSignInComponent } from './modal-dialog-sign-in/modal-dialog-sign-in.component';
+import { FhqService } from './services/fhq.service';
 
 declare var fhq: any;
 
@@ -12,55 +12,34 @@ declare var fhq: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  serverHost: string = 'some';
-  currentProtocol: string = 'http:';
-  userdata: any = {};
-  loggined: boolean = false;
   menuLangIcon: string = '';
+  subscription: any;
 
   constructor(
     public _locale: LocaleService,
     public _translation: TranslationService,
-    @Inject(DOCUMENT) private document: Document,
     private _cdr: ChangeDetectorRef,
     private _modalService: NgbModal,
+    private _fhq: FhqService,
   ) {
-    this.serverHost = document.location.hostname;
-    this.currentProtocol = document.location.protocol;
-  }
-
-  updateUserData(data: any) {
-    console.log("updateUserData: ", data);
-    this.loggined = data.nick != undefined;
-    this.userdata = data;
-    this._cdr.detectChanges();
+    //
   }
 
   ngOnInit(): void {
     this.updateLanguage();
     console.log("lang: ", this._locale.getCurrentLanguage());
-    // reconnect
-    fhq.bind('disconnected', () => this.connectToFhq() );
-    fhq.bind('userdata', (data: any) => this.updateUserData(data));
-    this.connectToFhq();
+
+    this.subscription = this._fhq.changedState
+      .subscribe(() => this._cdr.detectChanges());
+    this._fhq.connectToServer();
   }
 
-  connectToFhq() {
-    console.log("connectToFhq");
-    let baseUrl = 'ws://' + this.serverHost + ':1234/api-ws/';
-    if (this.currentProtocol == "https:") {
-      baseUrl = 'wss://' + this.serverHost + ':4613/api-wss/';
-    }
-    
-    if (this.serverHost == 'freehackquest.com') {
-      baseUrl = 'wss://freehackquest.com/api-wss/';
-    }
-    fhq.init({'baseUrl': baseUrl});
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   userSignout() {
-    fhq.deinit();
-    location.reload();
+    this._fhq.logout();
   }
 
   selectLanguage(language: string): void {
@@ -76,7 +55,7 @@ export class AppComponent implements OnInit {
 
   openDialogSignIn() {
     const modalRef = this._modalService.open(ModalDialogSignInComponent);
-    modalRef.componentInstance.name = 'World';
+    modalRef.componentInstance.name = 'SignIn';
   }
 
 }

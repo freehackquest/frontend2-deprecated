@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ChangeDetectorRef, NgZone, ViewChild, Element
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { SpinnerService } from '../spinner.service';
+import { SpinnerService } from '../services/spinner.service';
 import { EmailValidatorService } from '../email-validator.service';
 import { Location } from '@angular/common';
 
@@ -14,7 +14,6 @@ declare var fhq: any;
   styleUrls: ['./modal-dialog-sign-in.component.css']
 })
 export class ModalDialogSignInComponent implements OnInit {
-  @Input() name: any;
   errorMessage: string = null;
   @ViewChild('signinEmail') signinEmail : ElementRef;
   @ViewChild('signinPassword') signinPassword : ElementRef;
@@ -58,7 +57,6 @@ export class ModalDialogSignInComponent implements OnInit {
 
   successResponse(r: any) {
     console.log("successResponse: ", r);
-    // this.successReseted = true;
     this._cdr.detectChanges();
     this._spinnerService.hide();
     this._activeModal.dismiss('SignIn Success');
@@ -67,7 +65,6 @@ export class ModalDialogSignInComponent implements OnInit {
 
   errorResponse(err: any) {
     console.error("errorResponse: ", err);
-    // this.successReseted = false;
     this._spinnerService.hide();
     this.errorMessage = err.error;
     this._cdr.detectChanges();

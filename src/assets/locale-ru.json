@@ -57,6 +57,16 @@
     "emailAddress": "Электронная почта",
     "password": "Пароль",
     "close": "Закрыть",
+    "newFeedback": "Обратная связь",
+    "feedbackTarget": "Назначение",
+    "feedbackTargetQuestion": "Вопрос",
+    "feedbackTargetComplaint": "Жалоба",
+    "feedbackTargetDefect": "Недочет",
+    "feedbackTargetError": "Ошибка",
+    "feedbackTargetApproval": "Одобрение",
+    "feedbackTargetProposal": "Предложение",
+    "feedbackFrom": "От",
+    "feedbackMessage": "Сообщение",
     "": ""
 
 }

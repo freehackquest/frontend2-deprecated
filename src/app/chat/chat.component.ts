@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
-import { SpinnerService } from '../spinner.service';
+import { SpinnerService } from '../services/spinner.service';
 
 declare var fhq: any;
 

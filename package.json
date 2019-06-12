@@ -28,6 +28,7 @@
     "jquery": "^3.4.1",
     "libfhqcli-web-js": "^0.2.22",
     "marked": "^0.6.2",
+    "ngx-toastr": "^10.0.4",
     "ol": "^5.3.3",
     "popper.js": "^1.15.0",
     "rxjs": "^6.5.2",

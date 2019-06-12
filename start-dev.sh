@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ng serve --base-href '/new/'
+ng serve --watch --base-href '/new/'

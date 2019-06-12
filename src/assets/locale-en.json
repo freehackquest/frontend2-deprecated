@@ -56,5 +56,15 @@
     "emailAddress": "E-mail address",
     "password": "Password",
     "close": "Close",
+    "newFeedback": "Feedback",
+    "feedbackTarget": "Target",
+    "feedbackTargetQuestion": "Question",
+    "feedbackTargetComplaint": "Complaint",
+    "feedbackTargetDefect": "Defect",
+    "feedbackTargetError": "Error",
+    "feedbackTargetApproval": "Approval",
+    "feedbackTargetProposal": "Proposal",
+    "feedbackFrom": "From",
+    "feedbackMessage": "Message",
     "": ""
 }

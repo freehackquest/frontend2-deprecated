@@ -13,7 +13,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { DonateComponent } from './donate/donate.component';
 import { UsefulLinksComponent } from './useful-links/useful-links.component';
 import { GamesComponent } from './games/games.component';
-import { NewFeedbackComponent } from './new-feedback/new-feedback.component';
+import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { ConfidencialComponent } from './confidencial/confidencial.component';
 import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base.component';
 
@@ -69,8 +69,8 @@ const routes: Routes = [{
     path: 'confidencial',
     component: ConfidencialComponent
   }, {
-    path: 'new-feedback',
-    component: NewFeedbackComponent
+    path: 'feedback',
+    component: FeedbackComponent
   }, {
     path: '**',
     component: PageNotFoundComponent

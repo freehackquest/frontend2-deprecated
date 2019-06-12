@@ -1,5 +1,5 @@
 import { Directive, Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
-import { SpinnerService } from '../spinner.service';
+import { SpinnerService } from '../services/spinner.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import * as marked from 'marked';

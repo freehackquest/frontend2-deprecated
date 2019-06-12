@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
-import { SpinnerService } from '../spinner.service';
+import { SpinnerService } from '../services/spinner.service';
 import { DOCUMENT } from '@angular/platform-browser';
 
 declare var fhq: any;

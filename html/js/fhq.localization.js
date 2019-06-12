@@ -405,14 +405,6 @@ fhq.localization = {
 		'en': 'Proposal',
 		'ru': 'Предложение'
 	},
-	'question':{
-		'en': 'Question',
-		'ru': 'Вопрос'
-	},
-	'Target':{
-		'en': 'Target',
-		'ru': 'Назначение'
-	},
 	'From':{
 		'en': 'From',
 		'ru': 'От'

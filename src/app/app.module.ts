@@ -26,10 +26,12 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { DonateComponent } from './donate/donate.component';
 import { UsefulLinksComponent } from './useful-links/useful-links.component';
 import { GamesComponent } from './games/games.component';
-import { NewFeedbackComponent } from './new-feedback/new-feedback.component';
+import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { ConfidencialComponent } from './confidencial/confidencial.component';
 import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base.component';
 import { ModalDialogSignInComponent } from './modal-dialog-sign-in/modal-dialog-sign-in.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -70,7 +72,7 @@ const l10nConfig: L10nConfig = {
     DonateComponent,
     UsefulLinksComponent,
     GamesComponent,
-    NewFeedbackComponent,
+    FeedbackComponent,
     ConfidencialComponent,
     KnowledgeBaseComponent,
     ModalDialogSignInComponent
@@ -86,6 +88,8 @@ const l10nConfig: L10nConfig = {
     OverlayModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+	  ToastrModule.forRoot(),
   ],
   providers: [{provide: APP_BASE_HREF, useValue: '/new/'}],
   bootstrap: [AppComponent],

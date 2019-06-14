@@ -51,7 +51,7 @@ export class FhqService {
   }
 
   connectToServer() {
-    console.log("connectToFhq");
+    console.log("connectToServer");
     let baseUrl = 'ws://' + this.serverHost + ':1234/api-ws/';
     if (this.currentProtocol == "https:") {
       baseUrl = 'wss://' + this.serverHost + ':4613/api-wss/';
@@ -60,6 +60,9 @@ export class FhqService {
     if (this.serverHost == 'freehackquest.com') {
       baseUrl = 'wss://freehackquest.com/api-wss/';
     }
+    // baseUrl = 'wss://freehackquest.com/api-wss/';
+    // baseUrl = 'ws://freehackquest.com/api-ws/';
+
     fhq.init({'baseUrl': baseUrl});
   }
 

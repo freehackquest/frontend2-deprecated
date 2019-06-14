@@ -66,5 +66,11 @@
     "feedbackTargetProposal": "Vorschlag",
     "feedbackFrom": "Aus",
     "feedbackMessage": "Meldung",
+    "userLocation": "Location",
+    "notDetected": "Not detected",
+    "userCountry": "Country: ",
+    "userRegion": "Region: ",
+    "userCity": "City: ",
+    "userLastIp": "Last IP-address: ",
     "": ""
 }

@@ -18,8 +18,8 @@ export class ResetPasswordComponent implements OnInit {
   constructor(
     public _translation: TranslationService,
     private _spinnerService: SpinnerService,
-		private _cdr: ChangeDetectorRef,
-		private _emailValidator: EmailValidatorService,
+	private _cdr: ChangeDetectorRef,
+	private _emailValidator: EmailValidatorService,
   ) { }
 
   ngOnInit() {

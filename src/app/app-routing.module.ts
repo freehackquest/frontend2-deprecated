@@ -40,9 +40,6 @@ const routes: Routes = [{
     path: 'user-profile',
     component: UserProfileComponent
   }, {
-    path: 'user-profile/:id',
-    component: UserProfileComponent
-  }, {
     path: 'chat',
     component: ChatComponent
   }, {

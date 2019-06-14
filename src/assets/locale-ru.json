@@ -67,6 +67,12 @@
     "feedbackTargetProposal": "Предложение",
     "feedbackFrom": "От",
     "feedbackMessage": "Сообщение",
+    "userLocation": "Местонахождение",
+    "notDetected": "Не обнаружено",
+    "userCountry": "Страна: ",
+    "userRegion": "Регион: ",
+    "userCity": "Город: ",
+    "userLastIp": "Последний IP-адрес: ",
     "": ""
 
 }

@@ -57,5 +57,4 @@ export class AppComponent implements OnInit {
     const modalRef = this._modalService.open(ModalDialogSignInComponent);
     modalRef.componentInstance.name = 'SignIn';
   }
-
 }

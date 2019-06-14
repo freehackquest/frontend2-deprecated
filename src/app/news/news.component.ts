@@ -1,8 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SpinnerService } from '../services/spinner.service';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable }  from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/throttleTime';
@@ -33,7 +32,7 @@ export class NewsComponent implements OnInit {
     private _cdr: ChangeDetectorRef,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _el: ElementRef,
+    // private _el: ElementRef,
   ) { }
 
   onSearchBoxValueChange() {

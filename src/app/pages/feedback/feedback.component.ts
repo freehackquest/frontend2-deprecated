@@ -16,42 +16,43 @@ export class FeedbackComponent implements OnInit {
   @ViewChild('feedbackMessage') feedbackMessage : ElementRef;
 
   constructor(
-	private _spinnerService: SpinnerService,
+	  private _spinnerService: SpinnerService,
     private _cdr: ChangeDetectorRef,
-	private _fhq: FhqService,
+	  private _fhq: FhqService,
   ) { }
 
   ngOnInit() {
-	this.subscription = this._fhq.changedState
-		.subscribe(() => this._cdr.detectChanges());
+    this.subscription = this._fhq.changedState
+      .subscribe(() => this._cdr.detectChanges());
   }
+
   ngOnDestroy() {
-	this.subscription.unsubscribe();
+	  this.subscription.unsubscribe();
   }
 
   sendFeedback() {
-	// this._spinnerService.show();
-	this.errorMessage = null;
-	const target = this.feedbackTarget.nativeElement.value;
-	console.log("target", target);
-	const from = this.feedbackFrom.nativeElement.value;
-	console.log("from", from);
-	const msg = this.feedbackMessage.nativeElement.value;
-	console.log("msg", msg);
-	this._fhq.api().feedback_add({
-		"type": target,
-		"from": from,
-		"text": msg,
-	  })
-		.done((r: any) => this.successResponse(r))
-		.fail((err: any) => this.errorResponse(err));
+    // this._spinnerService.show();
+    this.errorMessage = null;
+    const target = this.feedbackTarget.nativeElement.value;
+    console.log("target", target);
+    const from = this.feedbackFrom.nativeElement.value;
+    console.log("from", from);
+    const msg = this.feedbackMessage.nativeElement.value;
+    console.log("msg", msg);
+    this._fhq.api().feedback_add({
+      "type": target,
+      "from": from,
+      "text": msg,
+      })
+      .done((r: any) => this.successResponse(r))
+      .fail((err: any) => this.errorResponse(err));
   }
 
   successResponse(r: any) {
 	console.log("successResponse: ", r);
-	this.sendedFeedback = true;
-	this._spinnerService.hide();
-	this._cdr.detectChanges();
+    this.sendedFeedback = true;
+    this._spinnerService.hide();
+    this._cdr.detectChanges();
   }
 
   errorResponse(err: any) {
@@ -61,7 +62,7 @@ export class FeedbackComponent implements OnInit {
     this._cdr.detectChanges();
   }
   sendNewFeedback() {
-	this.sendedFeedback = false;
-	this._cdr.detectChanges();
+    this.sendedFeedback = false;
+    this._cdr.detectChanges();
   }
 }

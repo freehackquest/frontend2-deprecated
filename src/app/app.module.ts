@@ -32,6 +32,7 @@ import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base.componen
 import { ModalDialogSignInComponent } from './modal-dialog-sign-in/modal-dialog-sign-in.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -75,7 +76,8 @@ const l10nConfig: L10nConfig = {
     FeedbackComponent,
     ConfidencialComponent,
     KnowledgeBaseComponent,
-    ModalDialogSignInComponent
+    ModalDialogSignInComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

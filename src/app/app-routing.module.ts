@@ -16,6 +16,7 @@ import { GamesComponent } from './games/games.component';
 import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { ConfidencialComponent } from './confidencial/confidencial.component';
 import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 const routes: Routes = [{
     path: 'knowledge-base',
@@ -35,6 +36,12 @@ const routes: Routes = [{
   }, {
     path: 'news/:id',
     component: NewsComponent
+  }, {
+    path: 'user-profile',
+    component: UserProfileComponent
+  }, {
+    path: 'user-profile/:id',
+    component: UserProfileComponent
   }, {
     path: 'chat',
     component: ChatComponent

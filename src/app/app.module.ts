@@ -10,30 +10,31 @@ import {APP_BASE_HREF} from '@angular/common';
 
 import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType, LogLevel } from 'angular-l10n';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { ServerApiComponent } from './server-api/server-api.component';
+import { ServerApiComponent } from './pages/server-api/server-api.component';
 import { MapActivityComponent } from './pages/map-activity/map-activity.component';
-import { NewsComponent } from './news/news.component';
+import { NewsComponent } from './pages/news/news.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ChatComponent } from './chat/chat.component';
-import { AutomationUssrComponent } from './automation-ussr/automation-ussr.component';
-import { AutomationUssrPresentationComponent } from './automation-ussr-presentation/automation-ussr-presentation.component';
-import { AutomationUssrRatingComponent } from './automation-ussr-rating/automation-ussr-rating.component';
-import { RegistrationComponent } from './registration/registration.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ChatComponent } from './pages/chat/chat.component';
+import { AutomationUssrComponent } from './pages/automation-ussr/automation-ussr.component';
+import { AutomationUssrPresentationComponent } from './pages/automation-ussr-presentation/automation-ussr-presentation.component';
+import { AutomationUssrRatingComponent } from './pages/automation-ussr-rating/automation-ussr-rating.component';
+import { RegistrationComponent } from './pages/registration/registration.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { DonateComponent } from './pages/donate/donate.component';
-import { UsefulLinksComponent } from './useful-links/useful-links.component';
-import { GamesComponent } from './games/games.component';
+import { UsefulLinksComponent } from './pages/useful-links/useful-links.component';
+import { GamesComponent } from './pages/games/games.component';
 import { FeedbackComponent } from './pages/feedback/feedback.component';
-import { ConfidencialComponent } from './confidencial/confidencial.component';
-import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base.component';
+import { ConfidencialComponent } from './pages/confidencial/confidencial.component';
+import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.component';
 import { ModalDialogSignInComponent } from './modal-dialog-sign-in/modal-dialog-sign-in.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { AboutComponent } from './pages/about/about.component';
+import { QuestProposalComponent } from './pages/quest-proposal/quest-proposal.component';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -79,7 +80,8 @@ const l10nConfig: L10nConfig = {
     KnowledgeBaseComponent,
     ModalDialogSignInComponent,
     UserProfileComponent,
-    AboutComponent
+    AboutComponent,
+    QuestProposalComponent
   ],
   imports: [
     BrowserModule,

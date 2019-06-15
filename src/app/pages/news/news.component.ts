@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { SpinnerService } from '../services/spinner.service';
+import { SpinnerService } from '../../services/spinner.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable }  from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';

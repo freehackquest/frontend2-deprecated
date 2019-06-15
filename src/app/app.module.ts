@@ -36,6 +36,20 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { AboutComponent } from './pages/about/about.component';
 import { QuestProposalComponent } from './pages/quest-proposal/quest-proposal.component';
 import { UserChangePasswordComponent } from './pages/user-change-password/user-change-password.component';
+import { LMarkdownEditorModule } from 'ngx-markdown-editor';
+import { AceModule } from 'ngx-ace-wrapper';
+import { ACE_CONFIG } from 'ngx-ace-wrapper';
+import { AceConfigInterface } from 'ngx-ace-wrapper';
+import hljs from 'highlight.js';
+
+/*import hljs from 'highlight.js/lib/highlight';
+import javascript from 'highlight.js/lib/languages/javascript';
+import typescript from 'highlight.js/lib/languages/typescript';
+hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('typescript', typescript);*/
+
+const DEFAULT_ACE_CONFIG: AceConfigInterface = {
+};
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -95,15 +109,24 @@ const l10nConfig: L10nConfig = {
     AppRoutingModule,
     OverlayModule,
     FormsModule,
+    AceModule,
+    LMarkdownEditorModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-	  ToastrModule.forRoot(),
+    ToastrModule.forRoot(),
   ],
-  providers: [{provide: APP_BASE_HREF, useValue: '/new/'}],
+  providers: [
+    {
+      provide: APP_BASE_HREF,
+      useValue: '/new/'
+    }, {
+      provide: ACE_CONFIG,
+      useValue: DEFAULT_ACE_CONFIG
+    }],
   bootstrap: [AppComponent],
   entryComponents: [
     SpinnerComponent,
-    ModalDialogSignInComponent
+    ModalDialogSignInComponent,
   ],
 })
 

@@ -337,7 +337,6 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["tools"] = fhq.ui.loadTools;
 	fhq.ui.pageHandlers["tool"] = fhq.ui.loadTool;
 	fhq.ui.pageHandlers["feedback"] = fhq.ui.loadFeedback;
-	fhq.ui.pageHandlers["proposal_quest"] = fhq.ui.loadProposalQuestForm;
 	
 	// admin api
 	fhq.ui.pageHandlers["create_news"] = fhq.ui.loadCreateNews;
@@ -840,134 +839,6 @@ window.fhq.ui.updateQuests = function(){
 	});
 }
 
-
-fhq.ui.loadProposalQuestForm = function(){
-	window.fhq.changeLocationState({'proposal_quest':''});
-	fhq.ui.showLoading();
-	var el = $('#content_page');
-	
-	if(!fhq.isAuth()){
-		fhq.ui.hideLoading();
-		el.html(fhq.t('Please authorize: ') + '<button class="btn btn-default" onclick="fhq.ui.showSignInForm();">Sign In</button>');
-		return;
-	}
-	
-	el.html('<h1>' + fhq.t('Proposal Quest') + '</h1>'
-		+ '<div class="card">'
-		+ '		<div class="card-header">Yet not work now.</div>'
-		+ '		<div class="card-body">'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_gameid" class="col-sm-2 col-form-label">' + fhq.t('Game') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<select class="form-control" id="newquest_gameid"></select>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_name" class="col-sm-2 col-form-label">' + fhq.t('Quest Name') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" value="" id="newquest_name">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_text" class="col-sm-2 col-form-label">' + fhq.t('Text') + '</label>'
-		+ ' 			<div class="col-sm-10 newquest-text">'
-		+ '					<textarea type="text" class="form-control" style="height: 150px" value="" id="newquest_text"></textarea>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_score" class="col-sm-2 col-form-label">' + fhq.t('Score') + ' (+)</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="number" class="form-control" id="newquest_score" value="100">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_subject" class="col-sm-2 col-form-label">' + fhq.t('Subject') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<select class="form-control" value="" id="newquest_subject">'
-		+ '						<option value="trivia">Trivia</option>'
-		+ '						<option value="hashes">Hashes</option>'
-		+ '						<option value="stego">Stego</option>'
-		+ '						<option value="reverse">Reverse</option>'
-		+ '						<option value="recon">Recon</option>'
-		+ '						<option value="crypto">Crypto</option>'
-		+ '						<option value="forensics">Forensics</option>'
-		+ '						<option value="network">Network</option>'
-		+ '						<option value="web">Web</option>'
-		+ '						<option value="ppc">PPC</option>'
-		+ '						<option value="admin">Admin</option>'
-		+ '						<option value="enjoy">Enjoy</option>'
-		+ '						<option value="unknown">Unknown</option>'
-		+ '					</select>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_answer" class="col-sm-2 col-form-label">' + fhq.t('Answer') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" id="newquest_answer" value="">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_answerformat" class="col-sm-2 col-form-label">' + fhq.t('Answer format') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" id="newquest_answerformat" value="">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_author" class="col-sm-2 col-form-label">' + fhq.t('Author') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" value="" id="newquest_author">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label for="newquest_copyright" class="col-sm-2 col-form-label">' + fhq.t('Copyright') + '</label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<input type="text" class="form-control" value="" id="newquest_copyright">'
-		+ '				</div>'
-		+ '			</div>'
-		+ '			<div class="form-group row">'
-		+ '				<label class="col-sm-2 col-form-label"></label>'
-		+ ' 			<div class="col-sm-10">'
-		+ '					<div class="btn btn-danger" onclick="fhq.ui.proposalQuest();">' + fhq.t('Send') + '</div>'
-		+ '				</div>'
-		+ '			</div>'
-		+ '		</div>'
-		+ '</div>'
-	);
-	
-	window.simplemde = new SimpleMDE({ element: document.getElementById("newquest_text") });
-	fhq.ws.games().done(function(r){
-		for(var i in r.data){
-			$('#newquest_gameid').append('<option value="' + r.data[i]["local_id"] + '">' + r.data[i]["name"] + '</option>');
-		}
-		fhq.ui.hideLoading();
-	});
-}
-
-fhq.ui.proposalQuest = function() {
-	fhq.ui.showLoading();
-	
-	var params = {};
-	params["gameid"] = parseInt($("#newquest_gameid").val(),10);
-	params["name"] = $("#newquest_name").val();
-	params["text"] = window.simplemde.value();
-	params["score"] = parseInt($("#newquest_score").val(),10);
-	params["subject"] = $("#newquest_subject").val();
-	params["copyright"] = $("#newquest_copyright").val();
-	params["author"] = $("#newquest_author").val();
-	params["answer"] = $("#newquest_answer").val();
-	params["answer_format"] = $("#newquest_answerformat").val();
-	
-	console.log(params);
-	fhq.ws.quest_proposal(params).done(function(r){
-		var el = $('#content_page');
-		el.html(fhq.t("Thanks! Your proposal accepted. Administrator contact this you if will be questions"));
-		fhq.ui.hideLoading();
-	}).fail(function(r){
-		fhq.ui.hideLoading();
-		fhq.ui.showError(r.error);
-	});
-};
-
 fhq.ui.importQuest = function() {
 	var files = document.getElementById('importquest_zip').files;
 	if (files.length == 0) {
@@ -1048,7 +919,7 @@ fhq.ui.loadStatSubjectsQuests = function(){
 	fhq.ws.quests_subjects().done(function(r){
 		console.log(r);
 		el.html('');
-		el.append(fhq.t('You can') + '  <button class="btn btn-secondary" onclick="fhq.ui.loadProposalQuestForm()">'+ fhq.t('Proposal Quest') + "</button><br><br>");
+		el.append(fhq.t('You can') + '  <a class="btn btn-secondary" href="./new/quest-proposal/">'+ fhq.t('Proposal Quest') + "</a><br><br>");
 		
 		for(var i in r.data){
 			var o = r.data[i];

@@ -329,7 +329,6 @@ fhq.ui.processParams = function() {
 	
 	fhq.ui.pageHandlers["quests"] = fhq.ui.loadStatSubjectsQuests;
 	fhq.ui.pageHandlers["user"] = fhq.ui.loadUserProfile;
-	fhq.ui.pageHandlers["about"] = fhq.ui.loadAboutPage;
 	fhq.ui.pageHandlers["game_create"] = fhq.ui.loadFormCreateGame;
 	fhq.ui.pageHandlers["game_edit"] = fhq.ui.loadPageEditGame;
 	fhq.ui.pageHandlers["scoreboard"] = fhq.ui.loadScoreboard;
@@ -445,200 +444,6 @@ fhq.ui.formatUptime = function(t){
 	t = (t - t_hours) / 24;
 	var t_days = t;
 	return t_days + " day(s) " + t_hours + " h " + t_min + " m " + t_sec + " s";
-}
-
-fhq.ui.loadAboutPage = function() {
-	window.fhq.changeLocationState({'about':''});
-	
-	var dark_switcher = '';
-	if(localStorage && localStorage.getItem('dark') != null){
-		dark_switcher = '<a href="javascript:void(0);" onclick="localStorage.removeItem(\'dark\'); window.location.reload();">Default theme</a>'
-	}else{
-		dark_switcher = '<a href="javascript:void(0);" onclick="localStorage.setItem(\'dark\', true); window.location.reload();">Cyborg theme</a>'
-	}
-	
-	var el = $('#content_page');
-	el.html('');
-	el.append(''
-		+ '<div class="card">'
-		+ '	<div class="card-header">' + fhq.t('About') + '</div>'
-		+ '	<div class="card-body">'
-		+ '		<strong>FreeHackQuest</strong> - ' + fhq.t('This is an open source platform for competitions in computer security.')
-		+ '		<hr><a href="new/donate">Donate</a>'
-		+ '	</div>'
-		+ '</div><br>'
-		+ '<div class="card">'
-		+ '	<div class="card-header">' + fhq.t('Theme') + '</div>'
-		+ '	<div class="card-body">'
-		+ '<p>' + dark_switcher + '</p>'
-		+ '	</div>'
-		+ '</div><br>'
-		+ '<div class="card">'
-		+ '	<div class="card-header">' + fhq.t('Statistics') + '</div>'
-		+ '	<div class="card-body">'
-		+ '		<p>' + fhq.t('Quests') + ': <label id="statistics_count_quests">...</label></p>'
-		+ '		<p>' + fhq.t('All attempts') + ': <label id="statistics_all_attempts">...</label></p>'
-		+ '		<p>' + fhq.t('Already solved') + ': <label id="statistics_already_solved">...</label></p>'
-		+ '		<p>' + fhq.t('Users online') + ': <label id="statistics_users_online">...</label></p>'
-		+ '	</div>'
-		+ '</div><br>'
-		+ '<div class="card">'
-		+ '	<div class="card-header">' + fhq.t('Playing with us') + '</div>'
-		+ '	<div class="card-body" id="statistics_playing_with_us">'
-		+ '		...'
-		+ '	</div>'
-		+ '</div><br>'
-		+ '<div class="card">'
-		+ '	<div class="card-header">' + fhq.t('Top 10') + '</div>'
-		+ '	<div class="card-body">'
-		+ '		<div id="winners"></div>'
-		+ '	</div>'
-		+ '</div><br>'
-		+ '<div class="card">'
-		+ '	<div class="card-header">' + fhq.t('Contacts') + '</div>'
-		+ '	<div class="card-body">'
-		+ '			<p>Twitter: '
-		+ '				<a href="https://twitter.com/freehackquest" class="twitter-follow-button" data-show-count="false">Follow @freehackquest</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?\'http\':\'https\';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+\'://platform.twitter.com/widgets.js\';fjs.parentNode.insertBefore(js,fjs);}}(document, \'script\', \'twitter-wjs\');</script>'
-		+ '			</p>'
-		+ '			<p>Telegram chat: '
-		+ '				<a href="https://telegram.me/freehackquest" target="_blank">https://telegram.me/freehackquest</a>'
-		+ '			</p>'
-		+ '			<p>Email: <a href="mailto:freehackquest@gmail.com">freehackquest@gmail.com</a></p>'
-		+ '		</div>'
-		+ '	</div>'
-		+ '</div><br>'
-		+ '<div class="card">'
-		+ '	<div class="card-header">' + fhq.t('License') + '</div>'
-		+ '	<div class="card-body">'
-		+ 'The MIT License (MIT)<br>'
-		+ '<br>'
-		+ 'Copyright (c) 2011-2019 sea-kg<br>'
-		+ '<br>'
-		+ 'Permission is hereby granted, free of charge, to any person obtaining a copy of<br>'
-		+ 'this software and associated documentation files (the "Software"), to deal in<br>'
-		+ 'the Software without restriction, including without limitation the rights to<br>'
-		+ 'use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of<br>'
-		+ 'the Software, and to permit persons to whom the Software is furnished to do so,<br>'
-		+ 'subject to the following conditions:<br>'
-		+ '<br>'
-		+ 'The above copyright notice and this permission notice shall be included in all<br>'
-		+ 'copies or substantial portions of the Software.<br>'
-		+ '<br>'
-		+ 'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<br>'
-		+ 'IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS<br>'
-		+ 'FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR<br>'
-		+ 'COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER<br>'
-		+ 'IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN<br>'
-		+ 'CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.<br>'
-		+ '	</div>'
-		+ '	</div>'
-		+ '</div><br>'
-		
-		+ '<div class="card">'
-		+ '	<div class="card-header">' + fhq.t('Distribution') + '</div>'
-		+ '	<div class="card-body">'
-		+ '<h3>' + fhq.t('Install fhq-server from repository') + '</h3>'
-		+ 'Ubuntu repo: <a href="https://launchpad.net/~freehackquest/+archive/ubuntu/fhq-server/+packages" target="_blank">https://launchpad.net/~freehackquest/+archive/ubuntu/fhq-server/+packages</a>'
-		+ '<pre>$ sudo add-apt-repository ppa:freehackquest/fhq-server<br>$ sudo apt-get update<br>$ sudo apt install fhq-server</pre>'
-		+ '<hr>'
-		+ '<h3>' + fhq.t('Install fhq-server from docker') + '</h3>'
-		+ '<p>Docker hub: <a href="https://hub.docker.com/r/freehackquest/fhq-server" target="_blank">https://hub.docker.com/r/freehackquest/fhq-server</a></p>'
-		+ '<p>Docker-compose example: <a href="https://github.com/freehackquest/fhq-server/blob/master/docker-compose.yml">docker-compose.yml</a></p>'
-		+ '<pre>$ docker pull freehackquest/fhq-server</pre>'
-		+ '<hr>'
-		+ '<h3>' + fhq.t('Source code') + '</h3>'
-		+ '<p>frontend (Required fhq-server): <a href="http://github.com/freehackquest/frontend" target="_blank">http://github.com/freehackquest/frontend</a></p>'
-		+ '<p>fhq-server: <a href="http://github.com/freehackquest/fhq-server/" target="_blank">http://github.com/freehackquest/fhq-server</a></p>'
-
-		+ '</div>'
-		+ '	</div>'
-		+ '</div><br>'
-		+ '<div class="card">'
-		+ '	<div class="card-header">' + fhq.t('Developers and designers') + '</div>'
-		+ '	<div class="card-body" id="about_developers"></div>'
-		+ '</div><br>'
-		+ '<div class="card">'
-		+ '	<div class="card-header">' + fhq.t('Thanks for') + '</div>'
-		+ '	<div class="card-body">'
-		+ '		<ul>'
-		+ '			<li><a href="http://www.chartjs.org/docs/" target="_blank">Charts.js</a></li>'
-		+ '			<li>Sergey Belov (found xss!)</li>'
-		+ '			<li>Igor Polyakov</li>'
-		+ '			<li>Maxim Samoilov (Nitive)</li>'
-		+ '			<li>Dmitrii Mukovkin</li>'
-		+ '			<li>Team Keva</li>'
-		+ '			<li>Alexey Gulyaev</li>'
-		+ '			<li>Alexander Menschikov</li>'
-		+ '			<li>Ilya Bokov</li>'
-		+ '			<li>Extrim Code</li>'
-		+ '			<li>Taisiya Lebedeva</li>'
-		+ '		<ul>'
-		+ '	</div>'
-		+ '</div><br>'
-	);
-	fhq.ui.hideLoading();
-	fhq.ui.loadPublicInfo();
-}
-
-fhq.ui.loadPublicInfo = function() {
-	fhq.ui.showLoading();
-	fhq.ws.public_info().done(function(r){
-		fhq.ui.hideLoading();
-		console.log(r);
-		$('#statistics_users_online').text(r.connectedusers);
-		$('#statistics_count_quests').text(r.quests.count);
-		$('#statistics_all_attempts').text(r.quests.attempts);
-		$('#statistics_already_solved').text(r.quests.solved);
-
-		$('#winners').html('');
-		for (var k in r.winners) {
-			var winner = r.winners[k];
-			$('#winners').append('<p><strong>' + winner.place + '</strong>'
-				+ ' [' + winner.rating + ' Points]'
-				+ '  - <strong>' + (winner.university != '' ? '[' + winner.university + '] ' : '') + winner.nick + '</strong>'
-				+ '</p>');
-		}
-
-		var cities = [];
-		for (var k in r.cities){
-			cities.push(r.cities[k].city + ' (' + r.cities[k].cnt + ')');
-		}
-
-		$('#statistics_playing_with_us').text(cities.join(", "));
-		$('#statistics_playing_with_us').append('<br><br><a class="btn btn-info" href="./new/map-activity/">' + fhq.t('On Map') + '</a>');
-
-		// fhq-server developers
-		var developers = [];
-		for (var k in r.developers){
-			developers.push(r.developers[k].name + ' (' + r.developers[k].email + ')');
-		}
-		// TODO frontend developers
-		// developers.push('Some (email)')
-		developers.push('Used bootstrap-4');
-
-		$('#about_developers').html('<p>' + developers.join("</p><p>") + '</p>')
-
-	}).fail(function(err){
-		console.error(err);
-		fhq.ui.hideLoading();
-	});
-};
-
-fhq.ui.deleteNews = function(id){
-	fhq.ui.closeModalDialog();
-	fhq.ws.deletepublicevent({'eventid': id}).done(function(r){
-		fhq.ui.processParams();
-	}).fail(function(r){
-		console.error(r);
-	});
-}
-
-fhq.ui.deleteNewsConfirm = function(id){
-	fhq.ui.confirmDialog(fhq.t('Are you sure delete news') + ' #' + id + ' ?', 'fhq.ui.deleteNews(' + id + ');');
-}
-
-fhq.ui.editNews = function(id){
-	alert("TODO " + id);
 }
 
 fhq.ui.loadScoreboard = function(){
@@ -892,14 +697,6 @@ fhq.ui.loadUserProfile = function(userid) {
 		fhq.ui.hideLoading();
 		el.html(r.error);
 		return;
-	});
-}
-
-fhq.ui.confirmDialog = function(msg, onclick_yes){
-	fhq.ui.showModalDialog({
-		'header' : fhq.t('Confirm'),
-		'content' : msg,
-		'buttons' : '<div class="fhqbtn" onclick="' + onclick_yes + '">' + fhq.t('Yes') + '</div>'
 	});
 }
 
@@ -1194,14 +991,6 @@ fhq.ui.importQuest = function() {
 			fhq.ui.loadQuest(obj.data.quest.id);
 		}
 	);
-}
-	
-fhq.ui.importQuestForm = function(){
-	var pt = new FHQParamTable();
-	pt.row('', 'ZIP: <input id="importquest_zip" type="file" required/>');
-	pt.row('', '<div class="fhqbtn" onclick="fhq.ui.importQuest();">Import</div>');
-	pt.skip();
-	showModalDialog(pt.render());
 }
 
 fhq.ui.capitalizeFirstLetter = function(s) {

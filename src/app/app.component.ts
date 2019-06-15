@@ -3,8 +3,9 @@ import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDialogSignInComponent } from './modal-dialog-sign-in/modal-dialog-sign-in.component';
 import { FhqService } from './services/fhq.service';
+import { Router } from '@angular/router';
 
-declare var fhq: any;
+declare var $: any;
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
     private _cdr: ChangeDetectorRef,
     private _modalService: NgbModal,
     private _fhq: FhqService,
+    private _router: Router,
   ) {
     //
   }
@@ -56,5 +58,10 @@ export class AppComponent implements OnInit {
   openDialogSignIn() {
     const modalRef = this._modalService.open(ModalDialogSignInComponent);
     modalRef.componentInstance.name = 'SignIn';
+  }
+
+  openPageNews() {
+    this._router.navigate(['/news', 0]);
+    // $('.navbar-collapse').collapse('hide');
   }
 }

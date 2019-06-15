@@ -72,5 +72,7 @@
     "userRegion": "Region: ",
     "userCity": "City: ",
     "userLastIp": "Last IP-address: ",
+    "pageAbout": "About",
+    "pageDonate": "Donate",
     "": ""
 }

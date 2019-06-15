@@ -49,7 +49,7 @@ export class FeedbackComponent implements OnInit {
   }
 
   successResponse(r: any) {
-	console.log("successResponse: ", r);
+	  // console.log("successResponse: ", r);
     this.sendedFeedback = true;
     this._spinnerService.hide();
     this._cdr.detectChanges();
@@ -61,6 +61,7 @@ export class FeedbackComponent implements OnInit {
     this.errorMessage = err.error;
     this._cdr.detectChanges();
   }
+  
   sendNewFeedback() {
     this.sendedFeedback = false;
     this._cdr.detectChanges();

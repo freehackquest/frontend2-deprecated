@@ -14,7 +14,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { SpinnerComponent } from './spinner/spinner.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ServerApiComponent } from './server-api/server-api.component';
-import { MapActivityComponent } from './map-activity/map-activity.component';
+import { MapActivityComponent } from './pages/map-activity/map-activity.component';
 import { NewsComponent } from './news/news.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatComponent } from './chat/chat.component';
@@ -23,7 +23,7 @@ import { AutomationUssrPresentationComponent } from './automation-ussr-presentat
 import { AutomationUssrRatingComponent } from './automation-ussr-rating/automation-ussr-rating.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { DonateComponent } from './donate/donate.component';
+import { DonateComponent } from './pages/donate/donate.component';
 import { UsefulLinksComponent } from './useful-links/useful-links.component';
 import { GamesComponent } from './games/games.component';
 import { FeedbackComponent } from './pages/feedback/feedback.component';
@@ -33,6 +33,7 @@ import { ModalDialogSignInComponent } from './modal-dialog-sign-in/modal-dialog-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { AboutComponent } from './pages/about/about.component';
 
 const l10nConfig: L10nConfig = {
     logger: {
@@ -77,7 +78,8 @@ const l10nConfig: L10nConfig = {
     ConfidencialComponent,
     KnowledgeBaseComponent,
     ModalDialogSignInComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

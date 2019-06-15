@@ -19,6 +19,7 @@ import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.co
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { AboutComponent } from './pages/about/about.component';
 import { QuestProposalComponent } from './pages/quest-proposal/quest-proposal.component';
+import { UserChangePasswordComponent } from './pages/user-change-password/user-change-password.component';
 
 const routes: Routes = [{
     path: 'knowledge-base',
@@ -41,6 +42,9 @@ const routes: Routes = [{
   }, {
     path: 'user-profile',
     component: UserProfileComponent
+  }, {
+    path: 'user-change-password',
+    component: UserChangePasswordComponent
   }, {
     path: 'about',
     component: AboutComponent

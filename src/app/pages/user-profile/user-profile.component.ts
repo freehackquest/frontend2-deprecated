@@ -38,11 +38,6 @@ export class UserProfileComponent implements OnInit {
   @ViewChild('userNewAbout') userNewAbout : ElementRef;
   resultOfChangeUserInfo: string = null;
 
-  @ViewChild('userOldPassword') userOldPassword : ElementRef;
-  @ViewChild('userNewPassword') userNewPassword : ElementRef;
-  resultOfChangePassword: string = null;
-  
-
   constructor(
     private _spinnerService: SpinnerService,
     private _route: ActivatedRoute,
@@ -127,37 +122,6 @@ export class UserProfileComponent implements OnInit {
     console.error("errorResponse: ", err);
     this._spinnerService.hide();
     this.resultOfChangeUserInfo = err.error;
-    this._cdr.detectChanges();
-  }
-
-  doChangePassword() {
-    this.resultOfChangePassword = null;
-    this._cdr.detectChanges();
-
-    const userOldPasswordValue = this.userOldPassword.nativeElement.value;
-    const userNewPasswordValue = this.userNewPassword.nativeElement.value;
-
-    this._spinnerService.show();
-    this._fhq.api().user_change_password({
-      "password_old": userOldPasswordValue,
-      "password_new": userNewPasswordValue,
-    })
-      .done((r: any) => this.successChangedPassword(r))
-      .fail((err: any) => this.errorChangedPassword(err));
-  }
-
-  successChangedPassword(r: any) {
-    // console.log("successResponse: ", r);
-    this.userOldPassword.nativeElement.value = "";
-    this.userNewPassword.nativeElement.value = "";
-    this._cdr.detectChanges();
-    this._spinnerService.hide();
-  }
-
-  errorChangedPassword(err: any) {
-    console.error("errorResponse: ", err);
-    this._spinnerService.hide();
-    this.resultOfChangePassword = err.error;
     this._cdr.detectChanges();
   }
 

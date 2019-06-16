@@ -33,6 +33,7 @@ import { ModalDialogSignInComponent } from './modal-dialog-sign-in/modal-dialog-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { UserProfileMenuComponent } from './pages/user-profile-menu/user-profile-menu.component';
 import { AboutComponent } from './pages/about/about.component';
 import { QuestProposalComponent } from './pages/quest-proposal/quest-proposal.component';
 import { UserChangePasswordComponent } from './pages/user-change-password/user-change-password.component';
@@ -104,6 +105,7 @@ const l10nConfig: L10nConfig = {
     ScoreboardComponent,
     QuestsComponent,
     QuestsBySubjectComponent,
+    UserProfileMenuComponent
   ],
   imports: [
     BrowserModule,

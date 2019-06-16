@@ -23,6 +23,7 @@ import { UserChangePasswordComponent } from './pages/user-change-password/user-c
 import { ScoreboardComponent } from './pages/scoreboard/scoreboard.component';
 import { QuestsComponent } from './pages/quests/quests.component';
 import { QuestsBySubjectComponent } from './pages/quests-by-subject/quests-by-subject.component';
+import { UserProfileMenuComponent } from './pages/user-profile-menu/user-profile-menu.component';
 
 const routes: Routes = [{
     path: 'knowledge-base',
@@ -45,6 +46,9 @@ const routes: Routes = [{
   }, {
     path: 'user-profile',
     component: UserProfileComponent
+  }, {
+    path: 'user-profile-menu',
+    component: UserProfileMenuComponent
   }, {
     path: 'user-change-password',
     component: UserChangePasswordComponent

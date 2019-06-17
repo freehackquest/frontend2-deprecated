@@ -4,6 +4,7 @@ import { SpinnerService } from '../../services/spinner.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDialogSignInComponent } from '../../modal-dialog-sign-in/modal-dialog-sign-in.component';
+import { UserProfileMenuComponent } from '../user-profile-menu/user-profile-menu.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -76,7 +77,7 @@ export class UserProfileComponent implements OnInit {
       this.userRole = this._fhq.userdata.role;
       this.userStatus = this._fhq.userdata.status;
       this.userUniversity = this._fhq.userdata.university;
-      this.userUuid = this._fhq.userdata.uuid;  
+      this.userUuid = this._fhq.userdata.uuid;
       this._cdr.detectChanges();
       this.loadUserSkills();
     } else {
@@ -109,7 +110,7 @@ export class UserProfileComponent implements OnInit {
       .done((r: any) => this.successChangedUserInfo(r))
       .fail((err: any) => this.errorChangedUserInfo(err));
   }
-  
+
   successChangedUserInfo(r: any) {
     // console.log("successResponse: ", r);
     this.userNick = r.data.nick;

@@ -20,6 +20,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { AboutComponent } from './pages/about/about.component';
 import { QuestProposalComponent } from './pages/quest-proposal/quest-proposal.component';
 import { UserChangePasswordComponent } from './pages/user-change-password/user-change-password.component';
+import { ScoreboardComponent } from './pages/scoreboard/scoreboard.component';
 
 const routes: Routes = [{
     path: 'knowledge-base',
@@ -87,6 +88,9 @@ const routes: Routes = [{
   }, {
     path: 'quest-proposal',
     component: QuestProposalComponent
+  }, {
+    path: 'scoreboard',
+    component: ScoreboardComponent
   }, {
     path: '**',
     component: PageNotFoundComponent

@@ -331,7 +331,6 @@ fhq.ui.processParams = function() {
 	fhq.ui.pageHandlers["user"] = fhq.ui.loadUserProfile;
 	fhq.ui.pageHandlers["game_create"] = fhq.ui.loadFormCreateGame;
 	fhq.ui.pageHandlers["game_edit"] = fhq.ui.loadPageEditGame;
-	fhq.ui.pageHandlers["scoreboard"] = fhq.ui.loadScoreboard;
 	fhq.ui.pageHandlers["quest"] = fhq.ui.loadQuest;
 	fhq.ui.pageHandlers["subject"] = fhq.ui.loadQuestsBySubject;
 	fhq.ui.pageHandlers["tools"] = fhq.ui.loadTools;
@@ -443,61 +442,6 @@ fhq.ui.formatUptime = function(t){
 	t = (t - t_hours) / 24;
 	var t_days = t;
 	return t_days + " day(s) " + t_hours + " h " + t_min + " m " + t_sec + " s";
-}
-
-fhq.ui.loadScoreboard = function(){
-
-	fhq.ui.showLoading();
-	var el = $("#content_page");
-	el.html('Loading...');
-
-	var onpage = 5;
-	if(fhq.containsPageParam("onpage")){
-		onpage = parseInt(fhq.pageParams['onpage'], 10);
-	}
-
-	var page = 0;
-	if(fhq.containsPageParam("page")){
-		page = parseInt(fhq.pageParams['page'], 10);
-	}
-	
-	window.fhq.changeLocationState({'scoreboard':'', 'onpage': onpage, 'page': page});
-
-	var params = {};
-	params.onpage = onpage;
-	params.page = page;
-
-	fhq.ws.scoreboard(params).done(function(r){
-		el.html('<h1>' + fhq.t('Scoreboard') + '</h1>');
-		console.log(r);
-		for (var k in r.data) {
-			
-			var arr = [];
-			var row = r.data[k];
-			var first_user_logo = ''
-			for (var k2 in row.users) {
-				var u = row.users[k2];
-				first_user_logo = u.logo;
-				arr.push(fhq.ui.makeUserIcon(u.userid, u.logo, u.nick, u.university));
-			}
-			
-			el.append(''
-				+ '<div class="card">'
-				+ '	<div class="card-body rating-left-img" id="place' + k + '">'
-				+ '		<h1>' + row.place + ' [' + row.rating + ' Points]</h1> '
-				+ '		' + arr.join(' ')
-				+ '	</div><br>'
-				+ '</div><br>'
-			);
-			
-			if(row.users.length == 1)	{
-				$('#place' + k).css({'background-image': 'url(' + u.logo + ')'});
-			}else{
-				$('#place' + k).css({'background-image': 'url(files/users/0.png)'});
-			}
-		}
-		fhq.ui.hideLoading();
-	});
 }
 
 fhq.ui.loadUserProfile = function(userid) {

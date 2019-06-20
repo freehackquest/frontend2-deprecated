@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { SpinnerService } from '../../services/spinner.service';
+import { FhqService } from '../../services/fhq.service';
 import Feature from 'ol/Feature.js';
 import Map from 'ol/Map.js';
 import View from 'ol/View.js';
@@ -8,8 +9,6 @@ import { Projection, transform } from 'ol/proj.js';
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer.js';
 import { Cluster, OSM, Vector as VectorSource } from 'ol/source.js';
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style.js';
-
-declare var fhq: any;
 
 @Component({
   selector: 'app-map-activity',
@@ -24,23 +23,24 @@ export class MapActivityComponent implements OnInit {
   distance: number = 20;
 
   constructor(
-    private _spinnerService: SpinnerService,
+    private _spinner: SpinnerService,
     private _cdr: ChangeDetectorRef,
+    private _fhq: FhqService,
   ) {
 
   }
 
   ngOnInit() {
     const _data = {}
-    this._spinnerService.show();
-    fhq.getmap(_data)
+    this._spinner.show();
+    this._fhq.api().getmap(_data)
     .done((r: any) => this.successResponse(r))
     .fail((err: any) => this.errorResponse(err));
   }
 
   successResponse(r: any) {
     console.log(r);
-    this._spinnerService.hide();
+    this._spinner.hide();
     let features = [];
     r.data.forEach((p: any) => {
       const coordinates = [p.lng, p.lat];
@@ -116,7 +116,7 @@ export class MapActivityComponent implements OnInit {
   }
 
   errorResponse(err: any) {
-    this._spinnerService.hide();
+    this._spinner.hide();
     this.errorMessage = err.error;
     this._cdr.detectChanges();
     console.error(err);

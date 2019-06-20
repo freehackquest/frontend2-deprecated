@@ -9,6 +9,7 @@ declare var fhq: any;
 })
 export class FhqService {
   isAuthorized: boolean = false;
+  connectionState: string = '';
   serverHost: string = 'some';
   currentProtocol: string = 'http:';
   userdata: any = {};
@@ -20,8 +21,12 @@ export class FhqService {
   ) {
     this.serverHost = document.location.hostname;
     this.currentProtocol = document.location.protocol;
-
+    
+    fhq.bind('connected', () => this.wsConnected() );
     fhq.bind('disconnected', () => this.connectToServer() );
+    fhq.bind('broken', () => this.wsBroken() );
+    fhq.bind('reconnecting', () => this.wsReconnecting() );
+
     fhq.bind('userdata', (data: any) => this.updateUserData(data));
     fhq.bind('notify', (data: any) => this.showNotification(data));
   }
@@ -52,6 +57,12 @@ export class FhqService {
 
   connectToServer() {
     console.log("connectToServer");
+    if (this.connectionState == 'OK') {
+      this.connectionState = 'BROKEN';
+    } else {
+      this.connectionState = 'WAIT';
+    }
+    
     let baseUrl = 'ws://' + this.serverHost + ':1234/api-ws/';
     if (this.currentProtocol == "https:") {
       baseUrl = 'wss://' + this.serverHost + ':4613/api-wss/';
@@ -64,6 +75,21 @@ export class FhqService {
     // baseUrl = 'ws://freehackquest.com/api-ws/';
 
     fhq.init({'baseUrl': baseUrl});
+  }
+
+  wsConnected() {
+    this.connectionState = 'OK';
+    this.changedState.emit();
+  }
+
+  wsBroken() {
+    this.connectionState = 'BROKEN';
+    this.changedState.emit();
+  }
+
+  wsReconnecting() {
+    this.connectionState = 'RECONN';
+    this.changedState.emit();
   }
 
   logout() {

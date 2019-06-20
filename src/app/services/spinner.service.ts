@@ -9,11 +9,17 @@ import { SpinnerComponent } from '../spinner/spinner.component';
 export class SpinnerService {
 
   private overlayRef: OverlayRef = null;
+  private showed: boolean = false;
 
   constructor(private overlay: Overlay) {}
 
   public show(message = '') {
+    if (this.showed) {
+      console.warn("Already showed");
+      return;
+    }
     // Returns an OverlayRef (which is a PortalHost)
+    this.showed = true;
 
     if (!this.overlayRef) {
       this.overlayRef = this.overlay.create();
@@ -24,9 +30,14 @@ export class SpinnerService {
     const component = this.overlayRef.attach(spinnerOverlayPortal); // Attach ComponentPortal to PortalHost
   }
 
+  public isShowed() {
+    return this.showed;
+  }
+
   public hide() {
     if (!!this.overlayRef) {
       this.overlayRef.detach();
+      this.showed = false;
     }
   }
 }

@@ -99,7 +99,7 @@ const l10nConfig: L10nConfig = {
     AboutComponent,
     QuestProposalComponent,
     UserChangePasswordComponent,
-    ScoreboardComponent
+    ScoreboardComponent,
   ],
   imports: [
     BrowserModule,

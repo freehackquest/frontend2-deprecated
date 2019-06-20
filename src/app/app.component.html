@@ -95,3 +95,14 @@
 <div class="container fhq-content">
     <router-outlet></router-outlet>
 </div>
+
+<!-- Footer -->
+<footer class="footer font-small bg-dark">
+    <div class="footer-copyright text-center py-3">
+        © 2011-2019 copyright 
+        <a href="https://sea-kg.com/">sea-kg</a> |
+        <a routerLink="/about">About</a>
+        {{ serverAppName }}: {{ serverAppVersion }} ( lib {{ libVersion }} )
+        State: {{ _fhq.connectionState }}
+    </div>
+</footer>

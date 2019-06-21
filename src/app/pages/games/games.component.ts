@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ChangeDetectorRef, ElementRef  } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SpinnerService } from '../../services/spinner.service';
+import { FhqService } from '../../services/fhq.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Observable }  from 'rxjs/Observable';
@@ -8,8 +9,6 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/observable/fromEvent';
 import { Subscription } from 'rxjs';
-
-declare var fhq: any;
 
 @Component({
   selector: 'app-games',
@@ -30,6 +29,7 @@ export class GamesComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _el: ElementRef,
+    private _fhq: FhqService,
   ) { }
 
   ngOnInit() {
@@ -42,7 +42,8 @@ export class GamesComponent implements OnInit {
       this.loadData();
     });
   }
-loadData() {
+  
+  loadData() {
     // this.searchTaskControl.value
     const _data = {
       "page": this.currentPage,
@@ -50,7 +51,7 @@ loadData() {
       "search": this.searchValue,
     }
     this._spinnerService.show();
-    fhq.games(_data)
+    this._fhq.api().games(_data)
       .done((r: any) => this.successResponse(r))
       .fail((err: any) => this.errorResponse(err));
   }

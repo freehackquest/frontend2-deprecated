@@ -74,5 +74,18 @@
     "userLastIp": "Last IP-address: ",
     "pageAbout": "About",
     "pageDonate": "Donate",
+    "descr_quests_subject_admin": "Administration",
+    "descr_quests_subject_crypto": "Сryptography",
+    "descr_quests_subject_enjoy": "Quests for fun",
+    "descr_quests_subject_forensics": "Computer forensic expertise",
+    "descr_quests_subject_hashes": "Data recovery by their hash values",
+    "descr_quests_subject_network": "Knowledge of network infrastructure and protocols",
+    "descr_quests_subject_ppc": "Professional programming and coding",
+    "descr_quests_subject_recon": "Competitive intelligence",
+    "descr_quests_subject_reverse": "(Reverse engineering) Analysis of the binary code",
+    "descr_quests_subject_stego": "Steganography",
+    "descr_quests_subject_trivia": "Simple quests for warming up",
+    "descr_quests_subject_web": "Search and use of web vulnerabilities",
+    "descr_quests_subject_misc": "Miscellaneous",
     "": ""
 }

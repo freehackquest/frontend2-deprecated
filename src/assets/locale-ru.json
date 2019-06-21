@@ -75,6 +75,19 @@
     "userLastIp": "Последний IP-адрес: ",
     "pageAbout": "О проекте",
     "pageDonate": "Помощь проекту",
+    "descr_quests_subject_admin": "Администрирование",
+    "descr_quests_subject_crypto": "Криптография",
+    "descr_quests_subject_enjoy": "Задачи для удовольствия",
+    "descr_quests_subject_forensics": "Компьютерно-криминалистическая экспертиза",
+    "descr_quests_subject_hashes": "Восстановление данных по их хэш значениям",
+    "descr_quests_subject_network": "Знание сетевой инфраструктуры и протоколов",
+    "descr_quests_subject_ppc": "Олимпиадное программирование",
+    "descr_quests_subject_recon": "Конкурентная разведка",
+    "descr_quests_subject_reverse": "(Reverse engineering) Анализ бинарного кода",
+    "descr_quests_subject_stego": "Стеганография",
+    "descr_quests_subject_trivia": "Простые задачи для разогрева",
+    "descr_quests_subject_web": "Поиск и использование веб-уязвимостей",
+    "descr_quests_subject_misc": "Разное",
     "": ""
 
 }

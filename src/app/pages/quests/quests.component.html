@@ -1,3 +1,11 @@
-<p>
-  quests works!
-</p>
+<h1 l10nTranslate>quests</h1>
+
+<div class="card quest-subject-card {{ qs.subject }}" *ngFor="let qs of dataList">
+  <div class="card-body">
+    <h4 class="card-title">{{ qs.subject }}</h4>
+    <p class="card-text">
+      <label class="text-muted">({{ qs.count }} quests)</label><br>
+      <label l10nTranslate>descr_quests_subject_{{ qs.subject }}</label>
+    </p>
+  </div>
+</div>

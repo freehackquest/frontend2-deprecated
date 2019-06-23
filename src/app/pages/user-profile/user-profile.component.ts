@@ -17,13 +17,9 @@ export class UserProfileComponent implements OnInit {
 
   userId: number = 0;
   userAbout: string = "";
-  userCountry: string = "";
-  userRegion: string = "";
-  userCity: string = "";
   userDtCreate: string = "";
   userDtLastLogin: string = "";
   userEmail: string = "";
-  userLastIp: string = "";
   userLogo: string = "";
   userNick: string = "";
   userRating: number = 0;
@@ -34,9 +30,9 @@ export class UserProfileComponent implements OnInit {
   userSkills: Array<any> = [];
   resultOfUserSkills: string = null;
 
-  @ViewChild('userNewNick') userNewNick : ElementRef;
-  @ViewChild('userNewUniversity') userNewUniversity : ElementRef;
-  @ViewChild('userNewAbout') userNewAbout : ElementRef;
+  @ViewChild('userNewNick') userNewNick: ElementRef;
+  @ViewChild('userNewUniversity') userNewUniversity: ElementRef;
+  @ViewChild('userNewAbout') userNewAbout: ElementRef;
   resultOfChangeUserInfo: string = null;
 
   constructor(
@@ -57,23 +53,19 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnDestroy() {
-	  this.subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   updatePage() {
     if (this._fhq.isAuthorized) {
       this.userId = parseInt(this._fhq.userdata.id, 10);
       this.userAbout = this._fhq.userdata.about;
-      this.userCity = this._fhq.userdata.city;
-      this.userCountry = this._fhq.userdata.country;
       this.userDtCreate = this._fhq.userdata.dt_create;
       this.userDtLastLogin = this._fhq.userdata.dt_last_login;
       this.userEmail = this._fhq.userdata.email;
-      this.userLastIp = this._fhq.userdata.last_ip;
       this.userLogo = this._fhq.userdata.logo;
       this.userNick = this._fhq.userdata.nick;
       this.userRating = this._fhq.userdata.rating;
-      this.userRegion = this._fhq.userdata.region;
       this.userRole = this._fhq.userdata.role;
       this.userStatus = this._fhq.userdata.status;
       this.userUniversity = this._fhq.userdata.university;

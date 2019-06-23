@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
     this._router.routeReuseStrategy.shouldReuseRoute = function(){
       return false;
     };
-    
+
     this._router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd) {
           this._router.navigated = false;

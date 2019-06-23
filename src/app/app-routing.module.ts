@@ -24,6 +24,8 @@ import { ScoreboardComponent } from './pages/scoreboard/scoreboard.component';
 import { QuestsComponent } from './pages/quests/quests.component';
 import { QuestsBySubjectComponent } from './pages/quests-by-subject/quests-by-subject.component';
 import { UserProfileMenuComponent } from './pages/user-profile-menu/user-profile-menu.component';
+import { UserLocationComponent } from './pages/user-location/user-location.component';
+import { UserSecurityComponent } from './pages/user-security/user-security.component';
 
 const routes: Routes = [{
     path: 'knowledge-base',
@@ -46,6 +48,9 @@ const routes: Routes = [{
   }, {
     path: 'user-profile',
     component: UserProfileComponent
+  }, {
+    path: 'user-security',
+    component: UserSecurityComponent
   }, {
     path: 'user-profile-menu',
     component: UserProfileMenuComponent

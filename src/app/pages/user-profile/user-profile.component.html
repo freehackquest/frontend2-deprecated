@@ -27,37 +27,11 @@
               <p class="card-text">
                 <small>Last Login:</small><small> {{ userDtLastLogin }} (UTC) </small>
               </p>
+              <p *ngIf="userAbout == ''">Информация отсутсвует</p>
+              {{ userAbout }}
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <br>
-    <div class="card" *ngIf="userId != 0">
-      <div class="card-header" l10nTranslate>userLocation</div>
-      <div class="card-body">
-        <p *ngIf="userCountry == '' && userRegion == '' && userCity == '' && userLastIp == ''" l10nTranslate>notDetected
-        </p>
-        <div *ngIf="userLastIp != ''">
-          <div class="d-inline-block" l10nTranslate>userLastIp</div> {{ userLastIp }}
-        </div>
-        <div *ngIf="userCountry != ''">
-          <div class="d-inline-block" l10nTranslate>userCountry</div> {{ userCountry }}
-        </div>
-        <div *ngIf="userRegion != ''">
-          <div class="d-inline-block" l10nTranslate>userRegion</div> {{ userRegion }}
-        </div>
-        <div *ngIf="userCity != ''">
-          <div class="d-inline-block" l10nTranslate>userCity</div> {{ userCity }}
-        </div>
-      </div>
-    </div>
-    <br>
-    <div class="card" *ngIf="userId != 0">
-      <div class="card-header">О пользователе</div>
-      <div class="card-body">
-        <p *ngIf="userAbout == ''">Информация отсутсвует</p>
-        {{ userAbout }}
       </div>
     </div>
     <br>
@@ -73,8 +47,7 @@
             </td>
             <td width="100%">
               <div class="progress">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{'width': s.procent + '%' }" aria-valuemin="0"
-                  aria-valuemax="100">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{'width': s.procent + '%' }" aria-valuemin="0" aria-valuemax="100">
                   {{ s.procent }}%
                 </div>
               </div>
@@ -87,22 +60,22 @@
 
     <br>
     <div class="card" *ngIf="userId != 0">
-      <div class="card-header">Изменить информацию о пользователе</div>
+      <div class="card-header" l10nTranslate>changeUserInfo</div>
       <div class="card-body">
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Никнейм</label>
+          <label class="col-sm-2 col-form-label" l10nTranslate>nick</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" value="{{ userNick }}" #userNewNick />
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Университет</label>
+          <label class="col-sm-2 col-form-label" l10nTranslate>university</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" value="{{ userUniversity }}" #userNewUniversity />
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 col-form-label">О пользователе</label>
+          <label class="col-sm-2 col-form-label" l10nTranslate>aboutUser</label>
           <div class="col-sm-10">
             <textarea type="text" class="form-control" value="{{ userAbout }}" #userNewAbout></textarea>
           </div>
@@ -110,15 +83,11 @@
         <div class="form-group row">
           <label class="col-sm-2 col-form-label"></label>
           <div class="col-sm-10">
-            <div class="btn btn-danger" (click)="doChangeUserInfo()">Изменить информацию о пользователе</div>
+            <div class="btn btn-danger" (click)="doChangeUserInfo()" l10nTranslate>changeUserInfo</div>
             <div class="alert alert-danger" *ngIf="resultOfChangeUserInfo != null">{{ resultOfChangeUserInfo }}</div>
           </div>
         </div>
       </div>
     </div>
-    <br>
-
-    <a class="btn btn-link" routerLink="/user-change-password"> Change password</a>
-
   </div>
 </div>

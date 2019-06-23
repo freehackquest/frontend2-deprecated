@@ -83,6 +83,7 @@ export class UserProfileComponent implements OnInit {
       this.userId = 0;
       this.userSkills = [];
     }
+    this._spinnerService.hide();
   }
 
   openDialogSignIn() {

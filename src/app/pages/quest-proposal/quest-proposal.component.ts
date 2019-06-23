@@ -159,39 +159,3 @@ export class QuestProposalComponent implements OnInit {
     this._cdr.detectChanges();
   }
 }
-
-/*
-
-fhq.ui.loadProposalQuestForm = function(){
-	window.fhq.changeLocationState({'proposal_quest':''});
-	fhq.ui.showLoading();
-	var el = $('#content_page');
-}
-
-fhq.ui.proposalQuest = function() {
-	fhq.ui.showLoading();
-	
-	var params = {};
-	params["gameid"] = parseInt($("#newquest_gameid").val(),10);
-	params["name"] = $("#newquest_name").val();
-	params["text"] = window.simplemde.value();
-	params["score"] = parseInt($("#newquest_score").val(),10);
-	params["subject"] = $("#newquest_subject").val();
-	params["copyright"] = $("#newquest_copyright").val();
-	params["author"] = $("#newquest_author").val();
-	params["answer"] = $("#newquest_answer").val();
-	params["answer_format"] = $("#newquest_answerformat").val();
-	
-	console.log(params);
-	fhq.ws.quest_proposal(params).done(function(r){
-		var el = $('#content_page');
-		el.html(fhq.t("Thanks! Your proposal accepted. Administrator contact this you if will be questions"));
-		fhq.ui.hideLoading();
-	}).fail(function(r){
-		fhq.ui.hideLoading();
-		fhq.ui.showError(r.error);
-	});
-};
-
-
-*/

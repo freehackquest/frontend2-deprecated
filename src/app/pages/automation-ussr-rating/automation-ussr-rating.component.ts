@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
   selector: 'app-automation-ussr-rating',
@@ -36,6 +37,7 @@ export class AutomationUssrRatingComponent implements OnInit {
   constructor(
     private _http: HttpClient,
     private _cdr: ChangeDetectorRef,
+    private _spinner: SpinnerService,
   ) { }
 
   ngOnInit() {
@@ -52,6 +54,7 @@ export class AutomationUssrRatingComponent implements OnInit {
         // this.errorResultOfSendFlag = err.error.text
       }
     );
+    this._spinner.hide();
   }
 
   findPogon(score: number) {

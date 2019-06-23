@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
   selector: 'app-useful-links',
@@ -329,9 +330,12 @@ export class UsefulLinksComponent implements OnInit {
     "description" : "Wargames",
   }];
   
-  constructor() { }
+  constructor(
+    private _spinner: SpinnerService,
+  ) { }
 
   ngOnInit() {
+    this._spinner.hide();
   }
 
 }

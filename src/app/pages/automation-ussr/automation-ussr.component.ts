@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
   selector: 'app-automation-ussr',
@@ -19,10 +20,11 @@ export class AutomationUssrComponent implements OnInit {
   constructor(
     private _http: HttpClient,
     private _cdr: ChangeDetectorRef,
+    private _spinner: SpinnerService,
   ) { }
 
   ngOnInit() {
-    
+    this._spinner.hide();
   }
 
   requestRegistration() {

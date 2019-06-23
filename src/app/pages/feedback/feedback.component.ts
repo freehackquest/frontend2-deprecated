@@ -16,14 +16,15 @@ export class FeedbackComponent implements OnInit {
   @ViewChild('feedbackMessage') feedbackMessage : ElementRef;
 
   constructor(
-	  private _spinnerService: SpinnerService,
     private _cdr: ChangeDetectorRef,
-	  private _fhq: FhqService,
+    private _fhq: FhqService,
+    private _spinner: SpinnerService,
   ) { }
 
   ngOnInit() {
     this.subscription = this._fhq.changedState
       .subscribe(() => this._cdr.detectChanges());
+    this._spinner.hide();
   }
 
   ngOnDestroy() {
@@ -51,13 +52,13 @@ export class FeedbackComponent implements OnInit {
   successResponse(r: any) {
 	  // console.log("successResponse: ", r);
     this.sendedFeedback = true;
-    this._spinnerService.hide();
+    this._spinner.hide();
     this._cdr.detectChanges();
   }
 
   errorResponse(err: any) {
     console.error("errorResponse: ", err);
-    this._spinnerService.hide();
+    this._spinner.hide();
     this.errorMessage = err.error;
     this._cdr.detectChanges();
   }

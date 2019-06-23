@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
   selector: 'app-automation-ussr-presentation',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AutomationUssrPresentationComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _spinner: SpinnerService,
+  ) { }
 
   ngOnInit() {
+    this._spinner.hide();
   }
 
 }

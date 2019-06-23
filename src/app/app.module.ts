@@ -43,6 +43,7 @@ import { AceConfigInterface } from 'ngx-ace-wrapper';
 import hljs from 'highlight.js';
 import { ScoreboardComponent } from './pages/scoreboard/scoreboard.component';
 import { QuestsComponent } from './pages/quests/quests.component';
+import { QuestsBySubjectComponent } from './pages/quests-by-subject/quests-by-subject.component';
 
 /*import hljs from 'highlight.js/lib/highlight';
 import javascript from 'highlight.js/lib/languages/javascript';
@@ -102,6 +103,7 @@ const l10nConfig: L10nConfig = {
     UserChangePasswordComponent,
     ScoreboardComponent,
     QuestsComponent,
+    QuestsBySubjectComponent,
   ],
   imports: [
     BrowserModule,

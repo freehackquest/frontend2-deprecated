@@ -22,6 +22,7 @@ import { QuestProposalComponent } from './pages/quest-proposal/quest-proposal.co
 import { UserChangePasswordComponent } from './pages/user-change-password/user-change-password.component';
 import { ScoreboardComponent } from './pages/scoreboard/scoreboard.component';
 import { QuestsComponent } from './pages/quests/quests.component';
+import { QuestsBySubjectComponent } from './pages/quests-by-subject/quests-by-subject.component';
 
 const routes: Routes = [{
     path: 'knowledge-base',
@@ -95,6 +96,9 @@ const routes: Routes = [{
   } , {
       path: 'quests',
       component: QuestsComponent
+  }, {
+      path: 'questsbysubject',
+      component: QuestsBySubjectComponent
   }, {
     path: '**',
     component: PageNotFoundComponent

@@ -33,6 +33,7 @@ import { ModalDialogSignInComponent } from './modal-dialog-sign-in/modal-dialog-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { UserProfileMenuComponent } from './pages/user-profile-menu/user-profile-menu.component';
 import { AboutComponent } from './pages/about/about.component';
 import { QuestProposalComponent } from './pages/quest-proposal/quest-proposal.component';
 import { UserChangePasswordComponent } from './pages/user-change-password/user-change-password.component';
@@ -44,7 +45,8 @@ import hljs from 'highlight.js';
 import { ScoreboardComponent } from './pages/scoreboard/scoreboard.component';
 import { QuestsComponent } from './pages/quests/quests.component';
 import { QuestsBySubjectComponent } from './pages/quests-by-subject/quests-by-subject.component';
-
+import { UserLocationComponent } from './pages/user-location/user-location.component';
+import { UserSecurityComponent } from './pages/user-security/user-security.component';
 /*import hljs from 'highlight.js/lib/highlight';
 import javascript from 'highlight.js/lib/languages/javascript';
 import typescript from 'highlight.js/lib/languages/typescript';
@@ -104,6 +106,9 @@ const l10nConfig: L10nConfig = {
     ScoreboardComponent,
     QuestsComponent,
     QuestsBySubjectComponent,
+    UserProfileMenuComponent,
+    UserLocationComponent,
+    UserSecurityComponent
   ],
   imports: [
     BrowserModule,

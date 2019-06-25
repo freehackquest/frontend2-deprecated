@@ -106,7 +106,7 @@ const routes: Routes = [{
       path: 'quests',
       component: QuestsComponent
   }, {
-      path: 'questsbysubject',
+      path: 'quests-by-subject/:subject',
       component: QuestsBySubjectComponent
   }, {
     path: '**',

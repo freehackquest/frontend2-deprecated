@@ -326,13 +326,11 @@ fhq.ui.pageHandlers = {};
 
 fhq.ui.processParams = function() {
 	console.error("processParams onDocReady");
-	
-	fhq.ui.pageHandlers["quests"] = fhq.ui.loadStatSubjectsQuests;
+
 	fhq.ui.pageHandlers["user"] = fhq.ui.loadUserProfile;
 	fhq.ui.pageHandlers["game_create"] = fhq.ui.loadFormCreateGame;
 	fhq.ui.pageHandlers["game_edit"] = fhq.ui.loadPageEditGame;
 	fhq.ui.pageHandlers["quest"] = fhq.ui.loadQuest;
-	fhq.ui.pageHandlers["subject"] = fhq.ui.loadQuestsBySubject;
 	fhq.ui.pageHandlers["tools"] = fhq.ui.loadTools;
 	fhq.ui.pageHandlers["tool"] = fhq.ui.loadTool;
 	fhq.ui.pageHandlers["feedback"] = fhq.ui.loadFeedback;
@@ -352,8 +350,8 @@ fhq.ui.processParams = function() {
 			}
 		}
 		
-		if(!processed){
-			fhq.ui.loadStatSubjectsQuests();
+		if (!processed) {
+			window.location = '/new/quests';
 		}
 	}
 	renderPage();
@@ -810,156 +808,6 @@ fhq.ui.importQuest = function() {
 
 fhq.ui.capitalizeFirstLetter = function(s) {
     return s.charAt(0).toUpperCase() + s.slice(1);
-}
-
-fhq.ui.animateSubjects = function(subject){
-	var prev_subject = window.opened_subject;
-					
-	if(subject){
-		window.opened_subject = subject;
-		window.opened_subject_scroll_top = Math.floor($(document).scrollTop());
-	}else{
-		window.opened_subject = null;
-	}
-	
-	var els = $('.card.subject-quest');
-	var len = els.length;
-	var d_width = $(document).width();
-	for(var i = 0; i < len; i++){
-		var el = $(els[i]);
-		if(!subject || el.hasClass(subject)){
-			el.css({'max-height': ''});
-			el.css({'margin-bottom': ''});
-			el.css({transform: ''});
-			if(subject){
-				el.addClass("head-quests");
-			}else{
-				el.removeClass("head-quests");
-			}
-		}else{
-			var r_left = Math.random()>0.5 ? -1 : 1;
-			
-			r_left = r_left*Math.floor(Math.random()*2000 + 1500);
-			r_top = -1*Math.floor(Math.random()*2000 + 1000);
-			el.css({transform: 'translate(' + r_left + 'px,' + r_top + 'px)'});
-			el.css({'max-height': '0px'});
-			el.css({'margin-bottom': '0px'});
-			el.removeClass("head-quests");
-		}
-	}
-	if(subject){
-		$("HTML, BODY").animate({ scrollTop: 0 }, 500);
-	}else{
-		$("HTML, BODY").animate({ scrollTop: window.opened_subject_scroll_top }, 500);
-	}
-}
-
-fhq.ui.loadStatSubjectsQuests = function(){
-	fhq.changeLocationState({'quests':''});
-	window.opened_subject = null;
-	fhq.ui.showLoading();
-	var el = $('#content_page');
-	el.html('Loading...');
-	fhq.ws.quests_subjects().done(function(r){
-		console.log(r);
-		el.html('');
-		el.append(fhq.t('You can') + '  <a class="btn btn-secondary" href="./new/quest-proposal/">'+ fhq.t('Proposal Quest') + "</a><br><br>");
-		
-		for(var i in r.data){
-			var o = r.data[i];
-			// style="background-image: url(images/quests/' + o.subject + '_150x150.png)"
-			el.append(''
-				+ '<div class="card subject-quest open-subject ' + o.subject + '" subject="' + o.subject + '">'
-				+ '  <div class="card-body card-left-img ' + o.subject + '">'
-				+ '    <h4 class="card-title">' + fhq.ui.capitalizeFirstLetter(o.subject) + '</h4>'
-				+ '    <h6 class="card-subtitle mb-2 text-muted">(' + o.count + ' quests)</h6>'
-				+ '    <p class="card-text">' + fhq.t(o.subject + '_description') + '</p>'
-				// + '	   <button subject="' + o.subject + '" type="button" class="open-subject btn btn-secondary">' + fhq.t('Open') + '</button>'
-				// + '	   <button subject="' + o.subject + '" type="button" class="best-subject-users btn btn-default">' + fhq.t('Best users') + '</button>'
-				+ '  </div>'
-				+ '</div>'
-			);
-		}
-		
-		el.append('<div id="content_quests"></div>');
-		
-		$('.open-subject').unbind().bind('click', function(){
-			if(!window.opened_subject){
-				var subject = $(this).attr('subject');
-				// $('.open-subject').html('<i class="fa fa-chevron-circle-left"></i>   ' + fhq.t('Open Subjects'));
-				fhq.ui.animateSubjects(subject);
-				fhq.ui.loadQuestsBySubject(subject, true);
-			}else{
-				// $('.open-subject').html(fhq.t('Open'));
-				fhq.ui.animateSubjects();
-				$('#content_quests').html('');
-				fhq.changeLocationState({'quests':''});
-			}
-		})
-		
-		$('.best-subject-users').unbind().bind('click', function(){
-			// fhq.ui.loadQuestsBySubject($(this).attr('subject'));
-			alert("TODO");
-		})
-		fhq.ui.hideLoading();
-	}).fail(function(r){
-		fhq.ui.hideLoading();
-		console.error(r);
-		el.html('Failed');
-	});
-}
-
-fhq.ui.loadQuestsBySubject = function(subject, cq){
-	fhq.ui.showLoading();
-	fhq.changeLocationState({'subject':subject});
-	var el = cq ? $('#content_quests') : $('#content_page');
-	el.html('Loading...');
-	var params = {};
-	params.subject = subject;
-	fhq.ws.quests(params).done(function(r){
-		el.html('');
-		// TODO sorting
-		var questsData = r.data;
-		var questsLen = questsData.length;
-		var bSorted = false;
-		while (!bSorted) {
-			bSorted = true;
-			for (var i = 0; i < questsLen-1; i++) {
-				var q1 = questsData[i];
-				var q2 = questsData[i+1];
-				// console.log(q1, q2);
-				if (q2.dt_passed === "" && q1.dt_passed !== "") {
-					questsData[i] = q2;
-					questsData[i+1] = q1;
-					bSorted = false;
-				}
-			}
-		}
-		
-
-		for(var i in r.data){
-			var q = r.data[i];
-			el.append(''
-				+ '<div class="card">'
-				+ '  <div class="card-body card-right-img ' + q.subject + '" style="background-image: url(images/quests/' + q.subject + '_150x150.png)">'
-				+ '    <h4 class="card-title" style="' + (q.status == "completed" ? 'text-decoration: line-through;' : '') + '">' +  q.name + ' (+' + q.score + ')</h4>'
-				+ '    <h6 class="card-subtitle mb-2 text-muted">Quest #' + q.questid + '</h6>'
-				+ '    <p class="card-text">' + fhq.t('Solved') + ': ' + q.solved + '</p>'
-				+ '	   <button questid="' + q.questid + '" type="button" class="open-quest btn btn-secondary">' + fhq.t('Open') + '</button>'
-				+ '  </div>'
-				+ '</div><br>'
-			);
-		}
-
-		$('.open-quest').unbind().bind('click', function(){
-			fhq.ui.loadQuest($(this).attr('questid'));
-		});
-		fhq.ui.hideLoading();
-	}).fail(function(r){
-		fhq.ui.hideLoading();
-		console.error(r)
-		el.html('Failed');
-	});
 }
 
 /* fhq_quests.js todo redesign */

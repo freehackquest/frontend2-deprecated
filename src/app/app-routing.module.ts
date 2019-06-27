@@ -26,6 +26,7 @@ import { QuestsBySubjectComponent } from './pages/quests-by-subject/quests-by-su
 import { UserProfileMenuComponent } from './pages/user-profile-menu/user-profile-menu.component';
 import { UserLocationComponent } from './pages/user-location/user-location.component';
 import { UserSecurityComponent } from './pages/user-security/user-security.component';
+import { QuestComponent } from './pages/quest/quest.component';
 
 const routes: Routes = [{
     path: 'knowledge-base',
@@ -108,6 +109,9 @@ const routes: Routes = [{
   }, {
       path: 'quests-by-subject/:subject',
       component: QuestsBySubjectComponent
+  }, {
+      path: 'quest/:id',
+      component: QuestComponent
   }, {
     path: '**',
     component: PageNotFoundComponent

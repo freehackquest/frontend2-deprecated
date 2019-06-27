@@ -47,6 +47,8 @@ import { QuestsComponent } from './pages/quests/quests.component';
 import { QuestsBySubjectComponent } from './pages/quests-by-subject/quests-by-subject.component';
 import { UserLocationComponent } from './pages/user-location/user-location.component';
 import { UserSecurityComponent } from './pages/user-security/user-security.component';
+import { QuestComponent } from './pages/quest/quest.component';
+
 /*import hljs from 'highlight.js/lib/highlight';
 import javascript from 'highlight.js/lib/languages/javascript';
 import typescript from 'highlight.js/lib/languages/typescript';
@@ -108,7 +110,8 @@ const l10nConfig: L10nConfig = {
     QuestsBySubjectComponent,
     UserProfileMenuComponent,
     UserLocationComponent,
-    UserSecurityComponent
+    UserSecurityComponent,
+    QuestComponent
   ],
   imports: [
     BrowserModule,

@@ -71,8 +71,8 @@ export class FhqService {
     if (this.serverHost == 'freehackquest.com') {
       baseUrl = 'wss://freehackquest.com/api-wss/';
     }
-    // baseUrl = 'wss://freehackquest.com/api-wss/';
-    // baseUrl = 'ws://freehackquest.com/api-ws/';
+    baseUrl = 'wss://freehackquest.com/api-wss/';
+    baseUrl = 'ws://freehackquest.com/api-ws/';
 
     fhq.init({'baseUrl': baseUrl});
   }

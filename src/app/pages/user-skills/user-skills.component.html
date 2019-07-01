@@ -1,0 +1,22 @@
+<div class="card" *ngIf="userId != 0">
+  <div class="card-header">Навыки</div>
+  <div class="card-body">
+    <div class="alert alert-danger" *ngIf="resultOfUserSkills != null"> {{ resultOfUserSkills }} </div>
+    <table class="table">
+      <tr *ngFor="let s of userSkills">
+        <td>
+          {{ s.name }}<br>
+          {{ s.procent }}%
+        </td>
+        <td width="100%">
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" [ngStyle]="{'width': s.procent + '%' }" aria-valuemin="0" aria-valuemax="100">
+              {{ s.procent }}%
+            </div>
+          </div>
+          {{ s.val }} of {{ s.max }} points
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

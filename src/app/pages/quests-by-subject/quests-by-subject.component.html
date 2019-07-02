@@ -1,11 +1,9 @@
-<div class="card quest-subject-card {{ subject }} w-100" routerLink="/quests">
-  <div class="card-body">
-    <h4 class="card-title">{{ subject }}</h4>
-    <p class="card-text">
-      <label class="text-muted">({{ count }} quests)</label><br>
-      <label l10nTranslate>descr_quests_subject_{{ subject }}</label>
-    </p>
-  </div>
+<div>
+  <div class="btn btn-link" routerLink="/quests" l10nTranslate>quests</div> /
+  <div class="btn">{{ subject }}</div> <label class="text-muted">({{ count }} quests)</label> <br> 
+  <img width=35px height=35px src="assets/img/quest_subject_{{ subject }}.png"/>
+  <i l10nTranslate>descr_quests_subject_{{ subject }}</i>
+  <hr>
 </div>
 
 <button class="btn btn-secondary" routerLink="/quest-proposal" l10nTranslate>proposalQuest</button>

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
 import { SpinnerService } from '../../services/spinner.service';
-import { DOCUMENT } from '@angular/platform-browser';
+import { PlatformLocation } from '@angular/common';
 
 declare var fhq: any;
 
@@ -20,10 +20,10 @@ export class ServerApiComponent implements OnInit {
   constructor(
     private _spinnerService: SpinnerService,
     private _cdr: ChangeDetectorRef,
-    @Inject(DOCUMENT) private document: Document,
+    private _location: PlatformLocation,
   ) {
-    this.serverHost = document.location.hostname;
-    this.currentProtocol = document.location.protocol;
+    this.serverHost = this._location.hostname;
+    this.currentProtocol = this._location.protocol;
   }
 
   ngOnInit() {

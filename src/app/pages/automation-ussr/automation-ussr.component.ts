@@ -11,9 +11,9 @@ import { SpinnerService } from '../../services/spinner.service';
 export class AutomationUssrComponent implements OnInit {
   resultOfregistration : string = "";
   errorResultOfregistration : string = "";
-  @ViewChild('regUsername') regUsername : ElementRef;
-  @ViewChild('afToken') afToken : ElementRef;
-  @ViewChild('afFlag') afFlag : ElementRef;
+  @ViewChild('regUsername', { static: true }) regUsername : ElementRef;
+  @ViewChild('afToken', { static: true }) afToken : ElementRef;
+  @ViewChild('afFlag', { static: true }) afFlag : ElementRef;
   resultOfSendFlag : string = "";
   errorResultOfSendFlag : string = "";
 

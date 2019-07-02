@@ -11,8 +11,8 @@ declare var fhq: any;
 export class ChatComponent implements OnInit, OnDestroy {
   dataList: Array<any> = [];
   errorMessage: string = null;
-  @ViewChild('yourMessage') yourMessage : ElementRef;
-  @ViewChild('chatMessages') private chatMessages: ElementRef;
+  @ViewChild('yourMessage', { static: true }) yourMessage : ElementRef;
+  @ViewChild('chatMessages', { static: true }) private chatMessages: ElementRef;
   
   constructor(
     private _spinnerService: SpinnerService,

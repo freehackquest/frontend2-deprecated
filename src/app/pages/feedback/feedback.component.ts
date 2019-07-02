@@ -11,9 +11,9 @@ export class FeedbackComponent implements OnInit {
   errorMessage: string = null;
   subscription: any;
   sendedFeedback: boolean = false;
-  @ViewChild('feedbackTarget') feedbackTarget : ElementRef; 
-  @ViewChild('feedbackFrom') feedbackFrom : ElementRef;
-  @ViewChild('feedbackMessage') feedbackMessage : ElementRef;
+  @ViewChild('feedbackTarget', { static: true }) feedbackTarget : ElementRef; 
+  @ViewChild('feedbackFrom', { static: true }) feedbackFrom : ElementRef;
+  @ViewChild('feedbackMessage', { static: true }) feedbackMessage : ElementRef;
 
   constructor(
     private _cdr: ChangeDetectorRef,

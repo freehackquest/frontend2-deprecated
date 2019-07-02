@@ -15,8 +15,8 @@ declare var fhq: any;
 })
 export class ModalDialogSignInComponent implements OnInit {
   errorMessage: string = null;
-  @ViewChild('signinEmail') signinEmail : ElementRef;
-  @ViewChild('signinPassword') signinPassword : ElementRef;
+  @ViewChild('signinEmail', { static: true }) signinEmail : ElementRef;
+  @ViewChild('signinPassword', { static: true }) signinPassword : ElementRef;
 
   constructor(
     public _activeModal: NgbActiveModal,

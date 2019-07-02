@@ -13,7 +13,7 @@ declare var fhq: any;
 export class ResetPasswordComponent implements OnInit {
   errorMessage: string = null;
   successReseted: boolean = false;
-  @ViewChild('resetPasswordEmail') resetPasswordEmail : ElementRef;
+  @ViewChild('resetPasswordEmail', { static: true }) resetPasswordEmail : ElementRef;
 
   constructor(
     public _translation: TranslationService,

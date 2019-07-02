@@ -13,8 +13,8 @@ declare var fhq: any;
 export class RegistrationComponent implements OnInit {
   errorMessage: string = null;
   successRegistered: boolean = false;
-  @ViewChild('registrationEmail') registrationEmail : ElementRef;
-  @ViewChild('registrationUniversity') private registrationUniversity: ElementRef;
+  @ViewChild('registrationEmail', { static: true }) registrationEmail : ElementRef;
+  @ViewChild('registrationUniversity', { static: true }) private registrationUniversity: ElementRef;
 
   constructor(
     public _translation: TranslationService,

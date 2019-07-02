@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
+import { PlatformLocation } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 
 declare var fhq: any;
@@ -16,12 +16,12 @@ export class FhqService {
   changedState = new EventEmitter<any>();
 
   constructor(
-    @Inject(DOCUMENT) private document: Document,
     private _toastr: ToastrService,
+    private _location: PlatformLocation,
   ) {
-    this.serverHost = document.location.hostname;
-    this.currentProtocol = document.location.protocol;
-
+    this.serverHost = this._location.hostname;
+    this.currentProtocol = this._location.protocol;
+    
     fhq.bind('connected', () => this.wsConnected() );
     fhq.bind('disconnected', () => this.connectToServer() );
     fhq.bind('broken', () => this.wsBroken() );

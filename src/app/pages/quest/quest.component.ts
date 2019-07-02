@@ -16,6 +16,7 @@ export class QuestComponent implements OnInit {
   game: any = {};
   questFiles: any = [];
   questHints: any = [];
+  showHints: boolean = false;
   quest: any = [];
 
   constructor(
@@ -79,4 +80,7 @@ export class QuestComponent implements OnInit {
     window.open("/?quest=" + questid, "_blank");
   }
 
+  switchShowHints() {
+    this.showHints = !this.showHints;
+  }
 }

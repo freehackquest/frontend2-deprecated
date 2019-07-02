@@ -1,3 +1,79 @@
-<p>
-  quest works!
-</p>
+<div class="card alert-secondary">
+  <div class="card-body card-left-img text-center" id="quest_head" style="background-image: url(8.png);">
+    <div class="card-text">
+      <a routerLink="/game/{{ game.id }}">{{ game.title }}</a> / 
+      <a routerLink="/quests-by-subject/{{ quest.subject }}">{{ quest.subject }}</a> / 
+      <a href="/game/{{ quest.id }}">Quest {{ quest.id }}</a> 
+      <div *ngIf="quest.completed === true" class="card-subtitle mb-2 text-muted d-inline"> (Задача завершена) </div>
+    </div>
+    <h2 class="card-title">{{ quest.name }} (+{{ quest.score }})</h2>
+  </div>
+</div>
+
+<br>
+
+<div class="card">
+  <div class="card-body">
+    <div class="btn btn-danger" l10nTranslate>report_about_bug</div>
+  </div>
+</div>
+
+<br>
+
+<div class="card">
+  <div class="card-header" l10nTranslate>details</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <strong l10nTranslate>quest_subject</strong>: <label> {{ quest.subject }}</label>
+      </div>
+      <div class="col">
+        <strong l10nTranslate>quest_score</strong>: <label> +{{ quest.score }}</label>
+      </div>
+      <div class="col">
+        <strong l10nTranslate>quest_status</strong>: 
+        <label *ngIf="quest.completed === true"> решена ({{ quest.dt_passed }})</label>
+        <label *ngIf="quest.completed === false"> не решена</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <strong l10nTranslate>quest_state</strong>: <label>quest_{{ quest.state }}</label>
+      </div>
+      <div class="col">
+        <strong l10nTranslate>author</strong>: <label> {{ quest.author }}</label>
+      </div>
+      <div class="col">
+        <strong l10nTranslate>copyright</strong>: <label> {{ quest.copyright }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <strong l10nTranslate>solved</strong>: <label>{{ quest.count_user_solved }} users</label>
+      </div>
+      <div class="col">
+
+      </div>
+      <div class="col"></div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+    <script src="//yastatic.net/share2/share.js"></script>
+    <div class="ya-share2 ya-share2_inited" data-services="collections,vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,blogger,reddit,linkedin,lj,viber,whatsapp,skype,telegram"><div class="ya-share2__container ya-share2__container_size_m"><ul class="ya-share2__list ya-share2__list_direction_horizontal"><li class="ya-share2__item ya-share2__item_service_collections"><a class="ya-share2__link" href="https://yandex.ru/collections/share/?url=https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78&amp;description=Free+Hack+Quest&amp;utm_source=share2" rel="nofollow noopener" target="_blank" title="Яндекс.Коллекции"><span class="ya-share2__badge"><span class="ya-share2__icon"></span></span><span class="ya-share2__title">Яндекс.Коллекции</span></a></li><li class="ya-share2__item ya-share2__item_service_vkontakte"><a class="ya-share2__link" href="https://vk.com/share.php?url=https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78&amp;title=Free+Hack+Quest&amp;utm_source=share2" rel="nofollow noopener" target="_blank" title="ВКонтакте"><span class="ya-share2__badge"><span class="ya-share2__icon"></span><span class="ya-share2__counter"></span></span><span class="ya-share2__title">ВКонтакте</span></a></li><li class="ya-share2__item ya-share2__item_service_facebook"><a class="ya-share2__link" href="https://www.facebook.com/sharer.php?src=sp&amp;u=https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78&amp;title=Free+Hack+Quest&amp;utm_source=share2" rel="nofollow noopener" target="_blank" title="Facebook"><span class="ya-share2__badge"><span class="ya-share2__icon"></span><span class="ya-share2__counter"></span></span><span class="ya-share2__title">Facebook</span></a></li><li class="ya-share2__item ya-share2__item_service_odnoklassniki"><a class="ya-share2__link" href="https://connect.ok.ru/offer?url=https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78&amp;title=Free+Hack+Quest&amp;utm_source=share2" rel="nofollow noopener" target="_blank" title="Одноклассники"><span class="ya-share2__badge"><span class="ya-share2__icon"></span><span class="ya-share2__counter"></span></span><span class="ya-share2__title">Одноклассники</span></a></li><li class="ya-share2__item ya-share2__item_service_moimir"><a class="ya-share2__link" href="https://connect.mail.ru/share?url=https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78&amp;title=Free+Hack+Quest&amp;utm_source=share2" rel="nofollow noopener" target="_blank" title="Мой Мир"><span class="ya-share2__badge"><span class="ya-share2__icon"></span><span class="ya-share2__counter"></span></span><span class="ya-share2__title">Мой Мир</span></a></li><li class="ya-share2__item ya-share2__item_service_gplus"><a class="ya-share2__link" href="https://plus.google.com/share?url=https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78&amp;utm_source=share2" rel="nofollow noopener" target="_blank" title="Google+"><span class="ya-share2__badge"><span class="ya-share2__icon"></span></span><span class="ya-share2__title">Google+</span></a></li><li class="ya-share2__item ya-share2__item_service_twitter"><a class="ya-share2__link" href="https://twitter.com/intent/tweet?text=Free+Hack+Quest&amp;url=https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78&amp;utm_source=share2" rel="nofollow noopener" target="_blank" title="Twitter"><span class="ya-share2__badge"><span class="ya-share2__icon"></span></span><span class="ya-share2__title">Twitter</span></a></li><li class="ya-share2__item ya-share2__item_service_blogger"><a class="ya-share2__link" href="https://www.blogger.com/blog-this.g?u=https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78&amp;n=Free+Hack+Quest&amp;utm_source=share2" rel="nofollow noopener" target="_blank" title="Blogger"><span class="ya-share2__badge"><span class="ya-share2__icon"></span></span><span class="ya-share2__title">Blogger</span></a></li><li class="ya-share2__item ya-share2__item_service_reddit"><a class="ya-share2__link" href="https://www.reddit.com/submit?url=https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78&amp;title=Free+Hack+Quest&amp;utm_source=share2" rel="nofollow noopener" target="_blank" title="reddit"><span class="ya-share2__badge"><span class="ya-share2__icon"></span></span><span class="ya-share2__title">reddit</span></a></li><li class="ya-share2__item ya-share2__item_service_linkedin"><a class="ya-share2__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78&amp;title=Free+Hack+Quest&amp;utm_source=share2" rel="nofollow noopener" target="_blank" title="LinkedIn"><span class="ya-share2__badge"><span class="ya-share2__icon"></span><span class="ya-share2__counter"></span></span><span class="ya-share2__title">LinkedIn</span></a></li><li class="ya-share2__item ya-share2__item_service_lj"><a class="ya-share2__link" href="https://www.livejournal.com/update.bml?subject=Free+Hack+Quest&amp;event=https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78%0A&amp;utm_source=share2" rel="nofollow noopener" target="_blank" title="LiveJournal"><span class="ya-share2__badge"><span class="ya-share2__icon"></span></span><span class="ya-share2__title">LiveJournal</span></a></li><li class="ya-share2__item ya-share2__item_service_viber"><a class="ya-share2__link" href="viber://forward?text=Free+Hack+Quest+https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78&amp;utm_source=share2" rel="nofollow" target="_blank" title="Viber"><span class="ya-share2__badge"><span class="ya-share2__icon"></span></span><span class="ya-share2__title">Viber</span></a></li><li class="ya-share2__item ya-share2__item_service_whatsapp"><a class="ya-share2__link" href="whatsapp://send?text=Free+Hack+Quest+https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78&amp;utm_source=share2" rel="nofollow" target="_blank" title="WhatsApp"><span class="ya-share2__badge"><span class="ya-share2__icon"></span></span><span class="ya-share2__title">WhatsApp</span></a></li><li class="ya-share2__item ya-share2__item_service_skype"><a class="ya-share2__link" href="https://web.skype.com/share?url=https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78&amp;utm_source=share2" rel="nofollow noopener" target="_blank" title="Skype"><span class="ya-share2__badge"><span class="ya-share2__icon"></span></span><span class="ya-share2__title">Skype</span></a></li><li class="ya-share2__item ya-share2__item_service_telegram"><a class="ya-share2__link" href="https://telegram.me/share/url?url=https%3A%2F%2Ffreehackquest.com%2F%3Fquest%3D78&amp;text=Free+Hack+Quest&amp;utm_source=share2" rel="nofollow noopener" target="_blank" title="telegram"><span class="ya-share2__badge"><span class="ya-share2__icon"></span></span><span class="ya-share2__title">telegram</span></a></li></ul></div></div>
+  </div>
+</div>
+
+<br>
+
+<div class="card">
+  <div class="card-header" l10nTranslate>description</div>
+  <div class="card-body">
+  </div>
+</div>
+
+<br>
+
+<br>
+
+<br>

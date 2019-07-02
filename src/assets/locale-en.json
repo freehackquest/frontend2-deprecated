@@ -100,5 +100,15 @@
     "descr_quests_subject_trivia": "Simple quests for warming up",
     "descr_quests_subject_web": "Search and use of web vulnerabilities",
     "descr_quests_subject_misc": "Miscellaneous",
+    "report_about_bug": "Report by error",
+    "details": "Details",
+    "quest_subject": "Subject",
+    "quest_score": "Score",
+    "quest_status": "Status",
+    "quest_state": "State",
+    "quest_open": "Allowed",
+    "author": "Author",
+    "copyright": "Copyright",
+    "solved": "Solved",
     "": ""
 }

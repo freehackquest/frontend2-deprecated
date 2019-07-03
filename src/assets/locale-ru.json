@@ -113,5 +113,12 @@
     "solved": "Решили",
     "attached_files": "Прикрепленные файлы",
     "quest_hints": "Подсказки",
+    "filename": "Имя файла",
+    "filesize": "Размер файла",
+    "share": "Поделиться",
+    "quest_name": "Название",
+    "quest_answer": "Ответ",
+    "quest_answer_format": "Формат ответа",
+    "quest_check_answer": "Проверить ответ",
     "": ""
 }

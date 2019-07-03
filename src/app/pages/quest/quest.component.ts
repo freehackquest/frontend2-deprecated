@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { SpinnerService } from '../../services/spinner.service';
 import { FhqService } from 'src/app/services/fhq.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as marked from 'marked';
 
 @Component({
   selector: 'app-quest',
@@ -18,6 +19,7 @@ export class QuestComponent implements OnInit {
   questHints: any = [];
   showHints: boolean = false;
   quest: any = [];
+  questDescription: String = '';
 
   constructor(
     private _spinner: SpinnerService,
@@ -65,7 +67,7 @@ export class QuestComponent implements OnInit {
     this.questFiles = r.files;
     this.questHints = r.hints;
     this.quest = r.quest;
-
+    this.questDescription = marked(r.quest.text);
     this._cdr.detectChanges();
   }
 

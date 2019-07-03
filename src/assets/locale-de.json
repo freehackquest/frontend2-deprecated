@@ -102,5 +102,12 @@
     "solved": "Solved",
     "attached_files": "Angehängte Dokumenten",
     "quest_hints": "Hinweise",
+    "filename": "Dateiname",
+    "filesize": "Dateigröße",
+    "share": "Aktie",
+    "quest_name": "Name",
+    "quest_answer": "Answer",
+    "quest_answer_format": "Answer format",
+    "quest_check_answer": "Überprüfen Sie die Antwort",
     "": ""
 }

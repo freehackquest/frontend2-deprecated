@@ -112,5 +112,12 @@
     "solved": "Solved",
     "attached_files": "Attached Files",
     "quest_hints": "Hints",
+    "filename": "Filename",
+    "filesize": "Filesize",
+    "share": "Share",
+    "quest_name": "Name",
+    "quest_answer": "Answer",
+    "quest_answer_format": "Answer format",
+    "quest_check_answer": "Check answer",
     "": ""
 }

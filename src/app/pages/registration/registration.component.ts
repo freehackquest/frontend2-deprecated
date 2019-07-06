@@ -13,8 +13,8 @@ declare var fhq: any;
 export class RegistrationComponent implements OnInit {
   errorMessage: string = null;
   successRegistered: boolean = false;
-  @ViewChild('registrationEmail', { static: true }) registrationEmail : ElementRef;
-  @ViewChild('registrationUniversity', { static: true }) private registrationUniversity: ElementRef;
+  @ViewChild('regEmail', { static: false }) regEmail : ElementRef;
+  @ViewChild('regUniversity', { static: false }) regUniversity: ElementRef;
 
   constructor(
     public _translation: TranslationService,
@@ -24,13 +24,13 @@ export class RegistrationComponent implements OnInit {
   ) { }
  
   ngOnInit() {
+    this._spinnerService.hide();
   }
 
   registryTry() {
     this.errorMessage = null;
-    this._cdr.detectChanges();
-
-    const email = this.registrationEmail.nativeElement.value.toLowerCase().trim();
+    // this._cdr.detectChanges();
+    const email = this.regEmail.nativeElement.value.toLowerCase().trim();
     if (email == '') {
       this.errorMessage = 'E-mail required';
       this._cdr.detectChanges();
@@ -43,7 +43,7 @@ export class RegistrationComponent implements OnInit {
       return;
     }
     
-    const university = this.registrationUniversity.nativeElement.value.toLowerCase().trim();
+    const university = this.regUniversity.nativeElement.value.toLowerCase().trim();
     
     this._spinnerService.show();
     fhq.registration({

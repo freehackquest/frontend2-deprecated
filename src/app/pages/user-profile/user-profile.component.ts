@@ -30,9 +30,9 @@ export class UserProfileComponent implements OnInit {
   userSkills: Array<any> = [];
   resultOfUserSkills: string = null;
 
-  @ViewChild('userNewNick', { static: true }) userNewNick: ElementRef;
-  @ViewChild('userNewUniversity', { static: true }) userNewUniversity: ElementRef;
-  @ViewChild('userNewAbout', { static: true }) userNewAbout: ElementRef;
+  @ViewChild('userNewNick', { static: false }) userNewNick: ElementRef;
+  @ViewChild('userNewUniversity', { static: false }) userNewUniversity: ElementRef;
+  @ViewChild('userNewAbout', { static: false }) userNewAbout: ElementRef;
   resultOfChangeUserInfo: string = null;
 
   constructor(

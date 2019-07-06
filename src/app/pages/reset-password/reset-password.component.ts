@@ -23,6 +23,7 @@ export class ResetPasswordComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+	this._spinnerService.hide();
   }
 
   resetPasswordTry() {

@@ -15,8 +15,8 @@ export class UserChangePasswordComponent implements OnInit {
   subscription: any;
   userId: number = 0;
 
-  @ViewChild('userOldPassword', { static: true }) userOldPassword : ElementRef;
-  @ViewChild('userNewPassword', { static: true }) userNewPassword : ElementRef;
+  @ViewChild('userOldPassword', { static: false }) userOldPassword : ElementRef;
+  @ViewChild('userNewPassword', { static: false }) userNewPassword : ElementRef;
   resultOfChangePassword: string = null;
 
   constructor(

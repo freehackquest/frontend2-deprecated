@@ -17,6 +17,7 @@ export class AboutComponent implements OnInit {
   cities: Array<any> = [];
   developers: Array<any> = [];
   darkTheme: boolean = false;
+  cssId: string = "cyborgTheme";
 
   constructor(
     private _spinnerService: SpinnerService,
@@ -34,9 +35,23 @@ export class AboutComponent implements OnInit {
   themeSwitcher() {
     if (this.darkTheme) {
       this.darkTheme = false;
+      (document.getElementById(this.cssId) as any).disabled = true
     } else {
       this.darkTheme = true;
+      if (!document.getElementById(this.cssId)) {
+          var head  = document.getElementsByTagName('head')[0];
+          var link  = document.createElement('link');
+          link.id   = this.cssId;
+          link.rel  = 'stylesheet';
+          link.type = 'text/css';
+          link.href = 'assets/cyborgTheme/bootstrap.min.css';
+          link.media = 'all';
+          head.appendChild(link);
+      } else {
+          (document.getElementById(this.cssId) as any).disabled = false;///i fit's already there, enable it
+      }
     }
+
     /*
     var dark_switcher = '';
 	if (localStorage && localStorage.getItem('dark') != null) {

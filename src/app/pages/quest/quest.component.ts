@@ -1,7 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { SpinnerService } from '../../services/spinner.service';
 import { FhqService } from 'src/app/services/fhq.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { ModalDialogQuestFeedbackComponent } from '../../dialogs/modal-dialog-quest-feedback/modal-dialog-quest-feedback.component';
 import * as marked from 'marked';
 
 @Component({
@@ -27,6 +30,7 @@ export class QuestComponent implements OnInit {
     private _fhq: FhqService,
     private _route: ActivatedRoute,
     private _router: Router,
+    private _modalService: NgbModal,
   ) { }
 
   ngOnInit() {
@@ -84,5 +88,10 @@ export class QuestComponent implements OnInit {
 
   switchShowHints() {
     this.showHints = !this.showHints;
+  }
+
+  openDialogFeedback() {
+    const modalRef = this._modalService.open(ModalDialogQuestFeedbackComponent);
+    modalRef.componentInstance.name = 'QuestFeedback';
   }
 }

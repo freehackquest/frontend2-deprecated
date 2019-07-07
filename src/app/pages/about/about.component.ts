@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { SpinnerService } from '../../services/spinner.service';
 import { FhqService } from '../../services/fhq.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-about',
@@ -23,6 +24,7 @@ export class AboutComponent implements OnInit {
     private _spinnerService: SpinnerService,
     private _cdr: ChangeDetectorRef,
     private _fhq: FhqService,
+    public _activeModal: NgbActiveModal,
   ) { }
 
   ngOnInit() {

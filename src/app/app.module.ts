@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {APP_BASE_HREF} from '@angular/common';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { L10nConfig, L10nLoader, TranslationModule, StorageStrategy, ProviderType, LogLevel } from 'angular-l10n';
 import { RouterModule, Routes } from '@angular/router';
@@ -48,7 +49,8 @@ import { QuestsBySubjectComponent } from './pages/quests-by-subject/quests-by-su
 import { UserLocationComponent } from './pages/user-location/user-location.component';
 import { UserSecurityComponent } from './pages/user-security/user-security.component';
 import { QuestComponent } from './pages/quest/quest.component';
-import { ModelDialogQuestFeedbackComponent } from './model-dialog-quest-feedback/model-dialog-quest-feedback.component';
+import { ModalDialogQuestFeedbackComponent } from './dialogs/modal-dialog-quest-feedback/modal-dialog-quest-feedback.component';
+import { BlockContactUsComponent } from './block-contact-us/block-contact-us.component';
 
 /*import hljs from 'highlight.js/lib/highlight';
 import javascript from 'highlight.js/lib/languages/javascript';
@@ -113,7 +115,8 @@ const l10nConfig: L10nConfig = {
     UserLocationComponent,
     UserSecurityComponent,
     QuestComponent,
-    ModelDialogQuestFeedbackComponent
+    ModalDialogQuestFeedbackComponent,
+    BlockContactUsComponent,
   ],
   imports: [
     BrowserModule,
@@ -138,11 +141,14 @@ const l10nConfig: L10nConfig = {
     }, {
       provide: ACE_CONFIG,
       useValue: DEFAULT_ACE_CONFIG
-    }],
+    }, 
+    NgbActiveModal
+  ],
   bootstrap: [AppComponent],
   entryComponents: [
     SpinnerComponent,
     ModalDialogSignInComponent,
+    ModalDialogQuestFeedbackComponent,
   ],
 })
 

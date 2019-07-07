@@ -120,5 +120,11 @@
     "quest_answer": "Ответ",
     "quest_answer_format": "Формат ответа",
     "quest_check_answer": "Проверить ответ",
+    "questFeedbackError": "Сообщить об ошибке в квесте",
+    "questFeedbackEmail": "Электронный адрес для связи",
+    "questFeedbackText": "Описание ошибки",
+    "questFeedbackSend": "Отправить",
+    "contactUs": "Свяжитесь с нами",
+    "helpToThisProject": "Вы можете помочь этому проекту",
     "": ""
 }

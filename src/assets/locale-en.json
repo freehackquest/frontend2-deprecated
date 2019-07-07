@@ -119,5 +119,11 @@
     "quest_answer": "Answer",
     "quest_answer_format": "Answer format",
     "quest_check_answer": "Check answer",
+    "questFeedbackError": "Send about error in quest",
+    "questFeedbackEmail": "E-mail feedback",
+    "questFeedbackText": "Error description",
+    "questFeedbackSend": "Send",
+    "contactUs": "Contact Us",
+    "helpToThisProject": "You can help to this project",
     "": ""
 }

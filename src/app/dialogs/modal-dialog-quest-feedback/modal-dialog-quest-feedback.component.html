@@ -8,17 +8,22 @@
   </div>
   <div class="modal-body">
     <div class="form-group">
-        <label l10nTranslate>questFeedbackEmail</label>
-        <input type="email" #signinEmail class="form-control" id="signinEmailInput">
+        <label l10nTranslate>questFeedbackErrorAutoInfo</label>
+        <textarea type="text" readonly class="form-control">[quest#{{ questId }}] {{ questName }}
+URL: {{ questUrl }}</textarea>
     </div>
     <div class="form-group">
         <label l10nTranslate>questFeedbackText</label>
-        <textarea style="height: 150px" #signinPassword class="form-control"></textarea>
+        <textarea style="height: 150px" #feedbackText class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label l10nTranslate>questFeedbackEmail</label>
+        <input type="email" #feedbackEmail class="form-control" [readonly]="_fhq.isAuthorized" id="signinEmailInput" value="{{ _fhq.isAuthorized ? _fhq.userdata.email : ''}}">
     </div>
     <div *ngIf="errorMessage != null" class="alert alert-danger" color="#ff0000"> {{ errorMessage }} </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="signInGo()" l10nTranslate>questFeedbackSend</button>
+    <button type="button" class="btn btn-primary" (click)="sendQuestFeedback()" l10nTranslate>questFeedbackSend</button>
     <button type="button" class="btn btn-secondary" (click)="_activeModal.close('Close click')" data-dismiss="modal" l10nTranslate>close</button> 
   </div>
   

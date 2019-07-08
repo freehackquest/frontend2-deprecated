@@ -92,6 +92,8 @@ export class QuestComponent implements OnInit {
 
   openDialogFeedback() {
     const modalRef = this._modalService.open(ModalDialogQuestFeedbackComponent);
-    modalRef.componentInstance.name = 'QuestFeedback';
+    modalRef.componentInstance.questId = this.quest.id;
+    modalRef.componentInstance.questName = this.quest.name;
+    modalRef.componentInstance.questUrl = window.location.href;
   }
 }

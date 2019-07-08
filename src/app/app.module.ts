@@ -30,7 +30,7 @@ import { GamesComponent } from './pages/games/games.component';
 import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { ConfidencialComponent } from './pages/confidencial/confidencial.component';
 import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.component';
-import { ModalDialogSignInComponent } from './modal-dialog-sign-in/modal-dialog-sign-in.component';
+import { ModalDialogSignInComponent } from './dialogs/modal-dialog-sign-in/modal-dialog-sign-in.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';

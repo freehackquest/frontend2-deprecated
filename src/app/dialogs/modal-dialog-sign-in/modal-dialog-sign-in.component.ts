@@ -2,8 +2,8 @@ import { Component, OnInit, Input, ChangeDetectorRef, NgZone, ViewChild, Element
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { SpinnerService } from '../services/spinner.service';
-import { EmailValidatorService } from '../email-validator.service';
+import { SpinnerService } from '../../services/spinner.service';
+import { EmailValidatorService } from '../../email-validator.service';
 import { Location } from '@angular/common';
 
 declare var fhq: any;

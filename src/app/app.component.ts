@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ChangeDetectorRef, Input } from '@angular/core';
 import { LocaleService, TranslationService, Language } from 'angular-l10n';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalDialogSignInComponent } from './modal-dialog-sign-in/modal-dialog-sign-in.component';
+import { ModalDialogSignInComponent } from './dialogs/modal-dialog-sign-in/modal-dialog-sign-in.component';
 import { FhqService } from './services/fhq.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { SpinnerService } from './services/spinner.service';

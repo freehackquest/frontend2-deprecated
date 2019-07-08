@@ -3,7 +3,7 @@ import { FhqService } from '../../services/fhq.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalDialogSignInComponent } from '../../modal-dialog-sign-in/modal-dialog-sign-in.component';
+import { ModalDialogSignInComponent } from '../../dialogs/modal-dialog-sign-in/modal-dialog-sign-in.component';
 
 @Component({
   selector: 'app-user-change-password',

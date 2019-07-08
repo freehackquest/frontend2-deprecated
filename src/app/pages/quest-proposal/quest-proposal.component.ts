@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@an
 import { FhqService } from '../../services/fhq.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalDialogSignInComponent } from '../../modal-dialog-sign-in/modal-dialog-sign-in.component';
+import { ModalDialogSignInComponent } from '../../dialogs/modal-dialog-sign-in/modal-dialog-sign-in.component';
 
 @Component({
   selector: 'app-quest-proposal',

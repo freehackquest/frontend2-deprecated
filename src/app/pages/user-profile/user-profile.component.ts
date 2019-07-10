@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDialogSignInComponent } from '../../dialogs/modal-dialog-sign-in/modal-dialog-sign-in.component';
 import { UserProfileMenuComponent } from '../user-profile-menu/user-profile-menu.component';
-import { UserSkilsComponent } from '../user-skills/user-skills.component';
+import { UserSkillsComponent } from '../user-skills/user-skills.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -28,8 +28,6 @@ export class UserProfileComponent implements OnInit {
   userStatus: string = "";
   userUniversity: string = "";
   userUuid: string = "";
-  userSkills: Array<any> = [];
-  resultOfUserSkills: string = null;
 
   @ViewChild('userNewNick', { static: false }) userNewNick: ElementRef;
   @ViewChild('userNewUniversity', { static: false }) userNewUniversity: ElementRef;
@@ -42,7 +40,7 @@ export class UserProfileComponent implements OnInit {
     private _router: Router,
     private _cdr: ChangeDetectorRef,
     private _modalService: NgbModal,
-    private _fhq: FhqService,
+    private _fhq: FhqService
   ) {
 
   }

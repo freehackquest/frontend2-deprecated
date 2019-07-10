@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { FhqService } from '../../services/fhq.service';
 
 @Component({
   selector: 'app-user-skills',
@@ -6,17 +7,35 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-skills.component.css']
 })
 export class UserSkillsComponent implements OnInit {
+  userSkills: Array<any> = [];
+  userId: number = 0;
+  resultOfUserSkills: string = null;
+  subscription: any;
 
-  constructor() { }
+  constructor(
+    private _cdr: ChangeDetectorRef,
+    private _fhq: FhqService
+  ) {
+
+  }
 
   ngOnInit() {
+    this.updatePage();
+    this.subscription = this._fhq.changedState
+      .subscribe(() => this.updatePage());
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
   updatePage() {
     if (this._fhq.isAuthorized) {
-
+      this.userId = parseInt(this._fhq.userdata.id, 10);
       this.loadUserSkills();
     }
     else {
+      this.userId = 0;
       this.userSkills = [];
     }
   }
@@ -30,11 +49,11 @@ export class UserSkillsComponent implements OnInit {
 
   successUserSkills(r: any) {
     this.userSkills = [];
-    for (let i in r.skills_user) {
+    for (let user_skill in r.skills_user) {
       let skill = {};
-      skill['name'] = i;
-      skill['max'] = r.skills_max[i];
-      skill['val'] = r.skills_user[i];
+      skill['name'] = user_skill;
+      skill['max'] = r.skills_max[user_skill];
+      skill['val'] = r.skills_user[user_skill];
       skill['procent'] = Math.floor(100 * (skill['val'] / skill['max']));
       this.userSkills.push(skill);
     }

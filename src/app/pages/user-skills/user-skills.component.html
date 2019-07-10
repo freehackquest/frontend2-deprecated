@@ -1,20 +1,20 @@
 <div class="card" *ngIf="userId != 0">
-  <div class="card-header">Навыки</div>
+  <div class="card-header" l10nTranslate>skills</div>
   <div class="card-body">
     <div class="alert alert-danger" *ngIf="resultOfUserSkills != null"> {{ resultOfUserSkills }} </div>
     <table class="table">
-      <tr *ngFor="let s of userSkills">
+      <tr *ngFor="let skill of userSkills">
         <td>
-          {{ s.name }}<br>
-          {{ s.procent }}%
+          {{ skill.name }}<br>
+          {{ skill.procent }}%
         </td>
         <td width="100%">
           <div class="progress">
-            <div class="progress-bar" role="progressbar" [ngStyle]="{'width': s.procent + '%' }" aria-valuemin="0" aria-valuemax="100">
-              {{ s.procent }}%
+            <div class="progress-bar" role="progressbar" [ngStyle]="{'width': skill.procent + '%' }" aria-valuemin="0" aria-valuemax="100">
+              {{ skill.procent }}%
             </div>
           </div>
-          {{ s.val }} of {{ s.max }} points
+          {{ skill.val }} <span l10nTranslate>of</span> {{ skill.max }} <span l10nTranslate>points</span>
         </td>
       </tr>
     </table>

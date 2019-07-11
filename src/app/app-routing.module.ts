@@ -26,6 +26,7 @@ import { QuestsBySubjectComponent } from './pages/quests-by-subject/quests-by-su
 import { UserProfileMenuComponent } from './pages/user-profile-menu/user-profile-menu.component';
 import { UserLocationComponent } from './pages/user-location/user-location.component';
 import { UserSecurityComponent } from './pages/user-security/user-security.component';
+import { UserSkillsComponent } from './pages/user-skills/user-skills.component';
 import { QuestComponent } from './pages/quest/quest.component';
 
 const routes: Routes = [{
@@ -52,6 +53,9 @@ const routes: Routes = [{
   }, {
     path: 'user-security',
     component: UserSecurityComponent
+  }, {
+    path: 'user-skills',
+    component: UserSkillsComponent
   }, {
     path: 'user-profile-menu',
     component: UserProfileMenuComponent

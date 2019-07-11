@@ -21,7 +21,7 @@ export class FhqService {
   ) {
     this.serverHost = this._location.hostname;
     this.currentProtocol = this._location.protocol;
-    
+
     fhq.bind('connected', () => this.wsConnected() );
     fhq.bind('disconnected', () => this.connectToServer() );
     fhq.bind('broken', () => this.wsBroken() );

@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FhqService } from '../../services/fhq.service';
+import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
   selector: 'app-user-location',
@@ -17,6 +18,7 @@ export class UserLocationComponent implements OnInit {
   constructor(
     private _fhq: FhqService,
     private _cdr: ChangeDetectorRef,
+    private _spinnerService: SpinnerService,
   ) { }
 
   ngOnInit() {
@@ -36,5 +38,6 @@ export class UserLocationComponent implements OnInit {
     } else {
       this.userId = 0;
     }
+    this._spinnerService.hide();
   }
 }

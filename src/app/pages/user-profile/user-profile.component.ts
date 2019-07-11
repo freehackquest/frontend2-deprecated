@@ -27,8 +27,6 @@ export class UserProfileComponent implements OnInit {
   userStatus: string = "";
   userUniversity: string = "";
   userUuid: string = "";
-  userSkills: Array<any> = [];
-  resultOfUserSkills: string = null;
 
   @ViewChild('userNewNick', { static: false }) userNewNick: ElementRef;
   @ViewChild('userNewUniversity', { static: false }) userNewUniversity: ElementRef;
@@ -41,7 +39,7 @@ export class UserProfileComponent implements OnInit {
     private _router: Router,
     private _cdr: ChangeDetectorRef,
     private _modalService: NgbModal,
-    private _fhq: FhqService,
+    private _fhq: FhqService
   ) {
 
   }
@@ -71,10 +69,8 @@ export class UserProfileComponent implements OnInit {
       this.userUniversity = this._fhq.userdata.university;
       this.userUuid = this._fhq.userdata.uuid;
       this._cdr.detectChanges();
-      this.loadUserSkills();
     } else {
       this.userId = 0;
-      this.userSkills = [];
     }
     this._spinnerService.hide();
   }
@@ -119,29 +115,4 @@ export class UserProfileComponent implements OnInit {
     this._cdr.detectChanges();
   }
 
-  loadUserSkills() {
-    this._fhq.api().user_skills({
-      "userid": this.userId,
-    }).done((r: any) => this.successUserSkills(r))
-      .fail((err: any) => this.errorUserSkills(err));
-  }
-
-  successUserSkills(r: any) {
-    // console.log("successUserSkills: ", r);
-    this.userSkills = [];
-    for (let i in r.skills_user) {
-      let skill = {};
-      skill['name'] = i;
-      skill['max'] = r.skills_max[i];
-      skill['val'] = r.skills_user[i];
-      skill['procent'] = Math.floor(100 * (skill['val'] / skill['max']));
-      this.userSkills.push(skill);
-    }
-    this._cdr.detectChanges();
-  }
-
-  errorUserSkills(err: any) {
-    console.error("errorUserSkills: ", err);
-    // this._cdr.detectChanges();
-  }
 }

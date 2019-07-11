@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FhqService } from '../../services/fhq.service';
+import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
   selector: 'app-user-skills',
@@ -14,7 +15,8 @@ export class UserSkillsComponent implements OnInit {
 
   constructor(
     private _cdr: ChangeDetectorRef,
-    private _fhq: FhqService
+    private _fhq: FhqService,
+    private _spinnerService: SpinnerService,
   ) {
 
   }
@@ -58,6 +60,7 @@ export class UserSkillsComponent implements OnInit {
       this.userSkills.push(skill);
     }
     this._cdr.detectChanges();
+    this._spinnerService.hide();
   }
 
   errorUserSkills(err: any) {

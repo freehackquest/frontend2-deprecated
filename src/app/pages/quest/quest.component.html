@@ -1,17 +1,27 @@
+<nav aria-label="breadcrumb" *ngIf="errorMessage == null">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/quests" l10nTranslate>quests</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/game/{{ game.id }}">{{ game.title }}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a routerLink="/quests-by-subject/{{ quest.subject }}">{{ quest.subject }}</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+        [quest#{{ quest.id }}] {{ quest.name }} +{{ quest.score }}
+      <div *ngIf="quest.completed === true" class="card-subtitle mb-2 text-muted d-inline"> (Задача завершена) </div>
+    </li>
+  </ol>
+</nav>
+
 <div *ngIf="errorMessage != null" class="alert alert-danger">
   {{ errorMessage }}
   <br>
   Try open <a class="btn btn-link" routerLink="/quests" l10nTranslate>quests</a>
 </div>
 
-<div *ngIf="errorMessage == null">
-  <h1>{{ quest.name }} (+{{ quest.score }})</h1>
-  <a class="btn btn-link" routerLink="/quests" l10nTranslate>quests</a> /
-  <a class="btn btn-link" routerLink="/game/{{ game.id }}">{{ game.title }}</a> /
-  <a class="btn btn-link" routerLink="/quests-by-subject/{{ quest.subject }}">{{ quest.subject }}</a> / 
-  <a class="btn btn-link" href="/quest/{{ quest.id }}">Quest {{ quest.id }} : {{ quest.name }} (+{{ quest.score }}) </a> 
-  <div *ngIf="quest.completed === true" class="card-subtitle mb-2 text-muted d-inline"> (Задача завершена) </div>
-</div>
 <div *ngIf="errorMessage == null" class="ya-share2" 
   data-services="collections,vkontakte,facebook,odnoklassniki,moimir,twitter,blogger,delicious,digg,reddit,evernote,linkedin,lj,pocket,qzone,renren,sinaWeibo,surfingbird,tencentWeibo,tumblr,viber,whatsapp,skype,telegram"></div>
 

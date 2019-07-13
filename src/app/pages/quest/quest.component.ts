@@ -23,6 +23,7 @@ export class QuestComponent implements OnInit {
   showHints: boolean = false;
   quest: any = [];
   questDescription: String = '';
+  showWriteUps: boolean = false;
 
   constructor(
     private _spinner: SpinnerService,
@@ -70,6 +71,12 @@ export class QuestComponent implements OnInit {
     this.game = r.game;
     this.questFiles = r.files;
     this.questHints = r.hints;
+    let n = 0;
+    this.questHints.forEach(el => {
+      n++;
+      el['num'] = n;
+    });
+
     this.quest = r.quest;
     this.questDescription = marked(r.quest.text);
     this._cdr.detectChanges();
@@ -95,5 +102,9 @@ export class QuestComponent implements OnInit {
     modalRef.componentInstance.questId = this.quest.id;
     modalRef.componentInstance.questName = this.quest.name;
     modalRef.componentInstance.questUrl = window.location.href;
+  }
+
+  switchShowWriteUps() {
+
   }
 }

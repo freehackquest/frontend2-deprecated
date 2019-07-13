@@ -85,28 +85,23 @@
 
 <br *ngIf="errorMessage == null"/>
 
-<div class="card" *ngIf="questHints.length > 0">
-  <div class="card-header">
-    <div class="btn btn-link" (click)="switchShowHints()">
+<div *ngIf="questHints.length > 0">
+  <ul class="list-group" *ngIf="showHints == false">
+    <li class="list-group-item d-flex justify-content-between align-items-center" (click)="switchShowHints()">
       <div class="d-inline-block btn-link" l10nTranslate>quest_hints</div>
-      ({{ questHints.length }})
-    </div>
-  </div>
-  <div class="card-body" *ngIf="showHints == true">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Hint</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let qh of questHints">
-          <td>{{ qh.text }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+      <span class="badge badge-primary badge-pill">{{ questHints.length }}</span>
+    </li>
+  </ul>
+
+  <ul class="list-group" *ngIf="showHints == true">
+    <li class="list-group-item d-flex justify-content-between align-items-center" (click)="switchShowHints()">
+      <div class="d-inline-block btn-link" l10nTranslate>quest_hints</div>
+      <span class="badge badge-primary badge-pill">{{ questHints.length }}</span>
+    </li>
+    <li class="list-group-item" *ngFor="let qh of questHints">Hint {{ qh.num }}: {{ qh.text }}</li>
+  </ul>
 </div>
+
 <br/>
 
 <div *ngIf="quest.completed !== true && errorMessage == null">
@@ -121,3 +116,26 @@
   </div>
   <div class="btn btn-primary" l10nTranslate>quest_check_answer</div>
 </div>
+
+<div class="card">
+    <div class="card-header">
+      <div class="btn btn-link" (click)="switchShowWriteUps()">
+        <div class="d-inline-block btn-link" l10nTranslate>questWriteUps</div>
+      </div>
+    </div>
+    <div class="card-body" *ngIf="showWriteUps == true">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Hint</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let qh of questHints">
+            <td>{{ qh.text }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br/>

@@ -3,6 +3,8 @@ import { SpinnerService } from '../../services/spinner.service';
 import { FhqService } from 'src/app/services/fhq.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer} from '@angular/platform-browser';
 
 import { ModalDialogQuestFeedbackComponent } from '../../dialogs/modal-dialog-quest-feedback/modal-dialog-quest-feedback.component';
 import * as marked from 'marked';
@@ -24,6 +26,7 @@ export class QuestComponent implements OnInit {
   quest: any = [];
   questDescription: String = '';
   showWriteUps: boolean = false;
+  questWriteUps: any = [];
 
   constructor(
     private _spinner: SpinnerService,
@@ -32,6 +35,7 @@ export class QuestComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _modalService: NgbModal,
+    private _sanitizer: DomSanitizer,
   ) { }
 
   ngOnInit() {
@@ -105,6 +109,40 @@ export class QuestComponent implements OnInit {
   }
 
   switchShowWriteUps() {
+    const _data = {
+      questid: this.questid
+    }
+    this.questWriteUps = [];
 
+    if (this.showWriteUps === false) {
+      this._spinner.show();
+      this._fhq.api().quests_writeups_list(_data)
+        .done((r: any) => this.successWriteUpResponse(r))
+        .fail((err: any) => this.errorWriteUpResponse(err));
+    } else {
+      this.showWriteUps = false;
+    }
+    
+  }
+
+  successWriteUpResponse(r: any) {
+    console.log(r);
+    this._spinner.hide();
+    this.questWriteUps = r.data;
+    const origin = location.protocol + '//' + location.host
+    this.questWriteUps.forEach((el: any) => {
+      const url = el.link + '?autoplay=1&origin=' + origin;
+      el['iframe_link'] = this._sanitizer.bypassSecurityTrustResourceUrl(url);
+    });
+
+    this.showWriteUps = true;
+    this._cdr.detectChanges();
+  }
+
+  errorWriteUpResponse(err: any) {
+    this._spinner.hide();
+    this.errorMessage = err.error;
+    this._cdr.detectChanges();
+    console.error(err);
   }
 }

@@ -117,25 +117,36 @@
   <div class="btn btn-primary" l10nTranslate>quest_check_answer</div>
 </div>
 
-<div class="card">
-    <div class="card-header">
-      <div class="btn btn-link" (click)="switchShowWriteUps()">
-        <div class="d-inline-block btn-link" l10nTranslate>questWriteUps</div>
-      </div>
-    </div>
-    <div class="card-body" *ngIf="showWriteUps == true">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>Hint</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let qh of questHints">
-            <td>{{ qh.text }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<br/>
+
+<div>
   <br/>
+  <ul class="list-group" *ngIf="showWriteUps == false">
+    <li class="list-group-item d-flex justify-content-between align-items-center" (click)="switchShowWriteUps()">
+      <div class="d-inline-block btn btn-link" l10nTranslate>questWriteUps</div>
+    </li>
+  </ul>
+
+  <ul class="list-group" *ngIf="showWriteUps == true">
+    <li class="list-group-item d-flex justify-content-between align-items-center" (click)="switchShowWriteUps()">
+      <div class="d-inline-block btn btn-link" l10nTranslate>questWriteUps</div>
+    </li>
+    <li class="list-group-item" *ngFor="let qw of questWriteUps">
+        <div class="media">
+            <iframe class="mr-3" type="text/html" width="640" height="360"
+              [src]="qw.iframe_link"
+              frameborder="0" allowfullscreen></iframe>
+            <div class="media-body">
+              <h5 class="mt-0">[writeup#{{ qw.writeupid }}]</h5>
+              <p> Original link: <a href="{{ qw.link }}">{{ qw.link }}</a> </p>
+              <p> Datetime: {{ qw.dt }} (UTC) </p>
+              <p> By user: [user#{{ qw.userid }}] {{ qw.user_nick }} </p>
+            </div>
+          </div>
+    </li>
+  </ul>
+</div>
+
+<br/>
+<br/>
+<br/>

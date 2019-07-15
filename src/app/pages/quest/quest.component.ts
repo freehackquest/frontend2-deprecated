@@ -25,9 +25,12 @@ export class QuestComponent implements OnInit {
   showHints: boolean = false;
   quest: any = [];
   questDescription: String = '';
-  showWriteUps: boolean = false;
   questWriteUps: any = [];
-
+  questMyAnswers: any = [];
+  showWriteUps: boolean = false;
+  showMyAnswers: boolean = false;
+  errorAnswersMessage: string = null;
+  
   constructor(
     private _spinner: SpinnerService,
     private _cdr: ChangeDetectorRef,
@@ -142,6 +145,43 @@ export class QuestComponent implements OnInit {
   errorWriteUpResponse(err: any) {
     this._spinner.hide();
     this.errorMessage = err.error;
+    this._cdr.detectChanges();
+    console.error(err);
+  }
+
+  switchShowMyAnswers() {
+    const _data = {
+      questid: this.questid,
+      page: 0,
+      onpage: 10,
+    }
+    this.questMyAnswers = [];
+    this.errorAnswersMessage = null;
+
+    if (this.showMyAnswers === false) {
+      this._spinner.show();
+      this._fhq.api().answerlist(_data)
+        .done((r: any) => this.successMyAswersResponse(r))
+        .fail((err: any) => this.errorMyAswersResponse(err));
+    } else {
+      this.showMyAnswers = false;
+    }
+  }
+
+  successMyAswersResponse(r: any) {
+    console.log(r);
+    this._spinner.hide();
+    this.questMyAnswers = r.data;
+    this.questMyAnswers.forEach((el: any) => {
+    });
+
+    this.showMyAnswers = true;
+    this._cdr.detectChanges();
+  }
+
+  errorMyAswersResponse(err: any) {
+    this._spinner.hide();
+    this.errorAnswersMessage = err.error;
     this._cdr.detectChanges();
     console.error(err);
   }

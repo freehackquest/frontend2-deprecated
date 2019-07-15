@@ -25,6 +25,8 @@ export class QuestComponent implements OnInit {
   showHints: boolean = false;
   quest: any = [];
   questDescription: String = '';
+  @ViewChild('questAnswer', { static: false }) questAnswer : ElementRef;
+  errorCheckAnswerMessage: string = null;
 
   questWriteUps: any = [];
   showWriteUps: boolean = false;
@@ -108,6 +110,34 @@ export class QuestComponent implements OnInit {
 
   openQuest(questid: number) {
     window.open("/?quest=" + questid, "_blank");
+  }
+
+  checkAnswer() {
+    const answer = this.questAnswer.nativeElement.value;
+    console.log("answer: " + answer);
+    // quests_writeups_proposal
+    const _data = {
+      questid: this.questid,
+      answer: answer,
+    }
+    this.errorCheckAnswerMessage = null;
+
+    this._spinner.show();
+    this._fhq.api().quest_pass(_data)
+      .done((r: any) => this.successCheckAnswerResponse(r))
+      .fail((err: any) => this.errorCheckAnswerResponse(err));
+  }
+
+  successCheckAnswerResponse(r: any) {
+    console.log(r);
+    this.loadData();
+  }
+
+  errorCheckAnswerResponse(err: any) {
+    this._spinner.hide();
+    this.errorCheckAnswerMessage = err.error;
+    this._cdr.detectChanges();
+    console.error(err);
   }
 
   switchShowHints() {

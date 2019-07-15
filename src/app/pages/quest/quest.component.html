@@ -104,7 +104,7 @@
 
 <br/>
 
-<div *ngIf="quest.completed !== true && errorMessage == null">
+<div *ngIf="quest.completed !== true && errorMessage == null && _fhq.isAuthorized">
   <hr/>
   <div class="form-group">
     <label l10nTranslate>questAnswer</label>
@@ -119,10 +119,18 @@
     {{ errorCheckAnswerMessage }}
   </div>
 </div>
+<div *ngIf="errorMessage == null && !_fhq.isAuthorized">
+    <label l10nTranslate>questAnswer</label>
+    <div class="alert alert-danger" *ngIf="!_fhq.isAuthorized">
+      <label l10nTranslate>pleaseAuthorize</label>
+      <div class="btn btn-primary" (click)="openDialogSignIn()" l10nTranslate>signin</div>
+    </div>
+</div>
+
 
 <br/>
 
-<div>
+<div *ngIf="errorMessage == null && _fhq.isAuthorized">
   <br/>
   <ul class="list-group">
     <li class="list-group-item d-flex justify-content-between align-items-center" (click)="switchShowMyAnswers()">
@@ -149,7 +157,7 @@
   </ul>
 </div>
 
-<div>
+<div *ngIf="errorMessage == null">
   <br/>
   <ul class="list-group">
     <li class="list-group-item d-flex justify-content-between align-items-center" (click)="switchShowWriteUps()">
@@ -182,7 +190,7 @@
   </ul>
 </div>
 
-<div>
+<div *ngIf="errorMessage == null">
     <br/>
     <ul class="list-group">
       <li class="list-group-item d-flex justify-content-between align-items-center" (click)="switchShowStatistics()">

@@ -7,6 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer} from '@angular/platform-browser';
 
 import { ModalDialogQuestFeedbackComponent } from '../../dialogs/modal-dialog-quest-feedback/modal-dialog-quest-feedback.component';
+import { ModalDialogSignInComponent } from '../../dialogs/modal-dialog-sign-in/modal-dialog-sign-in.component';
 import * as marked from 'marked';
 
 @Component({
@@ -110,6 +111,11 @@ export class QuestComponent implements OnInit {
 
   openQuest(questid: number) {
     window.open("/?quest=" + questid, "_blank");
+  }
+
+  openDialogSignIn() {
+    const modalRef = this._modalService.open(ModalDialogSignInComponent);
+    modalRef.componentInstance.name = 'SignIn';
   }
 
   checkAnswer() {

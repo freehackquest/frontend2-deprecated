@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { SpinnerService } from '../../services/spinner.service';
 import { FhqService } from 'src/app/services/fhq.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -25,12 +25,18 @@ export class QuestComponent implements OnInit {
   showHints: boolean = false;
   quest: any = [];
   questDescription: String = '';
+
   questWriteUps: any = [];
-  questMyAnswers: any = [];
   showWriteUps: boolean = false;
+  errorWriteUpsMessage: string = null;
+
+  questMyAnswers: any = [];
   showMyAnswers: boolean = false;
   errorAnswersMessage: string = null;
   
+  @ViewChild('questWriteUpProposalLink', { static: false }) questWriteUpProposalLink : ElementRef;
+  errorProposalWriteUpMessage: string = null;
+
   constructor(
     private _spinner: SpinnerService,
     private _cdr: ChangeDetectorRef,
@@ -116,6 +122,7 @@ export class QuestComponent implements OnInit {
       questid: this.questid
     }
     this.questWriteUps = [];
+    this.errorWriteUpsMessage = null;
 
     if (this.showWriteUps === false) {
       this._spinner.show();
@@ -144,7 +151,8 @@ export class QuestComponent implements OnInit {
 
   errorWriteUpResponse(err: any) {
     this._spinner.hide();
-    this.errorMessage = err.error;
+    this.showWriteUps = false;
+    this.errorWriteUpsMessage = err.error;
     this._cdr.detectChanges();
     console.error(err);
   }
@@ -182,6 +190,35 @@ export class QuestComponent implements OnInit {
   errorMyAswersResponse(err: any) {
     this._spinner.hide();
     this.errorAnswersMessage = err.error;
+    this._cdr.detectChanges();
+    console.error(err);
+  }
+
+  proposalWriteUp() {
+    const msg = this.questWriteUpProposalLink.nativeElement.value;
+    console.log("proposalWriteUp: " + msg);
+    // quests_writeups_proposal
+    const _data = {
+      questid: this.questid,
+      writeup_link: msg,
+    }
+    this.errorProposalWriteUpMessage = null;
+
+    this._spinner.show();
+    this._fhq.api().quests_writeups_proposal(_data)
+      .done((r: any) => this.successProposalWriteUpResponse(r))
+      .fail((err: any) => this.errorProposalWriteUpResponse(err));
+  }
+
+  successProposalWriteUpResponse(r: any) {
+    console.log(r);
+    this._spinner.hide();
+    this._cdr.detectChanges();
+  }
+
+  errorProposalWriteUpResponse(err: any) {
+    this._spinner.hide();
+    this.errorProposalWriteUpMessage = err.error;
     this._cdr.detectChanges();
     console.error(err);
   }

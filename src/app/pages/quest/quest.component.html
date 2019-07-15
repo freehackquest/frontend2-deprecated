@@ -148,28 +148,33 @@
 
 <div>
   <br/>
-  <ul class="list-group" *ngIf="showWriteUps == false">
+  <ul class="list-group">
     <li class="list-group-item d-flex justify-content-between align-items-center" (click)="switchShowWriteUps()">
       <div class="d-inline-block btn btn-link" l10nTranslate>questWriteUps</div>
     </li>
-  </ul>
-
-  <ul class="list-group" *ngIf="showWriteUps == true">
-    <li class="list-group-item d-flex justify-content-between align-items-center" (click)="switchShowWriteUps()">
-      <div class="d-inline-block btn btn-link" l10nTranslate>questWriteUps</div>
+    <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-danger" 
+      *ngIf="showWriteUps == false && errorWriteUpsMessage != null">
+      {{ errorWriteUpsMessage }}
+    </li>
+    <li class="list-group-item" *ngIf="showWriteUps == true">
+        <input class="form-control" #questWriteUpProposalLink 
+          type="url" value="" placeholder="https://www.youtube.com/watch?v=gJeOeTGI7T8" />
+        <br/>
+        <div class="btn btn-info" (click)="proposalWriteUp()">Предложить ссылку</div>
+        <div class="alert alert-danger" *ngIf="errorProposalWriteUpMessage != null"> {{ errorProposalWriteUpMessage }} </div>
     </li>
     <li class="list-group-item" *ngFor="let qw of questWriteUps">
         <div class="media">
-            <iframe class="mr-3" type="text/html" width="640" height="360"
-              [src]="qw.iframe_link"
-              frameborder="0" allowfullscreen></iframe>
-            <div class="media-body">
-              <h5 class="mt-0">[writeup#{{ qw.writeupid }}]</h5>
-              <p> Original link: <a href="{{ qw.link }}">{{ qw.link }}</a> </p>
-              <p> Datetime: {{ qw.dt }} (UTC) </p>
-              <p> By user: [user#{{ qw.userid }}] {{ qw.user_nick }} </p>
-            </div>
+          <iframe class="mr-3" type="text/html" width="640" height="360"
+            [src]="qw.iframe_link"
+            frameborder="0" allowfullscreen></iframe>
+          <div class="media-body">
+            <h5 class="mt-0">[writeup#{{ qw.writeupid }}]</h5>
+            <p> Original link: <a href="{{ qw.link }}">{{ qw.link }}</a> </p>
+            <p> Datetime: {{ qw.dt }} (UTC) </p>
+            <p> By user: [user#{{ qw.userid }}] {{ qw.user_nick }} </p>
           </div>
+        </div>
     </li>
   </ul>
 </div>

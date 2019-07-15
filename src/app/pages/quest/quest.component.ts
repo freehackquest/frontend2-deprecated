@@ -37,6 +37,10 @@ export class QuestComponent implements OnInit {
   @ViewChild('questWriteUpProposalLink', { static: false }) questWriteUpProposalLink : ElementRef;
   errorProposalWriteUpMessage: string = null;
 
+  showStatistics: boolean = false;
+  questStatistics: any = {};
+  errorStatisticsMessage: string = null;
+
   constructor(
     private _spinner: SpinnerService,
     private _cdr: ChangeDetectorRef,
@@ -180,9 +184,6 @@ export class QuestComponent implements OnInit {
     console.log(r);
     this._spinner.hide();
     this.questMyAnswers = r.data;
-    this.questMyAnswers.forEach((el: any) => {
-    });
-
     this.showMyAnswers = true;
     this._cdr.detectChanges();
   }
@@ -219,6 +220,44 @@ export class QuestComponent implements OnInit {
   errorProposalWriteUpResponse(err: any) {
     this._spinner.hide();
     this.errorProposalWriteUpMessage = err.error;
+    this._cdr.detectChanges();
+    console.error(err);
+  }
+
+  switchShowStatistics() {
+    const _data = {
+      questid: this.questid,
+    }
+    this.questStatistics = {};
+    this.errorStatisticsMessage = null;
+
+    if (this.showStatistics === false) {
+      this._spinner.show();
+      this._fhq.api().quest_statistics(_data)
+        .done((r: any) => this.successStatisticsResponse(r))
+        .fail((err: any) => this.errorStatisticsResponse(err));
+    } else {
+      this.showStatistics = false;
+    }
+  }
+
+  successStatisticsResponse(r: any) {
+    console.log(r);
+    this._spinner.hide();
+    this.showStatistics = true;
+    this.questStatistics = r;
+    const all = this.questStatistics.solved + this.questStatistics.tries;
+    this.questStatistics['all'] = all;
+    this.questStatistics['allProcent'] = 100;
+    this.questStatistics['solvedProcent'] = Math.floor((this.questStatistics.solved / all)*100);
+    this.questStatistics['triesProcent'] = Math.floor((this.questStatistics.tries / all)*100);
+
+    this._cdr.detectChanges();
+  }
+
+  errorStatisticsResponse(err: any) {
+    this._spinner.hide();
+    this.errorStatisticsMessage = err.error;
     this._cdr.detectChanges();
     console.error(err);
   }

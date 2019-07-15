@@ -134,5 +134,9 @@
     "questMyAnswers": "Мои ответы",
     "questMyAnswersNotFound": "Не найдено ни одного вашего ответа к этому квесту",
     "questProposalWriteUpLink": "Предложить ссылку",
+    "questStatistics": "Статистика",
+    "questStatisticsTries": "Не правильных ответов",
+    "questStatisticsSolved": "Правильных ответов",
+    "questStatisticsUsersSolvedQuest": "Список пользователей кто решил этот квест",
     "": ""
 }

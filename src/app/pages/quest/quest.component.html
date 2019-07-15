@@ -179,6 +179,46 @@
   </ul>
 </div>
 
+<div>
+    <br/>
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center" (click)="switchShowStatistics()">
+        <div class="d-inline-block btn btn-link" l10nTranslate>questStatistics</div>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-danger" 
+        *ngIf="showStatistics == false && errorStatisticsMessage != null">
+        {{ errorStatisticsMessage }}
+      </li>
+      <li class="list-group-item" *ngIf="showStatistics == true">
+        <div>
+          <label l10nTranslate>questStatisticsSolved</label>
+          ({{ questStatistics.solved }}):
+        </div>
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar" 
+              [ngStyle]="{'width': questStatistics.solvedProcent + '%' }"
+              aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <br/>
+        <div>
+          <label l10nTranslate>questStatisticsTries</label>
+          ({{ questStatistics.tries }}):
+        </div>
+        <div class="progress">
+          <div class="progress-bar bg-info" role="progressbar" 
+            [ngStyle]="{'width': questStatistics.triesProcent + '%' }"
+            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <hr/>
+        <label l10nTranslate>questStatisticsUsersSolvedQuest</label>
+        <div *ngFor="let u of questStatistics.users">
+            <!-- [user#{{ u.userid }}] --> {{ u.university != '' ? '[' +  u.university + ']' : '' }} {{ u.nick }}
+        </div>
+
+       
+      </li>
+    </ul>
+  </div>
 
 
 <br/>

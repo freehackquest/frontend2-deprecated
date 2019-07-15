@@ -120,5 +120,9 @@
     "questMyAnswers": "Meine Antworten",
     "questMyAnswersNotFound": "Ihre Antworten auf diese Quest wurden nicht gefunden",
     "questProposalWriteUpLink": "Schlagen Sie einen Link vor",
+    "questStatistics": "Statistiken",
+    "questStatisticsTries": "Falsche Antworten",
+    "questStatisticsSolved": "Korrekte Antworten",
+    "questStatisticsUsersSolvedQuest": "Die Liste der Benutzer, die sich für diese Quest entschieden haben",
     "": ""
 }

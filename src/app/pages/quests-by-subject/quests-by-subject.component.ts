@@ -26,7 +26,7 @@ export class QuestsBySubjectComponent implements OnInit {
   ngOnInit() {
     this._route.params.subscribe( (params) => {
       if (!params['subject']) {
-        this._router.navigate(['/quests-by-subject', 'admin']);
+        this._router.navigate(['/quests', 'admin']);
         return;
       }
       this.subject = params['subject'];

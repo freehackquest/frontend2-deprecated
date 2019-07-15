@@ -1,10 +1,14 @@
-<div>
-  <div class="btn btn-link" routerLink="/quests" l10nTranslate>quests</div> /
-  <div class="btn">{{ subject }}</div> <label class="text-muted">({{ count }} quests)</label> <br> 
-  <img width=35px height=35px src="assets/img/quest_subject_{{ subject }}.png"/>
-  <i l10nTranslate>descr_quests_subject_{{ subject }}</i>
-  <hr>
-</div>
+
+<nav aria-label="breadcrumb" *ngIf="errorMessage == null">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/quests" l10nTranslate>quests</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+        {{ subject }} ({{ count }} quests)
+    </li>
+  </ol>
+</nav>
 
 <button class="btn btn-secondary" routerLink="/quest-proposal" l10nTranslate>proposalQuest</button>
 <br>
@@ -22,7 +26,7 @@
   <tr *ngFor="let q of dataList"
     [class.table-success]="q.status !== 'completed'"
     [ngStyle]="{'text-decoration':q.status === 'completed' ? 'line-through' : 'none', 'cursor': 'pointer' }"
-    (click)="openQuest(q.questid)"
+    routerLink="/quest/{{ q.questid }}"
   >
     <td>[quest#{{ q.questid }}]</td>
     <td>({{ subject + ' +' + q.score }}) {{ q.name }} </td>

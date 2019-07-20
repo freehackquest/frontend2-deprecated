@@ -138,7 +138,7 @@ const l10nConfig: L10nConfig = {
   providers: [
     {
       provide: APP_BASE_HREF,
-      useValue: '/new/'
+      useValue: '/'
     }, {
       provide: ACE_CONFIG,
       useValue: DEFAULT_ACE_CONFIG

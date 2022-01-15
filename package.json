@@ -31,7 +31,7 @@
     "highlight.js": "^10.4.1",
     "jquery": "^3.5.0",
     "libfhqcli-web-js": "^0.2.22",
-    "marked": "^0.7.0",
+    "marked": "^4.0.10",
     "ngx-ace-wrapper": "^8.0.0",
     "ngx-markdown-editor": "^1.2.0",
     "ngx-toastr": "^10.0.4",
